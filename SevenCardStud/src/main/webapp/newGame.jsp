@@ -41,13 +41,13 @@
         }
     }
 
-    Card card1 = new Card("Spades", "2");
-    Card card2 = new Card("Spades", "3");
-    Card card3 = new Card("Spades", "4");
+    Card card1 = new Card("Back_", "blue1");
+    Card card2 = new Card("Back_", "blue1");
+    Card card3 = new Card("Diamonds", "J");
     Card card4 = new Card("Spades", "5");
-    Card card5 = new Card("Spades", "6");
-    Card card6 = new Card("Spades", "7");
-    Card card7 = new Card("Hearts", "3");
+    Card card5 = new Card("Spades", "2");
+    Card card6 = new Card("Hearts", "A");
+    Card card7 = new Card("Back_", "blue1");
     Hand hand1 = new Hand();
     hand1.addCard(card1);
     hand1.addCard(card2);
@@ -57,14 +57,41 @@
     hand1.addCard(card6);
     hand1.addCard(card7);
 
+    Card card8 = new Card("Back_", "blue1");
+    Card card9 = new Card("Back_", "blue1");
+    Card card10 = new Card("Clubs", "Q");
+    Card card11 = new Card("Diamonds", "2");
+    Card card12 = new Card("Spades", "10");
+    Card card13 = new Card("Clubs", "4");
+    Card card14 = new Card("Back_", "blue1");
+    Hand hand2 = new Hand();
+    hand2.addCard(card8);
+    hand2.addCard(card9);
+    hand2.addCard(card10);
+    hand2.addCard(card11);
+    hand2.addCard(card12);
+    hand2.addCard(card13);
+    hand2.addCard(card14);
+
     String contextPath = request.getContextPath();
 %>
-<img src="images/PNG/Cards/cardBack_blue1.png">
 
 <div class="hand" id="hand1">
     <!-- Display the cards from hand1 -->
     <%
         for (Card card : hand1.getCards()) {
+            String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
+    %>
+    <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
+    <%
+        }
+    %>
+</div>
+
+<div class="hand" id="hand2">
+    <!-- Display the cards from hand2 -->
+    <%
+        for (Card card : hand2.getCards()) {
             String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
     %>
     <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
