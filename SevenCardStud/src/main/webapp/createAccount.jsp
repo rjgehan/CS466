@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.net.*,java.io.*" %>
+<%@ page import="okhttp3.*" %>
+
 
 <html>
 <head>
@@ -27,6 +29,7 @@
     <%
         String errorMessage = null;  // This will store any error messages
 
+        boolean isUserAdded = false;
         String username = request.getParameter("username");
         String password1 = request.getParameter("password1");
         String password2 = request.getParameter("password2");
@@ -35,17 +38,20 @@
             if (password1.equals(password2)) {
                 // Passwords match. Make the API call.
                 try {
-                    URL url = new URL("http://your-api-endpoint.com/addUser");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("POST");
-                    conn.setDoOutput(true);
-                    OutputStream os = conn.getOutputStream();
-                    os.write(("username=" + username + "&password=" + password1).getBytes());
-                    os.flush();
-                    os.close();
+                    OkHttpClient client = new OkHttpClient().newBuilder().build();
+                    MediaType mediaType = MediaType.parse("application/json");
+                    RequestBody body = RequestBody.create(mediaType, "{\n    \"collection\":\"<COLLECTION_NAME>\",\n    \"database\":\"<DATABASE_NAME>\",\n    \"dataSource\":\"Cluster0\",\n    \"projection\": {\"_id\": 1}\n\n}");
+                    Request request = new Request.Builder()
+                            .url("https://us-east-1.aws.data.mongodb-api.com/app/data-aavtz/endpoint/data/v1/action/findOne")
+                            .method("POST", body)
+                            .addHeader("Content-Type", "application/json")
+                            .addHeader("Access-Control-Request-Headers", "*")
+                            .addHeader("api-key", "<API_KEY>")
+                            .build();
+                    Response response = client.newCall(request).execute();
 
-                    if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                        response.sendRedirect("successPage.jsp");
+                    if (response.isSuccessful()) {
+                        isUserAdded = true;
                     } else {
                         errorMessage = "Error adding user. Please try again.";
                     }
