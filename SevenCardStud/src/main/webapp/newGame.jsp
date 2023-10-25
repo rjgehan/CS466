@@ -73,6 +73,7 @@
     %>
 </div>
 
+
 <head>
     <jsp:include page="styles.jsp"></jsp:include>
     <style>
