@@ -16,6 +16,7 @@
   <a href="new-game-servlet" class="btn-custom">New Game</a> <br/>
   <a href="bank.jsp" class="btn-custom">Bank</a> <br/>
   <a href="index.jsp" class="btn-custom">Account</a> <br/>
+  <a href="newGame.jsp" class="btn-custom">newGame</a> <br/>
 
 </div>
 </body>
