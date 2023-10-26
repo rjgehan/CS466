@@ -1,45 +1,62 @@
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.List" %><%--
- Created by IntelliJ IDEA.
- User: Juliana
- Date: 10/25/2023
- Time: 12:26 PM
- To change this template use File | Settings | File Templates.
+<%@ page import="java.util.List" %>
+<%--
+Created by IntelliJ IDEA.
+User: Juliana
+Date: 10/25/2023
+Time: 12:26 PM
+To change this template use File | Settings | File Templates.
 --%>
 <%
-    class Card {
+    class Card
+    {
         private final String suit;
         private final String number;
 
-        public Card(String suit, String number) {
+
+        public Card(String suit, String number)
+        {
             this.suit = suit;
             this.number = number;
         }
 
+
         public String getSuit() {
             return suit;
         }
+
 
         public String getNumber() {
             return number;
         }
     }
 
-    class Hand {
+
+    class Hand
+    {
         private final List<Card> cards;
+
 
         public Hand() {
             cards = new ArrayList<>();
         }
 
+
         public void addCard(Card card) {
             cards.add(card);
         }
+
 
         public List<Card> getCards() {
             return cards;
         }
     }
+
+
+
+
+
+
     //Creating first hand of cards
     Card card1 = new Card("Back_", "blue1");
     Card card2 = new Card("Back_", "blue1");
@@ -56,6 +73,9 @@
     hand1.addCard(card5);
     hand1.addCard(card6);
     hand1.addCard(card7);
+
+
+
 
     //Creating second hand of cards
     Card card8 = new Card("Back_", "blue1");
@@ -74,6 +94,7 @@
     hand2.addCard(card13);
     hand2.addCard(card14);
 
+
     //Creating third hand of cards
     Card card15 = new Card("Back_", "blue1");
     Card card16 = new Card("Back_", "blue1");
@@ -90,6 +111,9 @@
     hand3.addCard(card19);
     hand3.addCard(card20);
     hand3.addCard(card21);
+
+
+
 
     //Creating a fourth hand of cards
     Card card22 = new Card("Back_", "blue1");
@@ -108,6 +132,9 @@
     hand4.addCard(card27);
     hand4.addCard(card28);
 
+
+
+
     //Creating a fifth hand of cards
     Card card29 = new Card("Back_", "blue1");
     Card card30 = new Card("Back_", "blue1");
@@ -124,6 +151,9 @@
     hand5.addCard(card33);
     hand5.addCard(card34);
     hand5.addCard(card35);
+
+
+
 
     //Creating a sixth hand of cards
     Card card36 = new Card("Back_", "blue1");
@@ -142,27 +172,40 @@
     hand6.addCard(card41);
     hand6.addCard(card42);
 
+
     //Creating path
     String contextPath = request.getContextPath();
 %>
 
-<!--Display cards from the first hand-->
+<!-- Will display cards from hand 1 -->
 <div class="hand1" id="hand1">
-
     <%
-        for (Card card : hand1.getCards()) {
+        for (Card card : hand1.getCards())
+        {
             String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
     %>
     <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
     <%
         }
     %>
+    <!-- Will display bot 1 to go with hand 1 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
+    <div class="bot">
+        <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
+        <p>Bot 1: David</p>
+    </div>
 </div>
 
-<!-- Display the cards from the second hand -->
+
+<!-- Will display cards from hand 2 -->
+<!-- Will display bot 2 to go with hand 2 to the left of it, this is hard coded right now but will be edited to the amount of users that join our game -->
 <div class="hand2" id="hand2">
+    <div class="bot">
+        <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
+        <p>Bot 2: Kelly</p>
+    </div>
     <%
-        for (Card card : hand2.getCards()) {
+        for (Card card : hand2.getCards())
+        {
             String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
     %>
     <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
@@ -171,22 +214,36 @@
     %>
 </div>
 
-<!-- Display the cards from the third hand -->
+
+<!-- Will display cards from hand 3 -->
 <div class="hand3" id="hand3">
     <%
-        for (Card card : hand3.getCards()) {
+        for (Card card : hand3.getCards())
+        {
             String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
     %>
     <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
     <%
         }
     %>
+    <!-- Will display bot 3 to go with hand 3 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
+    <div class="bot">
+        <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
+        <p>Bot 3: Juliana</p>
+    </div>
 </div>
 
-<!-- Display the cards from the fourth hand -->
+
+<!-- Will display cards from hand 4 -->
+<!-- Will display bot 4 to go with hand 4 to the left of it, this is hard coded right now but will be edited to the amount of users that join our game -->
 <div class="hand4" id="hand4">
+    <div class="bot">
+        <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
+        <p>Bot 4: Peter</p>
+    </div>
     <%
-        for (Card card : hand4.getCards()) {
+        for (Card card : hand4.getCards())
+        {
             String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
     %>
     <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
@@ -195,22 +252,31 @@
     %>
 </div>
 
-<!-- Display the cards from the fifth hand -->
+
+<!-- Will display the cards from hand 5 -->
 <div class="hand5" id="hand5">
     <%
-        for (Card card : hand5.getCards()) {
+        for (Card card : hand5.getCards())
+        {
             String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
     %>
     <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
     <%
         }
     %>
+    <!-- Will display bot 5 to go with hand 5 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
+    <div class="bot">
+        <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
+        <p>Bot 5: Ryan</p>
+    </div>
 </div>
 
-<!-- Display the cards from the sixth hand -->
+
+<!-- Will display hand 6 cards -->
 <div class="hand6" id="hand6">
     <%
-        for (Card card : hand6.getCards()) {
+        for (Card card : hand6.getCards())
+        {
             String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
     %>
     <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
@@ -222,84 +288,184 @@
 <head>
     <jsp:include page="styles.jsp"></jsp:include>
 
+
     <style>
-        .hand-container {
+        .hand-container
+        {
             position: absolute;
-            top: 0; /*Position card at top of page*/
+            top: 0;
+            left: 5px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+
+        .hand1, .hand2
+        {
+            /* Displays hand 1 and hand 2 horizontally */
+            display: flex;
+            align-items: center;
+        }
+
+        .hand1
+         {
+            /* Changes margins to the left of hand 1 as well as padding on the top */
+            margin-left: 30px;
+            margin-top: 10px;
+         }
+
+
+        .hand1 img, .hand2 img
+        {
+            /* Changes card size for hand 1 and hand 2 */
+            width: 65px;
+            height: auto;
+            /* Creates spacing between each individual card */
+            margin-right: 5px;
+        }
+
+
+        .hand2
+        {
+            /* Changes spacing to left of hand 2 */
+            margin-left: 875px;
+        }
+    </style>
+
+
+    <style>
+        .hand-container
+        {
+            position: absolute;
+            top: 0;
             left: 0;
             width: 100%;
             display: flex;
             justify-content: center;
         }
 
-        .hand1, .hand2 {
-            display: flex; /* Display cards horizontally */
-            align-items: center; /* Center */
+        .hand3, .hand4
+        {
+            /* Cards displayed horizontally and in center */
+            display: flex;
+            align-items: center;
         }
 
-        .hand1 img, .hand2 img {
-            width: 65px; /* Make cards particular size */
+        .hand3
+        {
+            /* Changes the margin to left of hand 3 */
+            margin-left: 30px;
+        }
+
+
+        .hand3 img, .hand4 img
+        {
+            /* Changes hand 3 and hand 4 card size */
+            width: 65px;
             height: auto;
-            margin-right: 5px; /* Add spacing */
+            /* Change spacing between individual cards*/
+            margin-right: 5px;
         }
 
-        .hand2 {
-            margin-left: 950px; /* Add spacing to the left */
+
+        .hand4
+        {
+            /* Change spacing to the left of hand 4 */
+            margin-left: 875px;
         }
     </style>
 
+
     <style>
-        .hand-container {
+        .hand-container
+        {
             position: absolute;
-            top: 0; /* Position card at top of page */
-            left: 0;
+            top: 0;
+            left: 5px;
             width: 100%;
             display: flex;
             justify-content: center;
         }
 
-        .hand3, .hand4 {
-            display: flex; /* Display cards horizontally */
-            align-items: center; /* Center */
+
+        .hand5, .hand6
+        {
+            /* Display hands horizontally */
+            display: flex;
+            align-items: center;
         }
 
-        .hand3 img, .hand4 img {
-            width: 65px; /* Make cards particular size */
+
+        .hand5 img
+        {
+            /* Card size */
+            width: 65px;
             height: auto;
-            margin-right: 5px; /* Add spacing */
+            /* Add spacing between each individual cards */
+            margin-right: 5px;
         }
 
-        .hand4 {
-            margin-left: 950px; /* Add spacing to the left */
+        .hand6 img
+        {
+            /* Card size, hand6 will always be the "user" hand, so it will always appear larger on the screen */
+            width: 100px;
+            height: auto;
+            /* Creates space between individual cards */
+            margin-right: 5px;
+        }
+        .hand5
+        {
+            /* Changes margin to left of hand 5 */
+            margin-left: 30px;
+        }
+
+
+        .hand6
+        {
+            /* Changes spacing on top of hand 6 */
+            margin-top: 75px;
+            /* Changes spacing to left of hand 6 */
+            margin-left: 450px;
+            /* Changes spacing on bottom, padding */
+            margin-bottom: 10px;
         }
     </style>
+
+
+
 
     <style>
-        .hand-container {
-            position: absolute;
-            top: 0; /* Position card at top of page */
-            left: 0;
-            width: 100%;
+        .bot-container {
             display: flex;
             justify-content: center;
+            align-items: center;
         }
 
-        .hand5, .hand6 {
-            display: flex; /* Display horizontally */
-            align-items: center; /* Center */
+
+        .bot {
+            /* Changing the margins of the bots */
+            text-align: center;
+            margin: 10px;
         }
 
-        .hand5 img, .hand6 img {
-            width: 65px; /* Make cards particular size */
+
+        .bot img {
+            /* Changing the size of the bot icon */
+            width: 50px;
             height: auto;
-            margin-right: 5px; /* Add some spacing between cards */
         }
 
-        .hand6 {
-            margin-left: 500px; /* Add some spacing to the left of hand2 */
+
+        .bot p {
+            margin: 5px;
+            /* Changing font size for user names that will be generated*/
+            font-size: 10px;
         }
     </style>
-
 </head>
+
+
+
 
 
