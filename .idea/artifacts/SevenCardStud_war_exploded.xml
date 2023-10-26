@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="SevenCardStud:war exploded">
+    <output-path>$PROJECT_DIR$/SevenCardStud/target/SevenCardStud-1.0-SNAPSHOT</output-path>
+    <root id="root">
+      <element id="dir-copy" path="$PROJECT_DIR$/SevenCardStud/target/SevenCardStud-1.0-SNAPSHOT/META-INF" />
+      <element id="dir-copy" path="$PROJECT_DIR$/SevenCardStud/target/SevenCardStud-1.0-SNAPSHOT/WEB-INF" />
+    </root>
+  </artifact>
+</component>
