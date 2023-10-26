@@ -8,6 +8,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.*;
 
 @WebServlet(name = "newGameServlet", value = "/new-game-servlet")
 public class NewGameServlet extends HttpServlet {
@@ -69,57 +70,5 @@ public class NewGameServlet extends HttpServlet {
             return str;
         }
         return str.substring(0, 1).toUpperCase() + str.substring(1);
-    }
-}
-
-class Card {
-    private final String suit;
-    private final String number;
-
-    public Card(String suit, String number) {
-        this.suit = suit;
-        this.number = number;
-    }
-
-    public String getSuit() {
-        return suit;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-}
-
-class Deck {
-    private List<Card> cardsDeck;
-
-    public Deck() {
-        cardsDeck = new ArrayList<>();
-        String[] suits = {"Spades", "Hearts", "Diamonds", "Clubs"};
-        String[] ranks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-
-        for (String suit : suits) {
-            for (String rank : ranks) {
-                this.cardsDeck.add(new Card(suit, rank));
-            }
-        }
-        this.shuffleDeck();
-    }
-
-    public List<Card> getCards() {
-        return cardsDeck;
-    }
-
-    public void shuffleDeck() {
-        Collections.shuffle(this.cardsDeck);
-    }
-
-    public Card drawCard() {
-        if (cardsDeck.isEmpty()) {
-            return null;
-        }
-        Card card = this.cardsDeck.get(cardsDeck.size() - 1);
-        this.cardsDeck.remove(cardsDeck.size() - 1);
-        return card;
     }
 }
