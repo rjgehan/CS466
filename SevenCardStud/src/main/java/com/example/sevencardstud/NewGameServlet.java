@@ -194,6 +194,23 @@ public class Hand {
         return hand.size();
     }
 
+    /*
+    public int numberStringValue(String cardNumber)
+    {
+        if(cardNumber.equals("A"))
+            return 14;
+        else if(cardNumber.equals("K"))
+            return 13;
+        else if(cardNumber.equals("Q"))
+            return 12;
+        else if(cardNumber.equals("J"))
+            return 11;
+        else
+            return Integer.parseInt(cardNumber);
+    }
+
+     */
+
     public int[] sort(List<Card> hand) {
         int valueArray[] = new int[hand.size()];
 
@@ -375,8 +392,6 @@ public class Hand {
                     duplicateHand.remove(i);
                 }
             }
-            System.out.println(numberValue);
-            System.out.println(duplicateHand.size());
 
             if (onePair(duplicateHand))
                 return true;
@@ -408,6 +423,47 @@ public class Hand {
 
     public boolean straightFlush(List<Card> hand)
     {
+        // NEED TO FIX FOR TWO OF THE SAME NUMBER
+        // NEED TO FIX BECAUSE WHAT IF THERE ARE SIX CARDS IN A ROW BUT FIRST IS NOT SAME SUIT
+        if(straight(hand))
+        {
+            List<Card> straightCards = new ArrayList<>();
+            int sortedCards[] = sort(hand);
+            int count = 1;
+            int endIndex = 0;
+
+            for (int i = 0; i < hand.size() - 1; i++)
+            {
+                if (sortedCards[i] + 1 == sortedCards[i + 1])
+                {
+                    count++;
+                    if (count == 5)
+                    {
+                        endIndex = i + 1;
+                        break;
+                    }
+                }
+
+                else
+                    count = 1;
+            }
+            System.out.println(endIndex);
+
+            for(int j = endIndex - 4; j <= endIndex; j++)
+            {
+                straightCards.add(hand.get(j));
+            }
+
+            if(flush(straightCards))
+                return true;
+            else
+                return false;
+        }
+
+        else
+            return false;
+
+        /*
         if (straight(hand)) {
             List<Card> newHand = new ArrayList<>();
             ;
@@ -429,6 +485,8 @@ public class Hand {
         }
         else
             return false;
+
+         */
     }
 
     public boolean royalFlush(List<Card> hand)
@@ -471,7 +529,24 @@ public class Hand {
     public int handValue(List<Card> hand)
     {
         int value = 0;
-
+        if(royalFlush(hand))
+            value = 10;
+        if(straightFlush(hand))
+            value = 9;
+        if(fourOfaKind(hand))
+            value = 8;
+        if(fullHouse(hand))
+            value = 7;
+        if(flush(hand))
+            value = 6;
+        if(straight(hand))
+            value = 5;
+        if(threeOfaKind(hand))
+            value = 4;
+        if(twoPair(hand))
+            value = 3;
+        if(onePair(hand))
+            value = 2;
 
         return value;
     }
