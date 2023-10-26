@@ -7,14 +7,14 @@ import java.util.List;
 
 public class Hand
 {
-    private static List<Card> hand1;
-    private static List<Card> hand2;
-    private static List<Card> hand3;
-    private static List<Card> hand4;
-    private static List<Card> hand5;
-    private static List<Card> hand6;
-    private static List<Card> testHand;
-    private Deck newDeck;
+    public static List<Card> hand1;
+    public static List<Card> hand2;
+    public static List<Card> hand3;
+    public static List<Card> hand4;
+    public static List<Card> hand5;
+    public static List<Card> hand6;
+    public static List<Card> testHand;
+    public Deck newDeck;
 
     public Hand() {
         hand1 = new ArrayList<>();
@@ -35,6 +35,7 @@ public class Hand
             hand6.add(newDeck.drawCard());
         }
 
+        /*
         Card cardOne = new Card("Hearts", "2");
         Card cardTwo = new Card("Clubs", "3");
         Card cardThree = new Card("Diamonds", "5");
@@ -49,6 +50,13 @@ public class Hand
         testHand.add(cardFive);
         testHand.add(cardSix);
         testHand.add(cardSeven);
+
+         */
+    }
+
+    public void addCard(List<Card> hand, Card card)
+    {
+        hand.add(card);
     }
 
     public void newRound() {
@@ -212,9 +220,9 @@ public class Hand
         for (int i = 0; i < hand.size(); i++)
         {
             int sameSuitCount = 1;
-            for (int j = 1; j < hand.size(); j++)
+            for (int j = i + 1; j < hand.size(); j++)
             {
-                if (hand.get(i).getNumber().equals(hand.get(j).getSuit()))
+                if (hand.get(i).getSuit().equals(hand.get(j).getSuit()))
                     sameSuitCount++;
             }
 
@@ -374,7 +382,12 @@ public class Hand
             String fifthNumber = straightCards.get(4).getNumber();
 
             if(firstNumber.equals("10") && secondNumber.equals("J") && thirdNumber.equals("Q") && fourthNumber.equals("K") && fifthNumber.equals("A"))
-                return true;
+            {
+                if(flush(straightCards))
+                    return true;
+                else
+                    return false;
+            }
             else
                 return false;
         }
