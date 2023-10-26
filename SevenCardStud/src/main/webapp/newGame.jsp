@@ -40,7 +40,7 @@
             return cards;
         }
     }
-
+    //Creating first hand of cards
     Card card1 = new Card("Back_", "blue1");
     Card card2 = new Card("Back_", "blue1");
     Card card3 = new Card("Diamonds", "J");
@@ -57,6 +57,7 @@
     hand1.addCard(card6);
     hand1.addCard(card7);
 
+    //Creating second hand of cards
     Card card8 = new Card("Back_", "blue1");
     Card card9 = new Card("Back_", "blue1");
     Card card10 = new Card("Clubs", "Q");
@@ -73,6 +74,7 @@
     hand2.addCard(card13);
     hand2.addCard(card14);
 
+    //Creating third hand of cards
     Card card15 = new Card("Back_", "blue1");
     Card card16 = new Card("Back_", "blue1");
     Card card17 = new Card("Hearts", "2");
@@ -89,6 +91,7 @@
     hand3.addCard(card20);
     hand3.addCard(card21);
 
+    //Creating a fourth hand of cards
     Card card22 = new Card("Back_", "blue1");
     Card card23 = new Card("Back_", "blue1");
     Card card24 = new Card("Spades", "9");
@@ -105,6 +108,7 @@
     hand4.addCard(card27);
     hand4.addCard(card28);
 
+    //Creating a fifth hand of cards
     Card card29 = new Card("Back_", "blue1");
     Card card30 = new Card("Back_", "blue1");
     Card card31 = new Card("Spades", "6");
@@ -121,6 +125,7 @@
     hand5.addCard(card34);
     hand5.addCard(card35);
 
+    //Creating a sixth hand of cards
     Card card36 = new Card("Back_", "blue1");
     Card card37 = new Card("Back_", "blue1");
     Card card38 = new Card("Hearts", "J");
@@ -137,11 +142,13 @@
     hand6.addCard(card41);
     hand6.addCard(card42);
 
+    //Creating path
     String contextPath = request.getContextPath();
 %>
 
-<div class="hand" id="hand1">
-    <!-- Display the cards from hand1 -->
+<!--Display cards from the first hand-->
+<div class="hand1" id="hand1">
+
     <%
         for (Card card : hand1.getCards()) {
             String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
@@ -152,8 +159,8 @@
     %>
 </div>
 
-<div class="hand" id="hand2">
-    <!-- Display the cards from hand2 -->
+<!-- Display the cards from the second hand -->
+<div class="hand2" id="hand2">
     <%
         for (Card card : hand2.getCards()) {
             String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
@@ -164,8 +171,8 @@
     %>
 </div>
 
-<div class="hand" id="hand3">
-    <!-- Display the cards from hand2 -->
+<!-- Display the cards from the third hand -->
+<div class="hand3" id="hand3">
     <%
         for (Card card : hand3.getCards()) {
             String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
@@ -176,8 +183,8 @@
     %>
 </div>
 
-<div class="hand" id="hand4">
-    <!-- Display the cards from hand2 -->
+<!-- Display the cards from the fourth hand -->
+<div class="hand4" id="hand4">
     <%
         for (Card card : hand4.getCards()) {
             String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
@@ -188,8 +195,8 @@
     %>
 </div>
 
-<div class="hand" id="hand5">
-    <!-- Display the cards from hand2 -->
+<!-- Display the cards from the fifth hand -->
+<div class="hand5" id="hand5">
     <%
         for (Card card : hand5.getCards()) {
             String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
@@ -200,8 +207,8 @@
     %>
 </div>
 
-<div class="hand" id="hand6">
-    <!-- Display the cards from hand2 -->
+<!-- Display the cards from the sixth hand -->
+<div class="hand6" id="hand6">
     <%
         for (Card card : hand6.getCards()) {
             String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
@@ -214,15 +221,85 @@
 
 <head>
     <jsp:include page="styles.jsp"></jsp:include>
+
     <style>
-        .card {
-            width: 75px;
-            height:120px;
-            display: inline-block;
-            background-size: cover;
-            margin-right: 10px;
+        .hand-container {
+            position: absolute;
+            top: 0; /*Position card at top of page*/
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hand1, .hand2 {
+            display: flex; /* Display cards horizontally */
+            align-items: center; /* Center */
+        }
+
+        .hand1 img, .hand2 img {
+            width: 65px; /* Make cards particular size */
+            height: auto;
+            margin-right: 5px; /* Add spacing */
+        }
+
+        .hand2 {
+            margin-left: 950px; /* Add spacing to the left */
         }
     </style>
+
+    <style>
+        .hand-container {
+            position: absolute;
+            top: 0; /* Position card at top of page */
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hand3, .hand4 {
+            display: flex; /* Display cards horizontally */
+            align-items: center; /* Center */
+        }
+
+        .hand3 img, .hand4 img {
+            width: 65px; /* Make cards particular size */
+            height: auto;
+            margin-right: 5px; /* Add spacing */
+        }
+
+        .hand4 {
+            margin-left: 950px; /* Add spacing to the left */
+        }
+    </style>
+
+    <style>
+        .hand-container {
+            position: absolute;
+            top: 0; /* Position card at top of page */
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hand5, .hand6 {
+            display: flex; /* Display horizontally */
+            align-items: center; /* Center */
+        }
+
+        .hand5 img, .hand6 img {
+            width: 65px; /* Make cards particular size */
+            height: auto;
+            margin-right: 5px; /* Add some spacing between cards */
+        }
+
+        .hand6 {
+            margin-left: 500px; /* Add some spacing to the left of hand2 */
+        }
+    </style>
+
 </head>
 
 
