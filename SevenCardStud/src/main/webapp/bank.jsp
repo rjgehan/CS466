@@ -1,33 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <jsp:include page="styles.jsp"></jsp:include>
     <title>Database Data</title>
+    <style>
+        /* Center the button horizontally */
+        #getDataButton {
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Make the counter larger */
+        #counter {
+            text-align: center;
+            font-size: 72px;
+        }
+    </style>
 </head>
 <body>
-<button id="getDataButton">Get Data</button>
+<div style="text-align: center;">
+    <button id="getDataButton">Get Data</button>
+</div>
 <div id="dataContainer"></div>
+<div id="counter">Balance: <span id="count">0</span></div>
 
 <script>
+    let countValue = 0;
+
     document.getElementById("getDataButton").addEventListener("click", () => {
         alert("Button clicked!");
 
-        fetch('/retrieveData')
-            .then(response => {
-                console.log("Response Status Code:", response.status);
+        countValue += 50;
+        document.getElementById('count').innerText = countValue;
 
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error("Request failed with status: " + response.status);
-                }
-            })
-            .then(data => {
-                // Handle the response data, e.g., display it on the page
-                document.getElementById('dataContainer').innerText = JSON.stringify(data, null, 2);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
+        if (countValue > 0) {
+            document.getElementById("getDataButton").style.display = "none";
+        }
+
     });
 </script>
 </body>
