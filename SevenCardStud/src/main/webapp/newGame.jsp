@@ -290,7 +290,7 @@
         }
 
         .hand5 img, .hand6 img {
-            width: 65px; /*  */
+            width: 65px; /* Make cards particular size */
             height: auto;
             margin-right: 5px; /* Add some spacing between cards */
         }
