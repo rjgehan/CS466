@@ -237,25 +237,31 @@ public class Hand {
         return max;
     }
 
-    public boolean onePair(List<Card> hand) {
-        int count = 0;
-        for (int i = 0; i < hand.size(); i++) {
-            for (int j = i + 1; j < hand.size(); j++) {
+    public boolean onePair(List<Card> hand)
+    {
+        for (int i = 0; i < hand.size(); i++)
+        {
+            int count = 1;
+            for (int j = i + 1; j < hand.size(); j++)
+            {
                 if (hand.get(i).getNumber().equals(hand.get(j).getNumber()))
                     count++;
             }
+
+            if(count == 2)
+                return true;
         }
 
-        if (count == 1)
-            return true;
-        else
-            return false;
+        return false;
     }
 
-    public boolean twoPair(List<Card> hand) {
+    public boolean twoPair(List<Card> hand)
+    {
         int count = 0;
-        for (int i = 0; i < hand.size(); i++) {
-            for (int j = i + 1; j < hand.size(); j++) {
+        for (int i = 0; i < hand.size(); i++)
+        {
+            for (int j = i + 1; j < hand.size(); j++)
+            {
                 if (hand.get(i).getNumber().equals(hand.get(j).getNumber()))
                     count++;
             }
@@ -267,11 +273,13 @@ public class Hand {
             return false;
     }
 
-    // FIX THIS TOO SIMILAR
-    public boolean threeOfaKind(List<Card> hand) {
-        for (int i = 0; i < hand.size(); i++) {
+    public boolean threeOfaKind(List<Card> hand)
+    {
+        for (int i = 0; i < hand.size(); i++)
+        {
             int individualCardCount = 1;
-            for (int j = i + 1; j < hand.size(); j++) {
+            for (int j = i + 1; j < hand.size(); j++)
+            {
                 if (hand.get(i).getNumber().equals(hand.get(j).getNumber()))
                     individualCardCount++;
             }
@@ -283,25 +291,27 @@ public class Hand {
         return false;
     }
 
-    // FIX THIS TOO SIMILAR
-    public boolean straight(List<Card> hand) {
+    public boolean straight(List<Card> hand)
+    {
         // NEEDS TO BE FIXED TO COUNT ACE AS HIGH OR LOW CARD
         if (hand.size() < 5)
             return false;
-        else {
+        else
+        {
             int sortedCards[] = sort(hand);
             int count = 1;
 
-            for (int i = 0; i < hand.size() - 1; i++) {
-                if (sortedCards[i] + 1 == sortedCards[i + 1]) {
+            for (int i = 0; i < hand.size() - 1; i++)
+            {
+                if (sortedCards[i] + 1 == sortedCards[i + 1])
+                {
                     count++;
                     if (count == 5)
                         break;
-                } else
+                }
+                else
                     count = 1;
             }
-
-            System.out.println("Count is " + count);
 
             if (count < 5)
                 return false;
@@ -310,80 +320,103 @@ public class Hand {
         }
     }
 
-    public boolean flush(List<Card> hand) {
-        int count = 0;
-
-        for (int i = 0; i < hand.size(); i++) {
-            for (int j = 1; j < hand.size(); j++) {
+    public boolean flush(List<Card> hand)
+    {
+        for (int i = 0; i < hand.size(); i++)
+        {
+            int sameSuitCount = 1;
+            for (int j = 1; j < hand.size(); j++)
+            {
                 if (hand.get(i).getNumber().equals(hand.get(j).getSuit()))
-                    count++;
-
-                if (count == 5)
-                    break;
+                    sameSuitCount++;
             }
+
+            if(sameSuitCount == 5)
+                return true;
         }
 
-        if (count == 5)
-            return true;
-        else
-            return false;
+        return false;
     }
 
-    public boolean fullHouse(List<Card> hand) {
-        List<Card> duplicateHand = hand;
-        if (threeOfaKind(duplicateHand)) {
-            int indexes[] = new int[3];
-            int count = 0;
-            int index = 0;
-            for (int i = 0; i < hand.size(); i++) {
-                for (int j = 1; j < hand.size(); j++) {
-                    if (hand.get(i).getNumber().equals(hand.get(j).getNumber())) {
-                        indexes[index] = j;
-                        index++;
-                        count++;
-                    }
-                    if (count == 3)
+    public boolean fullHouse(List<Card> hand)
+    {
+        if(threeOfaKind(hand))
+        {
+            List<Card> duplicateHand = new ArrayList<>(hand);
+            int sortedCards[] = sort(duplicateHand);
+            int count = 1;
+            int numberValue = 0;
+
+            for (int i = 0; i < hand.size() - 1; i++) {
+                if (sortedCards[i] == sortedCards[i + 1]) {
+                    count++;
+                    if (count == 3) {
+                        numberValue = sortedCards[i];
                         break;
+                    }
+                } else
+                    count = 1;
+            }
+
+            int value = 0;
+            for (int i = hand.size() - 1; i > 0; i--) {
+                if (hand.get(i).getNumber().equals("A"))
+                    value = 14;
+                else if (hand.get(i).getNumber().equals("K"))
+                    value = 13;
+                else if (hand.get(i).getNumber().equals("Q"))
+                    value = 12;
+                else if (hand.get(i).getNumber().equals("J"))
+                    value = 11;
+                else
+                    value = Integer.parseInt(hand.get(i).getNumber());
+
+                if (value == numberValue) {
+                    duplicateHand.remove(i);
                 }
             }
-            for (int k = index; k > 0; k--) {
-                duplicateHand.remove(k);
-            }
+            System.out.println(numberValue);
+            System.out.println(duplicateHand.size());
+
+            if (onePair(duplicateHand))
+                return true;
+            else
+                return false;
         }
 
-        if (onePair(duplicateHand))
-            return true;
         else
             return false;
     }
 
-    public boolean fourOfaKind(List<Card> hand) {
-        int count = 0;
-
-        for (int i = 0; i < hand.size(); i++) {
-            for (int j = 1; j < hand.size(); j++) {
+    public boolean fourOfaKind(List<Card> hand)
+    {
+        for (int i = 0; i < hand.size(); i++)
+        {
+            int individualCardCount = 1;
+            for (int j = 1; j < hand.size(); j++)
+            {
                 if (hand.get(i).getNumber().equals(hand.get(j).getNumber()))
-                    count++;
-
-                if (count == 4)
-                    break;
+                    individualCardCount++;
             }
+
+            if(individualCardCount == 4)
+                return true;
         }
 
-        if (count == 4)
-            return true;
-        else
-            return false;
+        return false;
     }
 
-    public boolean straightFlush(List<Card> hand) {
+    public boolean straightFlush(List<Card> hand)
+    {
         if (straight(hand)) {
             List<Card> newHand = new ArrayList<>();
             ;
             int sortedCards[] = sort(hand);
-            for (int i = 0; i < hand.size() - 5; i++) {
+            for (int i = 0; i < hand.size() - 5; i++)
+            {
                 for (int j = i; j < i + 4; j++) {
-                    if (sortedCards[j] == (sortedCards[j] + 1)) {
+                    if (sortedCards[j] == (sortedCards[j] + 1))
+                    {
                         newHand.add(hand.get(j));
                     }
                 }
@@ -393,24 +426,31 @@ public class Hand {
                 return true;
             else
                 return false;
-        } else
+        }
+        else
             return false;
     }
 
-    public boolean royalFlush(List<Card> hand) {
-        if (straight(hand)) {
+    public boolean royalFlush(List<Card> hand)
+    {
+        if (straight(hand))
+        {
             List<Card> newHand = new ArrayList<>();
-            ;
+
             int sortedCards[] = sort(hand);
-            for (int i = 0; i < hand.size() - 5; i++) {
-                for (int j = i; j < i + 4; j++) {
-                    if (sortedCards[j] == (sortedCards[j] + 1)) {
+            for (int i = 0; i < hand.size() - 5; i++)
+            {
+                for (int j = i; j < i + 4; j++)
+                {
+                    if (sortedCards[j] == (sortedCards[j] + 1))
+                    {
                         newHand.add(hand.get(j));
                     }
                 }
             }
 
-            if (flush(newHand)) {
+            if (flush(newHand))
+            {
                 String value1 = newHand.get(0).getNumber();
                 String value2 = newHand.get(1).getNumber();
                 String value3 = newHand.get(2).getNumber();
@@ -420,21 +460,26 @@ public class Hand {
                     return true;
                 else
                     return false;
-            } else
+            }
+            else
                 return false;
-        } else
+        }
+        else
             return false;
     }
 
-    public int handValue(List<Card> hand) {
+    public int handValue(List<Card> hand)
+    {
         int value = 0;
 
 
         return value;
     }
 
-    public void printHand(List<Card> hand) {
-        for (int i = 0; i < hand.size(); i++) {
+    public void printHand(List<Card> hand)
+    {
+        for (int i = 0; i < hand.size(); i++)
+        {
             System.out.print(hand.get(i).getNumber() + hand.get(i).getSuit() + " ");
         }
         System.out.println();
