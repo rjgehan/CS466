@@ -404,6 +404,48 @@ public class HandTest
     }
 
     @Test
+    public void testStraightFlushWithPair()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Diamonds", "7");
+        Card cardTwo = new Card("Diamonds", "4");
+        Card cardThree = new Card("Diamonds", "3");
+        Card cardFour = new Card("Spades", "A");
+        Card cardFive = new Card("Diamonds", "5");
+        Card cardSix = new Card("Diamonds", "6");
+        Card cardSeven = new Card("Spades", "4");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        assertTrue(hand.straightFlush(hand.testHand));
+    }
+
+    @Test
+    public void testStraightFlushWithAllSameSuit()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Diamonds", "7");
+        Card cardTwo = new Card("Diamonds", "4");
+        Card cardThree = new Card("Diamonds", "3");
+        Card cardFour = new Card("Diamonds", "A");
+        Card cardFive = new Card("Diamonds", "5");
+        Card cardSix = new Card("Diamonds", "6");
+        Card cardSeven = new Card("Diamonds", "2");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        assertTrue(hand.straightFlush(hand.testHand));
+    }
+
+    @Test
     public void testStraightFlushFalseSuit()
     {
         Hand hand = new Hand();
@@ -454,6 +496,48 @@ public class HandTest
         Card cardThree = new Card("Diamonds", "A");
         Card cardFour = new Card("Spades", "2");
         Card cardFive = new Card("Clubs", "5");
+        Card cardSix = new Card("Diamonds", "Q");
+        Card cardSeven = new Card("Diamonds", "10");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        assertTrue(hand.royalFlush(hand.testHand));
+    }
+
+    @Test
+    public void testRoyalFlushWithPair()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Diamonds", "K");
+        Card cardTwo = new Card("Diamonds", "J");
+        Card cardThree = new Card("Diamonds", "A");
+        Card cardFour = new Card("Spades", "K");
+        Card cardFive = new Card("Clubs", "5");
+        Card cardSix = new Card("Diamonds", "Q");
+        Card cardSeven = new Card("Diamonds", "10");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        assertTrue(hand.royalFlush(hand.testHand));
+    }
+
+    @Test
+    public void testRoyalFlushWithAllSameSuit()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Diamonds", "K");
+        Card cardTwo = new Card("Diamonds", "J");
+        Card cardThree = new Card("Diamonds", "A");
+        Card cardFour = new Card("Diamonds", "9");
+        Card cardFive = new Card("Diamonds", "5");
         Card cardSix = new Card("Diamonds", "Q");
         Card cardSeven = new Card("Diamonds", "10");
         hand.addCard(hand.testHand, cardOne);

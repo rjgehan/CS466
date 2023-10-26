@@ -72,7 +72,6 @@ public class Hand
         return hand.size();
     }
 
-    /*
     public int numberStringValue(String cardNumber)
     {
         if(cardNumber.equals("A"))
@@ -86,8 +85,6 @@ public class Hand
         else
             return Integer.parseInt(cardNumber);
     }
-
-     */
 
     public int[] sort(List<Card> hand) {
         int valueArray[] = new int[hand.size()];
@@ -301,42 +298,76 @@ public class Hand
 
     public boolean straightFlush(List<Card> hand)
     {
-        // NEED TO FIX FOR TWO OF THE SAME NUMBER
-        // NEED TO FIX BECAUSE WHAT IF THERE ARE SIX CARDS IN A ROW BUT FIRST IS NOT SAME SUIT
-        if(straight(hand))
+        if (flush(hand))
         {
+            String flushSuit = "";
+            for (int i = 0; i < hand.size(); i++)
+            {
+                int sameSuitCount = 1;
+                for (int j = i + 1; j < hand.size(); j++)
+                {
+                    if (hand.get(i).getSuit().equals(hand.get(j).getSuit()))
+                    {
+                        sameSuitCount++;
+                        if (sameSuitCount == 5)
+                        {
+                            flushSuit = hand.get(i).getSuit();
+                        }
+                    }
+                }
+            }
+
             List<Card> duplicateHand = new ArrayList<>(hand);
             Collections.sort(duplicateHand, Card::compare);
-            List<Card> straightCards = new ArrayList<>();
-            int sortedCards[] = sort(hand);
-            int count = 1;
-            int endIndex = 0;
+            List<Card> potentialStraightCards = new ArrayList<>();
 
-            for (int i = 0; i < hand.size() - 1; i++)
+            for (int j = 0; j < hand.size(); j++) {
+                if (duplicateHand.get(j).getSuit().equals(flushSuit))
+                    potentialStraightCards.add(duplicateHand.get(j));
+            }
+
+            Collections.sort(potentialStraightCards, Card::compare);
+            List<Card> actualStraightCards = new ArrayList<>();
+
+            if(potentialStraightCards.size() == 5)
             {
-                if (sortedCards[i] + 1 == sortedCards[i + 1])
-                {
-                    count++;
-                    if (count == 5)
+                if(straight(potentialStraightCards))
+                    return true;
+                else
+                    return false;
+            }
+            else {
+                int count = 1;
+                int index = 0;
+
+
+                for (int i = potentialStraightCards.size() - 1; i > 0; i--) {
+                    int valueOne = numberStringValue(potentialStraightCards.get(i).getNumber());
+                    int valueTwo = numberStringValue(potentialStraightCards.get(i - 1).getNumber());
+
+                    System.out.println(valueOne);
+                    System.out.println(valueTwo);
+                    if (valueOne == valueTwo + 1)
                     {
-                        endIndex = i + 1;
-                        break;
+                        actualStraightCards.add(potentialStraightCards.get(i));
+                        count++;
+                        if (count == 5)
+                        {
+                            index = i - 1;
+                            break;
+                        }
                     }
                 }
 
+                actualStraightCards.add(potentialStraightCards.get(index));
+
+                System.out.println(highCard(actualStraightCards));
+
+                if (straight(actualStraightCards))
+                    return true;
                 else
-                    count = 1;
+                    return false;
             }
-
-            for(int j = endIndex - 4; j <= endIndex; j++)
-            {
-                straightCards.add(duplicateHand.get(j));
-            }
-
-            if(flush(straightCards))
-                return true;
-            else
-                return false;
         }
 
         else
@@ -345,49 +376,45 @@ public class Hand
 
     public boolean royalFlush(List<Card> hand)
     {
-        if(straight(hand))
+        if (flush(hand))
         {
-            List<Card> duplicateHand = new ArrayList<>(hand);
-            Collections.sort(duplicateHand, Card::compare);
-            List<Card> straightCards = new ArrayList<>();
-            int sortedCards[] = sort(hand);
-            int count = 1;
-            int endIndex = 0;
-
-            for (int i = 0; i < hand.size() - 1; i++)
-            {
-                if (sortedCards[i] + 1 == sortedCards[i + 1])
-                {
-                    count++;
-                    if (count == 5)
+            String flushSuit = "";
+            for (int i = 0; i < hand.size(); i++) {
+                int sameSuitCount = 1;
+                for (int j = i + 1; j < hand.size(); j++) {
+                    if (hand.get(i).getSuit().equals(hand.get(j).getSuit()))
                     {
-                        endIndex = i + 1;
-                        break;
+                        sameSuitCount++;
+                        if (sameSuitCount == 5)
+                        {
+                            flushSuit = hand.get(i).getSuit();
+                        }
                     }
                 }
-
-                else
-                    count = 1;
             }
 
-            for(int j = endIndex - 4; j <= endIndex; j++)
-            {
-                straightCards.add(duplicateHand.get(j));
+            List<Card> duplicateHand = new ArrayList<>(hand);
+            Collections.sort(duplicateHand, Card::compare);
+            List<Card> potentialStraightCards = new ArrayList<>();
+
+            for (int j = 0; j < hand.size(); j++) {
+                if (duplicateHand.get(j).getSuit().equals(flushSuit))
+                    potentialStraightCards.add(duplicateHand.get(j));
             }
 
-            String firstNumber = straightCards.get(0).getNumber();
-            String secondNumber = straightCards.get(1).getNumber();
-            String thirdNumber = straightCards.get(2).getNumber();
-            String fourthNumber = straightCards.get(3).getNumber();
-            String fifthNumber = straightCards.get(4).getNumber();
+            String firstNumber = potentialStraightCards.get(potentialStraightCards.size() - 5).getNumber();
+            String secondNumber = potentialStraightCards.get(potentialStraightCards.size() - 4).getNumber();
+            String thirdNumber = potentialStraightCards.get(potentialStraightCards.size() - 3).getNumber();
+            String fourthNumber = potentialStraightCards.get(potentialStraightCards.size() - 2).getNumber();
+            String fifthNumber = potentialStraightCards.get(potentialStraightCards.size() - 1).getNumber();
 
-            if(firstNumber.equals("10") && secondNumber.equals("J") && thirdNumber.equals("Q") && fourthNumber.equals("K") && fifthNumber.equals("A"))
-            {
-                if(flush(straightCards))
+            if (straight(potentialStraightCards)) {
+                if (firstNumber.equals("10") && secondNumber.equals("J") && thirdNumber.equals("Q") && fourthNumber.equals("K") && fifthNumber.equals("A"))
                     return true;
                 else
                     return false;
             }
+
             else
                 return false;
         }
