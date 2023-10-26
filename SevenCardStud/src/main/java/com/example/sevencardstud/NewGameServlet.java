@@ -551,6 +551,159 @@ public class Hand {
         return value;
     }
 
+    public int handValue(List<Card> hand)
+    {
+        int value = 0;
+        if(royalFlush(hand))
+            value = 10;
+        if(straightFlush(hand))
+            value = 9;
+        if(fourOfaKind(hand))
+            value = 8;
+        if(fullHouse(hand))
+            value = 7;
+        if(flush(hand))
+            value = 6;
+        if(straight(hand))
+            value = 5;
+        if(threeOfaKind(hand))
+            value = 4;
+        if(twoPair(hand))
+            value = 3;
+        if(onePair(hand))
+            value = 2;
+
+        return value;
+    }
+
+    public void tie(List<Card> handOne, List<Card> handTwo)
+    {
+        // HERE YOU WILL HAVE TO SPLIT THE WINNINGS BETWEEN THE TWO HANDS
+    }
+
+    /*
+    public List<Card> compareHands(List<Card> handOne, List<Card> handTwo)
+    {
+        // SHOULD WE HAVE A NEW DECK THAT ONLY CONTAINS THE FIVE CARDS YOU ARE USING AS YOUR HAND
+        if(handValue(handOne) > handValue(handTwo))
+            return handOne;
+        else if(handValue(handOne) < handValue(handTwo))
+            return handTwo;
+        else if(handValue(handOne) == 10 && handValue(handTwo) == 10)
+        {
+            // IF TWO ROYAL FLUSHES THEN THERE IS A TIE;
+            tie(handOne, handTwo);
+        }
+        else if(handValue(handOne) == 9 && handValue(handTwo) == 9)
+        {
+            // HIGH CARD HAS TO BE OF THE 5 CARDS BEING USED IN THE STRAIGHT
+            // NEED TO CHANGE THE PARAMETERS TO JUST THE FOUR OF A KIND
+            if(highCard(handOne) > highCard(handTwo))
+                return handOne;
+            else if(highCard(handOne) < highCard(handTwo))
+                return handTwo;
+            else
+                tie(handOne, handTwo);
+            // THERE IS A TIE
+        }
+        else if(handValue(handOne) == 8 && handValue(handTwo) == 8)
+        {
+            // HAVE TO SEE WHICH CARD IN THE FOUR OF A KIND IS HIGHER
+            // NEED TO CHANGE THE PARAMETERS TO JUST THE FOUR OF A KIND)
+            if(highCard(handOne) > highCard(handTwo))
+                return handOne;
+            else
+                return handTwo;
+        }
+        else if(handValue(handOne) == 7 && handValue(handTwo) == 7)
+        {
+            // HAVE TO SEE WHICH OF THE THREE OF A KIND IS A HIGHER CARD
+            // NEED TO CHANGE THE PARAMETERS TO JUST THE THREE OF A KIND
+            if(highCard(handOne) > highCard(handTwo))
+                return handOne;
+            else
+                return handTwo;
+        }
+        else if(handValue(handOne) == 6 && handValue(handTwo) == 6)
+        {
+            // HIGH CARD HAS TO BE OF THE 5 CARDS BEING USED
+            // NEED TO CHANGE PARAMETERS TO JUST THE 5 CARDS BEING USED
+            if(highCard(handOne) > highCard(handTwo))
+                return handOne;
+            else if(highCard(handOne) < highCard(handTwo))
+                return handTwo;
+            else
+                tie(handOne, handTwo);
+            // THERE IS A TIE;
+        }
+        else if(handValue(handOne) == 5 && handValue(handTwo) == 5)
+        {
+            // HIGH CARD HAS TO BE OF THE 5 CARDS BEING USED
+            // NEED TO CHANGE PARAMETERS TO JUST THE 5 CARDS BEING USED
+            if(highCard(handOne) > highCard(handTwo))
+                return handOne;
+            else if(highCard(handOne) < highCard(handTwo))
+                return handTwo;
+            else
+                tie(handOne, handTwo);
+            // THERE IS A TIE
+        }
+        else if(handValue(handOne) == 4 && handValue(handTwo) == 4)
+        {
+            // HIGH CARD HAS TO COME FROM THE THREE OF A KIND CARDS
+            // NEED TO CHANGE PARAMETERS TO JUST THE THREE OF A KIND CARDS
+            if(highCard(handOne) > highCard(handTwo))
+                return handOne;
+            else if(highCard(handOne) < highCard(handTwo))
+                return handTwo;
+        }
+        else if(handValue(handOne) == 3 && handValue(handTwo) == 3)
+        {
+            // FIRST CHECK FOR A HIGH CARD FROM THE FOUR PAIRS
+            // IF FIRST TWO ARE THE SAME THEN CHECK FOR THE SECOND PAIR
+            // THEN IF THE SAME CHECK FOR A HIGH CARD ON THE LAST REMAINING ONE
+            // OTHERWISE TIE
+            if(highCard(handOne) > highCard(handTwo))
+                return handOne;
+            else if(highCard(handOne) < highCard(handTwo))
+                return handTwo;
+            else
+            {
+                if(highCard(handOne) > highCard(handTwo))
+                    return handOne;
+                else if(highCard(handOne) < highCard(handTwo))
+                    return handTwo;
+                else
+                    tie(handOne, handTwo);
+                // THERE IS A TIE
+            }
+        }
+        else if(handValue(handOne) == 2 && handValue(handTwo) == 2)
+        {
+            // FIRST CHECK FOR THE HIGHER OF THE PAIRS
+            // IF THE SAME CHECK FOR THE HIGHEST CARD IN THE THREE REMAINING
+            // IF SAME CHECK IN TWO REMAINING AND SO ON
+            // OTHERWISE TIE
+            if(highCard(handOne) > highCard(handTwo))
+                return handOne;
+            else if(highCard(handOne) < highCard(handTwo))
+                return handTwo;
+            else
+            {
+                if(highCard(handOne) > highCard(handTwo))
+                    return handOne;
+                else if(highCard(handOne) < highCard(handTwo))
+                    return handTwo;
+                else
+                {
+                    tie(handOne, handTwo);
+                }
+            }
+        }
+    }
+
+     */
+
     public void printHand(List<Card> hand)
     {
         for (int i = 0; i < hand.size(); i++)
