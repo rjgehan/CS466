@@ -26,7 +26,6 @@
 </div>
 
 <div class="text-center">
-  <!-- Add a class to the "Welcome" heading -->
   <h1 class="text"><%= "Welcome" %></h1>
   <a href="new-game-servlet" class="btn-custom">New Game</a> <br/>
   <a href="bank.jsp" class="btn-custom">Bank</a> <br/>

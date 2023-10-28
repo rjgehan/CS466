@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.net.*,java.io.*" %>
-<%@ page import="okhttp3.*" %>
+<%@ page import="com.example.sevencardstud.dao.UserDAO" %>
+<%@ page import="com.example.sevencardstud.model.entity.User" %>
 
 
 <html>
@@ -11,7 +11,7 @@
             border-radius: 5px;
             background-color: #f2f2f2;
             padding: 20px;
-            max-width: 400px;  /* Or any other value that you see fit */
+            max-width: 400px;
             margin: 0 auto;
         }
 
@@ -25,48 +25,38 @@
 <body>
 <a href="home.jsp" class="btn-custom">Home</a> <br/>
 <div>
-
     <%
-        String errorMessage = null;  // This will store any error messages
+        String errorMessage = null;
+        UserDAO userDao = new UserDAO(); // Instantiate the UserDAO
 
-        boolean isUserAdded = false;
-        String username = request.getParameter("username");
-        String password1 = request.getParameter("password1");
-        String password2 = request.getParameter("password2");
+        if ("POST".equalsIgnoreCase(request.getMethod())) {
+            String username = request.getParameter("username");
+            String password1 = request.getParameter("password1");
+            String password2 = request.getParameter("password2");
 
-        if (username != null && password1 != null && password2 != null) {
-            if (password1.equals(password2)) {
-                // Passwords match. Make the API call.
-                try {
-                    OkHttpClient client = new OkHttpClient().newBuilder().build();
-                    MediaType mediaType = MediaType.parse("application/json");
-                    RequestBody body = RequestBody.create(mediaType, "{\n    \"collection\":\"<COLLECTION_NAME>\",\n    \"database\":\"<DATABASE_NAME>\",\n    \"dataSource\":\"Cluster0\",\n    \"projection\": {\"_id\": 1}\n\n}");
-                    Request request = new Request.Builder()
-                            .url("https://us-east-1.aws.data.mongodb-api.com/app/data-aavtz/endpoint/data/v1/action/findOne")
-                            .method("POST", body)
-                            .addHeader("Content-Type", "application/json")
-                            .addHeader("Access-Control-Request-Headers", "*")
-                            .addHeader("api-key", "<API_KEY>")
-                            .build();
-                    Response response = client.newCall(request).execute();
-
-                    if (response.isSuccessful()) {
-                        isUserAdded = true;
-                    } else {
-                        errorMessage = "Error adding user. Please try again.";
-                    }
-                } catch (Exception e) {
-                    errorMessage = "An error occurred. Please try again.";
-                }
+            if (username == null || username.trim().isEmpty()) {
+                errorMessage = "Username cannot be empty.";
+            } else if (!password1.equals(password2)) {
+                errorMessage = "Passwords do not match.";
             } else {
-                errorMessage = "Passwords do not match. Please try again.";
+                User existingUser = userDao.findUserByLogin(username);
+                if (existingUser != null) {
+                    errorMessage = "Username already exists.";
+                } else {
+                    // Create and save the new user
+                    User newUser = new User();
+                    newUser.setUsername(username);
+                    newUser.setPassword(password1);
+                    userDao.create(newUser);
+                    errorMessage = "Account created successfully!";
+                }
             }
         }
     %>
 
-    <!-- Display error message if any -->
+    <!-- Display error/success message -->
     <% if (errorMessage != null) { %>
-    <p style="color: red;"><%= errorMessage %></p>
+    <p style="color: <%=(errorMessage.equals("Account created successfully!") ? "green" : "red")%>;"><%= errorMessage %></p>
     <% } %>
 
     <form method="post">
@@ -82,7 +72,6 @@
         <input type="submit" value="Create">
     </form>
 
-    <!-- Create Account button linking to createAccount.jsp -->
     <a href="index.jsp">
         <button type="button">Already have an account?</button>
     </a>
