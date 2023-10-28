@@ -72,31 +72,49 @@ public class Hand
         return hand.size();
     }
 
-    public int numberStringValue(String cardNumber)
+    public boolean aceHighOrLow(List<Card> hand)
     {
-        if(cardNumber.equals("A"))
-            return 14;
-        else if(cardNumber.equals("K"))
-            return 13;
-        else if(cardNumber.equals("Q"))
-            return 12;
-        else if(cardNumber.equals("J"))
-            return 11;
-        else
-            return Integer.parseInt(cardNumber);
+        boolean aceHigh = true;
+        boolean containsTwo = false;
+        boolean containsThree = false;
+        boolean containsFour = false;
+        boolean containsFive = false;
+        for(int i = 0; i < hand.size(); i++)
+        {
+            if(hand.get(i).getNumber().equals("2"))
+                containsTwo = true;
+            else if(hand.get(i).getNumber().equals("3"))
+                containsThree = true;
+            else if(hand.get(i).getNumber().equals("4"))
+                containsFour = true;
+            else if(hand.get(i).getNumber().equals("5"))
+                containsFive = true;
+        }
+
+        if(containsTwo && containsThree && containsFour && containsFive)
+            aceHigh = false;
+
+        return aceHigh;
     }
 
-    public int[] sort(List<Card> hand) {
+    public int[] sort(List<Card> hand)
+    {
         int valueArray[] = new int[hand.size()];
 
-        for (int i = 0; i < hand.size(); i++) {
-            if (hand.get(i).getNumber().equals("A"))
-                valueArray[i] = 14;
-            else if (hand.get(i).getNumber().equals("K"))
+        for(int i = 0; i < hand.size(); i++)
+        {
+            if(hand.get(i).getNumber().equals("A"))
+            {
+                if(aceHighOrLow(hand))
+                    valueArray[i] = 14;
+                else
+                    valueArray[i] = 1;
+            }
+            else if(hand.get(i).getNumber().equals("K"))
                 valueArray[i] = 13;
-            else if (hand.get(i).getNumber().equals("Q"))
+            else if(hand.get(i).getNumber().equals("Q"))
                 valueArray[i] = 12;
-            else if (hand.get(i).getNumber().equals("J"))
+            else if(hand.get(i).getNumber().equals("J"))
                 valueArray[i] = 11;
             else
                 valueArray[i] = Integer.parseInt(hand.get(i).getNumber());
@@ -106,22 +124,30 @@ public class Hand
         return valueArray;
     }
 
-    public int highCard(List<Card> hand) {
+    public int highCard(List<Card> hand)
+    {
         int max = 0;
         int value;
-        for (int i = 0; i < hand.size(); i++) {
-            if (hand.get(i).getNumber().equals("A"))
-                value = 14;
-            else if (hand.get(i).getNumber().equals("K"))
+        for(int i = 0; i < hand.size(); i++)
+        {
+            if(hand.get(i).getNumber().equals("A"))
+            {
+                if(aceHighOrLow(hand))
+                    value = 14;
+                else
+                    value = 1;
+            }
+            else if(hand.get(i).getNumber().equals("K"))
                 value = 13;
-            else if (hand.get(i).getNumber().equals("Q"))
+            else if(hand.get(i).getNumber().equals("Q"))
                 value = 12;
-            else if (hand.get(i).getNumber().equals("J"))
-                value = 11;
+            else if(hand.get(i).getNumber().equals("J"))
+                value= 11;
             else
                 value = Integer.parseInt(hand.get(i).getNumber());
 
-            if (value > max) {
+            if(value > max)
+            {
                 max = value;
             }
         }
@@ -185,22 +211,43 @@ public class Hand
 
     public boolean straight(List<Card> hand)
     {
-        // NEEDS TO BE FIXED TO COUNT ACE AS HIGH OR LOW CARD
         if (hand.size() < 5)
             return false;
-        else
-        {
+        else {
             int sortedCards[] = sort(hand);
+            int acesSorted[] = new int[sortedCards.length];
+            if(!aceHighOrLow(hand))
+            {
+                for(int i = 0; i < sortedCards.length; i++)
+                {
+                    int value = sortedCards[i];
+                    if(value == 14)
+                        acesSorted[i] = 1;
+                    else
+                        acesSorted[i] = value;
+                }
+                Arrays.sort(acesSorted);
+            }
+            else
+                acesSorted = sortedCards;
             int count = 1;
 
-            for (int i = 0; i < hand.size() - 1; i++)
+            for (int i = hand.size() - 1; i > 0; i--)
             {
-                if (sortedCards[i] + 1 == sortedCards[i + 1])
+                if (acesSorted[i] == acesSorted[i - 1] + 1)
                 {
                     count++;
                     if (count == 5)
                         break;
                 }
+
+                else if((acesSorted[i] == acesSorted[i-1]) && (acesSorted[i] == acesSorted[i-2] + 1))
+                {
+                    count++;
+                    if(count == 5)
+                        break;
+                }
+
                 else
                     count = 1;
             }
@@ -327,7 +374,6 @@ public class Hand
             }
 
             Collections.sort(potentialStraightCards, Card::compare);
-            List<Card> actualStraightCards = new ArrayList<>();
 
             if(potentialStraightCards.size() == 5)
             {
@@ -337,33 +383,8 @@ public class Hand
                     return false;
             }
             else {
-                int count = 1;
-                int index = 0;
 
-
-                for (int i = potentialStraightCards.size() - 1; i > 0; i--) {
-                    int valueOne = numberStringValue(potentialStraightCards.get(i).getNumber());
-                    int valueTwo = numberStringValue(potentialStraightCards.get(i - 1).getNumber());
-
-                    System.out.println(valueOne);
-                    System.out.println(valueTwo);
-                    if (valueOne == valueTwo + 1)
-                    {
-                        actualStraightCards.add(potentialStraightCards.get(i));
-                        count++;
-                        if (count == 5)
-                        {
-                            index = i - 1;
-                            break;
-                        }
-                    }
-                }
-
-                actualStraightCards.add(potentialStraightCards.get(index));
-
-                System.out.println(highCard(actualStraightCards));
-
-                if (straight(actualStraightCards))
+                if (straight(potentialStraightCards))
                     return true;
                 else
                     return false;

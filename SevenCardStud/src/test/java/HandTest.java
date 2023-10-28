@@ -9,14 +9,14 @@ import java.util.*;
 public class HandTest
 {
     @Test
-    public void creatingHandSize()
+    public void testCreatingHandSize()
     {
         Hand hand = new Hand();
         assertEquals(2, hand.getSize(hand.hand1));
     }
 
     @Test
-    public void newRoundHandSize()
+    public void testNewRoundHandSize()
     {
         Hand hand = new Hand();
         hand.newRound();
@@ -24,7 +24,7 @@ public class HandTest
     }
 
     @Test
-    public void correctSize()
+    public void testCorrectSize()
     {
         Hand hand = new Hand();
         Card cardOne = new Card("Hearts", "2");
@@ -45,7 +45,7 @@ public class HandTest
     }
 
     @Test
-    public void correctSort()
+    public void testCorrectSort()
     {
         Hand hand = new Hand();
         Card cardOne = new Card("Hearts", "7");
@@ -86,6 +86,48 @@ public class HandTest
         hand.addCard(hand.testHand, cardSix);
         hand.addCard(hand.testHand, cardSeven);
         assertEquals(13, hand.highCard(hand.testHand));
+    }
+
+    @Test
+    public void testHighCardWithHighAce()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "7");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "A");
+        Card cardFour = new Card("Spades", "2");
+        Card cardFive = new Card("Diamonds", "J");
+        Card cardSix = new Card("Hearts", "6");
+        Card cardSeven = new Card("Diamonds", "K");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        assertEquals(14, hand.highCard(hand.testHand));
+    }
+
+    @Test
+    public void testHighCardWithLowAce()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "5");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "A");
+        Card cardFour = new Card("Spades", "2");
+        Card cardFive = new Card("Diamonds", "2");
+        Card cardSix = new Card("Hearts", "3");
+        Card cardSeven = new Card("Diamonds", "4");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        assertEquals(5, hand.highCard(hand.testHand));
     }
 
     @Test
@@ -215,7 +257,7 @@ public class HandTest
     }
 
     @Test
-    public void straightTrue()
+    public void testStraightTrue()
     {
         Hand hand = new Hand();
         Card cardOne = new Card("Hearts", "7");
@@ -236,7 +278,70 @@ public class HandTest
     }
 
     @Test
-    public void straightFalse()
+    public void testStraightWithPair()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "7");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "5");
+        Card cardFour = new Card("Spades", "4");
+        Card cardFive = new Card("Clubs", "5");
+        Card cardSix = new Card("Hearts", "6");
+        Card cardSeven = new Card("Diamonds", "J");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        assertTrue(hand.straight(hand.testHand));
+    }
+
+    @Test
+    public void testStraightWithHighAce()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "7");
+        Card cardTwo = new Card("Clubs", "A");
+        Card cardThree = new Card("Diamonds", "10");
+        Card cardFour = new Card("Spades", "Q");
+        Card cardFive = new Card("Clubs", "5");
+        Card cardSix = new Card("Hearts", "K");
+        Card cardSeven = new Card("Diamonds", "J");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        assertTrue(hand.straight(hand.testHand));
+    }
+
+    @Test
+    public void testStraightWithLowAce()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "7");
+        Card cardTwo = new Card("Clubs", "A");
+        Card cardThree = new Card("Diamonds", "3");
+        Card cardFour = new Card("Spades", "Q");
+        Card cardFive = new Card("Clubs", "4");
+        Card cardSix = new Card("Hearts", "2");
+        Card cardSeven = new Card("Diamonds", "5");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        assertTrue(hand.straight(hand.testHand));
+    }
+
+    @Test
+    public void testStraightFalse()
     {
         Hand hand = new Hand();
         Card cardOne = new Card("Hearts", "7");
@@ -434,6 +539,27 @@ public class HandTest
         Card cardFour = new Card("Diamonds", "A");
         Card cardFive = new Card("Diamonds", "5");
         Card cardSix = new Card("Diamonds", "6");
+        Card cardSeven = new Card("Diamonds", "2");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        assertTrue(hand.straightFlush(hand.testHand));
+    }
+
+    @Test
+    public void testStraightFlushWithLowAce()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Diamonds", "7");
+        Card cardTwo = new Card("Diamonds", "4");
+        Card cardThree = new Card("Diamonds", "3");
+        Card cardFour = new Card("Diamonds", "A");
+        Card cardFive = new Card("Diamonds", "5");
+        Card cardSix = new Card("Diamonds", "9");
         Card cardSeven = new Card("Diamonds", "2");
         hand.addCard(hand.testHand, cardOne);
         hand.addCard(hand.testHand, cardTwo);
