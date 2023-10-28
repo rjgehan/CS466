@@ -17,7 +17,7 @@ public class NewGameServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         // Check if deck already exists in session
-        Deck deck = (Deck) session.getAttribute("deck");
+        Deck deck = (Deck) session.getAttribute ("deck");
         if (deck == null) {
             deck = new Deck();
             session.setAttribute("deck", deck);
@@ -36,7 +36,7 @@ public class NewGameServlet extends HttpServlet {
 
         out.println("<body>");
 
-        // Add a shuffle button
+        // A dd a shuffle button
         out.println("<form method='post'>");
         out.println("<input type='submit' value='Shuffle Deck' name='shuffle'>");
         out.println("</form>");
