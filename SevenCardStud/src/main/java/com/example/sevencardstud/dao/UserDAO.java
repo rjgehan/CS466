@@ -82,4 +82,31 @@ public class UserDAO extends GenericDAO<User> {
         }
     }
 
+    public void resetPassword(String username, String newPassword) {
+        EntityManager em = getEntityManager();
+        try {
+            // Start a new transaction
+            em.getTransaction().begin();
+
+            // Retrieve the user by username
+            User userToUpdate = findUserByLogin(username);
+
+            if (userToUpdate != null) {
+                userToUpdate.setPassword(newPassword); // assuming you have a setPassword method in User entity
+                em.merge(userToUpdate); // Update the user
+            }
+
+            // Commit the transaction
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            // If there's an exception, roll back the transaction
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Failed to reset password.", ex);
+        } finally {
+            em.close();
+        }
+    }
+
 }

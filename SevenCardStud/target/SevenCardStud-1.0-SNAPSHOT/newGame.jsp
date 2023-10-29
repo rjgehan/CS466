@@ -6,6 +6,7 @@
 <%@ page import="com.example.sevencardstud.dao.UserDAO" %>
 <%@ page import="com.example.sevencardstud.model.entity.User" %>
 
+
 <%--
 Created by IntelliJ IDEA.
 User: Juliana
@@ -14,8 +15,10 @@ Time: 12:26 PM
 To change this template use File | Settings | File Templates.
 --%>
 <%
+    // Card class to give access to my card information
     class Card
     {
+        // Create suit and number variables to be used
         private final String suit;
         private final String number;
 
@@ -40,6 +43,9 @@ To change this template use File | Settings | File Templates.
     }
 
 
+
+
+    // Hand class to create player's hand
     class Hand
     {
         private final List<Card> cards;
@@ -72,7 +78,9 @@ To change this template use File | Settings | File Templates.
     Card card5 = new Card("Spades", "2");
     Card card6 = new Card("Hearts", "A");
     Card card7 = new Card("Back_", "blue1");
+    //Create hand 1
     Hand hand1 = new Hand();
+    // Add Cards
     hand1.addCard(card1);
     hand1.addCard(card2);
     hand1.addCard(card3);
@@ -80,6 +88,10 @@ To change this template use File | Settings | File Templates.
     hand1.addCard(card5);
     hand1.addCard(card6);
     hand1.addCard(card7);
+
+
+
+
 
 
 
@@ -92,7 +104,9 @@ To change this template use File | Settings | File Templates.
     Card card12 = new Card("Spades", "10");
     Card card13 = new Card("Clubs", "4");
     Card card14 = new Card("Back_", "blue1");
+    //Create hand 2
     Hand hand2 = new Hand();
+    // Add Cards
     hand2.addCard(card8);
     hand2.addCard(card9);
     hand2.addCard(card10);
@@ -100,6 +114,8 @@ To change this template use File | Settings | File Templates.
     hand2.addCard(card12);
     hand2.addCard(card13);
     hand2.addCard(card14);
+
+
 
 
     //Creating third hand of cards
@@ -110,7 +126,9 @@ To change this template use File | Settings | File Templates.
     Card card19 = new Card("Diamonds", "10");
     Card card20 = new Card("Spades", "2");
     Card card21 = new Card("Back_", "blue1");
+    //Create hand 3
     Hand hand3 = new Hand();
+    // Add cards
     hand3.addCard(card15);
     hand3.addCard(card16);
     hand3.addCard(card17);
@@ -118,6 +136,10 @@ To change this template use File | Settings | File Templates.
     hand3.addCard(card19);
     hand3.addCard(card20);
     hand3.addCard(card21);
+
+
+
+
 
 
 
@@ -130,7 +152,9 @@ To change this template use File | Settings | File Templates.
     Card card26 = new Card("Diamonds", "Q");
     Card card27 = new Card("Spades", "K");
     Card card28 = new Card("Back_", "blue1");
+    //Create hand 4
     Hand hand4 = new Hand();
+    //Add cards
     hand4.addCard(card22);
     hand4.addCard(card23);
     hand4.addCard(card24);
@@ -138,6 +162,10 @@ To change this template use File | Settings | File Templates.
     hand4.addCard(card26);
     hand4.addCard(card27);
     hand4.addCard(card28);
+
+
+
+
 
 
 
@@ -150,7 +178,9 @@ To change this template use File | Settings | File Templates.
     Card card33 = new Card("Clubs", "K");
     Card card34 = new Card("Hearts", "7");
     Card card35 = new Card("Back_", "blue1");
+    //Create hand 5
     Hand hand5 = new Hand();
+    //Add cards
     hand5.addCard(card29);
     hand5.addCard(card30);
     hand5.addCard(card31);
@@ -158,6 +188,10 @@ To change this template use File | Settings | File Templates.
     hand5.addCard(card33);
     hand5.addCard(card34);
     hand5.addCard(card35);
+
+
+
+
 
 
 
@@ -170,7 +204,9 @@ To change this template use File | Settings | File Templates.
     Card card40 = new Card("Diamonds", "4");
     Card card41 = new Card("Hearts", "K");
     Card card42 = new Card("Back_", "blue1");
+    //Create hand 6
     Hand hand6 = new Hand();
+    //Add cards
     hand6.addCard(card36);
     hand6.addCard(card37);
     hand6.addCard(card38);
@@ -180,9 +216,12 @@ To change this template use File | Settings | File Templates.
     hand6.addCard(card42);
 
 
+
+
     //Creating path
     String contextPath = request.getContextPath();
 %>
+
 
 <!-- Will display cards from hand 1 -->
 <div class="hand1" id="hand1">
@@ -201,6 +240,8 @@ To change this template use File | Settings | File Templates.
         <p class="text">Bot 1: David</p>
     </div>
 </div>
+
+
 
 
 <!-- Will display cards from hand 2 -->
@@ -222,6 +263,8 @@ To change this template use File | Settings | File Templates.
 </div>
 
 
+
+
 <!-- Will display cards from hand 3 -->
 <div class="hand3" id="hand3">
     <%
@@ -241,6 +284,8 @@ To change this template use File | Settings | File Templates.
 </div>
 
 
+
+
 <!-- Will display cards from hand 4 -->
 <!-- Will display bot 4 to go with hand 4 to the left of it, this is hard coded right now but will be edited to the amount of users that join our game -->
 <div class="hand4" id="hand4">
@@ -258,6 +303,8 @@ To change this template use File | Settings | File Templates.
         }
     %>
 </div>
+
+
 
 
 <!-- Will display the cards from hand 5 -->
@@ -287,9 +334,19 @@ To change this template use File | Settings | File Templates.
         return;  // Terminate the current JSP processing
     }
 %>
+
+
 <div class="user">
+    <!-- Get logged in user username -->
     <h2><%= loggedInUser.getUsername() %></h2>
 </div>
+
+
+<!-- Will display bot 6 to go with hand 6 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
+<div class="bot">
+    <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
+</div>
+
 
 <!-- Will display hand 6 cards -->
 <div class="hand6" id="hand6">
@@ -305,10 +362,13 @@ To change this template use File | Settings | File Templates.
 </div>
 </body>
 
+
 <head>
     <jsp:include page="styles.jsp"></jsp:include>
 
+
     <style>
+        /* Overall layout */
         .hand-container {
             position: absolute;
             top: 0;
@@ -318,100 +378,140 @@ To change this template use File | Settings | File Templates.
             justify-content: center;
         }
 
+
+        /* Place hand 1 */
         .hand1 {
             display: flex;
             align-items: center;
         }
 
+
+        /* Create margin to place hand 1 */
         .hand1 {
             margin-left: 2%;
         }
 
+
+        /* Set image size for cards and size between cards for hand 1 */
         .hand1 img {
             width: 65px;
             height: auto;
             margin-right: 5px;
         }
 
+
+        /* Place hand 2 */
         .hand2 {
             display: flex;
             align-items: center;
         }
 
+
+        /* Create margin to place hand 2 */
         .hand2 {
             margin-left: 65%;
         }
 
+
+        /* Set image size for cards and size between cards for hand 2 */
         .hand2 img {
             width: 65px;
             height: auto;
             margin-right: 5px;
         }
 
+
+        /* Place hand 3 */
         .hand3 {
             display:flex;
             align-items: center;
         }
 
+
+        /* Create margin to place hand 3 */
         .hand3 {
             margin-left: 2%;
         }
 
+
+        /* Set image size for cards and size between cards for hand 3 */
         .hand3 img {
             width: 65px;
             height: auto;
             margin-right: 5px;
         }
 
+
+        /* Place hand 4 */
         .hand4 {
             display: flex;
             align-items: center;
         }
 
+
+        /* Create margin to place hand 4 */
         .hand4 {
             margin-left: 65%;
         }
 
+
+        /* Set image size for cards and size between cards for hand 4 */
         .hand4 img {
             width: 65px;
             height: auto;
             margin-right: 5px;
         }
 
+
+        /* Place hand 5 */
         .hand5 {
             display: flex;
             align-items: center;
         }
 
+
+        /* Create margin to place hand 5 */
         .hand5 {
             margin-left: 2%;
         }
 
+
+        /* Set image size for cards and size between cards for hand 5 */
         .hand5 img {
             width: 65px;
             height: auto;
             margin-right: 5px;
         }
 
+
+        /* Place hand 6*/
         .hand6 {
             display: flex;
             align-items: center;
         }
 
+
+        /* Create margin on top of hand6 to put more emphasis on the user hand */
         .hand6 {
             margin-top: 5%;
         }
 
+
+        /* Create margin to place hand 6 */
         .hand6 {
             margin-left: 30%
         }
 
+
+        /* Set image size for cards and size between cards for hand 6 */
         .hand6 img {
             width: 100px;
             height: auto;
             margin-right: 5px;
         }
 
+
+        /* Style for user name */
         .user{
             align-items: center;
             color: white;
@@ -420,42 +520,58 @@ To change this template use File | Settings | File Templates.
         }
     </style>
 
+
     <style>
+        /* Bot layout */
         .bot-container {
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
+
         .bot {
             text-align: center;
             margin: 10px;
         }
 
+
+        /* Size of bot image */
         .bot img {
             width: 50px;
             height: auto;
         }
 
+
+        /* Bot names */
         .bot p {
             margin: 5px;
             font-size: 10px;
         }
     </style>
 
+
     <style>
         @media screen and (max-width: 768px) {
+            /* Allows for containers to be put vertically */
             .hand-container {
                 flex-wrap: wrap;
             }
 
+
+            /* creates a margin on all hands */
             .hand1, .hand2, .hand3, .hand4, .hand5, .hand6 {
                 margin: 10px;
             }
 
+            /* Creates a larger margin for hand 2 (making it look pretty!) */
             .hand2 {
                 margin-left: 10px;
             }
         }
     </style>
 </head>
+
+
+
+
