@@ -48,7 +48,10 @@
                     newUser.setUsername(username);
                     newUser.setPassword(password1);
                     userDao.create(newUser);
-                    errorMessage = "Account created successfully!";
+
+                    // Redirect to home.jsp after successful account creation
+                    response.sendRedirect("home.jsp");
+                    return; // exit the current page processing after redirection
                 }
             }
         }

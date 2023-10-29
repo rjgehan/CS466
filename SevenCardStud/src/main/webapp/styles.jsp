@@ -84,7 +84,7 @@
         padding: 20px;
         border: 1px solid #888;
         width: 30%;
-        height: 60%;
+        height: 30%;
         text-align: center;
     }
 

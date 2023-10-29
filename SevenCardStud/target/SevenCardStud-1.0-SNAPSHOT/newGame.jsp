@@ -1,5 +1,11 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="com.example.sevencardstud.dao.UserDAO" %>
+<%@ page import="com.example.sevencardstud.model.entity.User" %>
+
 <%--
 Created by IntelliJ IDEA.
 User: Juliana
@@ -21,12 +27,14 @@ To change this template use File | Settings | File Templates.
         }
 
 
-        public String getSuit() {
+        public String getSuit()
+        {
             return suit;
         }
 
 
-        public String getNumber() {
+        public String getNumber()
+        {
             return number;
         }
     }
@@ -37,24 +45,23 @@ To change this template use File | Settings | File Templates.
         private final List<Card> cards;
 
 
-        public Hand() {
+        public Hand()
+        {
             cards = new ArrayList<>();
         }
 
 
-        public void addCard(Card card) {
+        public void addCard(Card card)
+        {
             cards.add(card);
         }
 
 
-        public List<Card> getCards() {
+        public List<Card> getCards()
+        {
             return cards;
         }
     }
-
-
-
-
 
 
     //Creating first hand of cards
@@ -191,7 +198,7 @@ To change this template use File | Settings | File Templates.
     <!-- Will display bot 1 to go with hand 1 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
     <div class="bot">
         <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
-        <p>Bot 1: David</p>
+        <p class="text">Bot 1: David</p>
     </div>
 </div>
 
@@ -201,7 +208,7 @@ To change this template use File | Settings | File Templates.
 <div class="hand2" id="hand2">
     <div class="bot">
         <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
-        <p>Bot 2: Kelly</p>
+        <p class="text">Bot 2: Kelly</p>
     </div>
     <%
         for (Card card : hand2.getCards())
@@ -229,7 +236,7 @@ To change this template use File | Settings | File Templates.
     <!-- Will display bot 3 to go with hand 3 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
     <div class="bot">
         <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
-        <p>Bot 3: Juliana</p>
+        <p class="text">Bot 3: Juliana</p>
     </div>
 </div>
 
@@ -239,7 +246,7 @@ To change this template use File | Settings | File Templates.
 <div class="hand4" id="hand4">
     <div class="bot">
         <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
-        <p>Bot 4: Peter</p>
+        <p class="text">Bot 4: Peter</p>
     </div>
     <%
         for (Card card : hand4.getCards())
@@ -267,10 +274,22 @@ To change this template use File | Settings | File Templates.
     <!-- Will display bot 5 to go with hand 5 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
     <div class="bot">
         <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
-        <p>Bot 5: Ryan</p>
+        <p class="text">Bot 5: Ryan</p>
     </div>
 </div>
-
+<body>
+<%
+    // Check if user is not logged in
+    User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+    if (loggedInUser == null) {
+        // User is not logged in; redirecting to index.jsp
+        response.sendRedirect("index.jsp");
+        return;  // Terminate the current JSP processing
+    }
+%>
+<div class="user">
+    <h2><%= loggedInUser.getUsername() %></h2>
+</div>
 
 <!-- Will display hand 6 cards -->
 <div class="hand6" id="hand6">
@@ -284,59 +303,13 @@ To change this template use File | Settings | File Templates.
         }
     %>
 </div>
+</body>
 
 <head>
     <jsp:include page="styles.jsp"></jsp:include>
 
-
     <style>
-        .hand-container
-        {
-            position: absolute;
-            top: 0;
-            left: 5px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-
-
-        .hand1, .hand2
-        {
-            /* Displays hand 1 and hand 2 horizontally */
-            display: flex;
-            align-items: center;
-        }
-
-        .hand1
-         {
-            /* Changes margins to the left of hand 1 as well as padding on the top */
-            margin-left: 30px;
-            margin-top: 10px;
-         }
-
-
-        .hand1 img, .hand2 img
-        {
-            /* Changes card size for hand 1 and hand 2 */
-            width: 65px;
-            height: auto;
-            /* Creates spacing between each individual card */
-            margin-right: 5px;
-        }
-
-
-        .hand2
-        {
-            /* Changes spacing to left of hand 2 */
-            margin-left: 875px;
-        }
-    </style>
-
-
-    <style>
-        .hand-container
-        {
+        .hand-container {
             position: absolute;
             top: 0;
             left: 0;
@@ -345,95 +318,107 @@ To change this template use File | Settings | File Templates.
             justify-content: center;
         }
 
-        .hand3, .hand4
-        {
-            /* Cards displayed horizontally and in center */
+        .hand1 {
             display: flex;
             align-items: center;
         }
 
-        .hand3
-        {
-            /* Changes the margin to left of hand 3 */
-            margin-left: 30px;
+        .hand1 {
+            margin-left: 2%;
         }
 
-
-        .hand3 img, .hand4 img
-        {
-            /* Changes hand 3 and hand 4 card size */
+        .hand1 img {
             width: 65px;
             height: auto;
-            /* Change spacing between individual cards*/
             margin-right: 5px;
         }
 
-
-        .hand4
-        {
-            /* Change spacing to the left of hand 4 */
-            margin-left: 875px;
-        }
-    </style>
-
-
-    <style>
-        .hand-container
-        {
-            position: absolute;
-            top: 0;
-            left: 5px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-
-
-        .hand5, .hand6
-        {
-            /* Display hands horizontally */
+        .hand2 {
             display: flex;
             align-items: center;
         }
 
+        .hand2 {
+            margin-left: 65%;
+        }
 
-        .hand5 img
-        {
-            /* Card size */
+        .hand2 img {
             width: 65px;
             height: auto;
-            /* Add spacing between each individual cards */
             margin-right: 5px;
         }
 
-        .hand6 img
-        {
-            /* Card size, hand6 will always be the "user" hand, so it will always appear larger on the screen */
+        .hand3 {
+            display:flex;
+            align-items: center;
+        }
+
+        .hand3 {
+            margin-left: 2%;
+        }
+
+        .hand3 img {
+            width: 65px;
+            height: auto;
+            margin-right: 5px;
+        }
+
+        .hand4 {
+            display: flex;
+            align-items: center;
+        }
+
+        .hand4 {
+            margin-left: 65%;
+        }
+
+        .hand4 img {
+            width: 65px;
+            height: auto;
+            margin-right: 5px;
+        }
+
+        .hand5 {
+            display: flex;
+            align-items: center;
+        }
+
+        .hand5 {
+            margin-left: 2%;
+        }
+
+        .hand5 img {
+            width: 65px;
+            height: auto;
+            margin-right: 5px;
+        }
+
+        .hand6 {
+            display: flex;
+            align-items: center;
+        }
+
+        .hand6 {
+            margin-top: 5%;
+        }
+
+        .hand6 {
+            margin-left: 30%
+        }
+
+        .hand6 img {
             width: 100px;
             height: auto;
-            /* Creates space between individual cards */
             margin-right: 5px;
         }
-        .hand5
-        {
-            /* Changes margin to left of hand 5 */
-            margin-left: 30px;
-        }
 
-
-        .hand6
-        {
-            /* Changes spacing on top of hand 6 */
-            margin-top: 75px;
-            /* Changes spacing to left of hand 6 */
-            margin-left: 450px;
-            /* Changes spacing on bottom, padding */
-            margin-bottom: 10px;
+        .user{
+            align-items: center;
+            color: white;
+            justify-content: center;
+            margin-left: 50%;
         }
     </style>
-
-
-
 
     <style>
         .bot-container {
@@ -442,30 +427,35 @@ To change this template use File | Settings | File Templates.
             align-items: center;
         }
 
-
         .bot {
-            /* Changing the margins of the bots */
             text-align: center;
             margin: 10px;
         }
 
-
         .bot img {
-            /* Changing the size of the bot icon */
             width: 50px;
             height: auto;
         }
 
-
         .bot p {
             margin: 5px;
-            /* Changing font size for user names that will be generated*/
             font-size: 10px;
         }
     </style>
+
+    <style>
+        @media screen and (max-width: 768px) {
+            .hand-container {
+                flex-wrap: wrap;
+            }
+
+            .hand1, .hand2, .hand3, .hand4, .hand5, .hand6 {
+                margin: 10px;
+            }
+
+            .hand2 {
+                margin-left: 10px;
+            }
+        }
+    </style>
 </head>
-
-
-
-
-

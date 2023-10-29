@@ -1,5 +1,5 @@
-<%-- home page --%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="com.example.sevencardstud.model.entity.User" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +7,16 @@
   <title>7 Card Stud</title>
 </head>
 <body>
+
+<%
+  // Check if user is not logged in
+  User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
+  if (loggedInUser == null) {
+    // User is not logged in; redirecting to index.jsp
+    response.sendRedirect("index.jsp");
+    return;  // Terminate the current JSP processing
+  }
+%>
 <div class="header">
   <h1><i class="bi bi-suit-club"></i><i class="bi bi-suit-diamond-fill"></i>7 Card Stud<i class="bi bi-heart-fill"></i><i class="bi bi-suit-spade"></i></h1>
 </div>
@@ -16,11 +26,10 @@
 <div id="profileModal" class="modal">
   <div class="modal-content">
     <span class="close" id="closeProfileModal">&times;</span>
-    <h2>Profile</h2>
+    <h2><%= loggedInUser.getUsername() %></h2>
     <br>
-    <p>Wins: <span id="profileWins">0</span></p>
-    <p>Losses: <span id="profileLosses">0</span></p>
-    <p>Total Amount: $<span id="profileTotal">0</span></p>
+    <p>Wins: <span id="profileWins"><%= loggedInUser.getWins() %></span></p>
+    <p>Total Amount: $<span id="profileTotal"><%= loggedInUser.getBalance() %></span></p>
     <br>
   </div>
 </div>
@@ -28,10 +37,9 @@
 <div class="text-center">
   <!-- Add a class to the "Welcome" heading -->
   <h1 class="text"><%= "Welcome" %></h1>
-  <a href="new-game-servlet" class="btn-custom">New Game</a> <br/>
+  <a href="newGame.jsp" class="btn-custom">New Game</a> <br/>
   <a href="bank.jsp" class="btn-custom">Bank</a> <br/>
   <a href="index.jsp" class="btn-custom">Account</a> <br/>
-  <a href="newGame.jsp" class="btn-custom">newGame</a> <br/>
 
 </div>
 <script>
