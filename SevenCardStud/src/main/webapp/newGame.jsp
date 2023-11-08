@@ -223,6 +223,46 @@ To change this template use File | Settings | File Templates.
 %>
 
 
+<script>
+    var currentTurn = 1; // Initialize the current turn to 1
+
+    function nextTurn() {
+        // Change the current turn to the next player's turn
+        if (currentTurn < 6) {
+            currentTurn++;
+        } else {
+            currentTurn = 1; // Wrap around to player 1
+        }
+
+        // Call a function to update the display based on the current turn
+        updateDisplay();
+    }
+
+    function updateDisplay() {
+        // Remove highlighting from all hands
+        var allHands = document.querySelectorAll(".hand-container");
+        allHands.forEach(function(hand) {
+            hand.classList.remove("highlighted");
+        });
+
+        // Highlight the current player's hand
+        var currentHand = document.getElementById("hand" + currentTurn);
+        currentHand.classList.add("highlighted");
+
+        // Update the display to show whose turn it is
+        var botText = document.querySelectorAll(".bot p");
+        botText.forEach(function(p) {
+            p.style.fontWeight = "normal";
+        });
+
+        var currentPlayerBot = document.querySelector(".hand" + currentTurn + " .bot p");
+        currentPlayerBot.style.fontWeight = "bold";
+    }
+</script>
+
+
+
+
 <!-- Will display cards from hand 1 -->
 <div class="hand1" id="hand1">
     <%
@@ -355,7 +395,7 @@ To change this template use File | Settings | File Templates.
         {
             String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
     %>
-    <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
+    <img class="card-image" src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
     <%
         }
     %>
@@ -517,6 +557,15 @@ To change this template use File | Settings | File Templates.
             color: white;
             justify-content: center;
             margin-left: 50%;
+        }
+
+    </style>
+
+    <style>
+        /* Add a hover effect for the card images */
+        .card-image:hover {
+            border: 2px solid yellow;
+            box-shadow: 0 0 5px yellow;
         }
     </style>
 
