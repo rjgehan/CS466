@@ -5,6 +5,8 @@ import com.utils.GenericDAO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 /***
  * UserDAO is a subclass of GenericDAO.
@@ -107,6 +109,22 @@ public class UserDAO extends GenericDAO<User> {
         } finally {
             em.close();
         }
+    }
+    public List<Object[]> findAllUsernamesAndWins() {
+        EntityManager em = getEntityManager();
+        List<Object[]> results = null;
+
+
+        try {
+            String query = "SELECT u.username, u.wins FROM User u";
+            TypedQuery<Object[]> typedQuery = em.createQuery(query, Object[].class);
+            results = typedQuery.getResultList();
+        } catch (Exception ex) {
+            throw new RuntimeException("Failed to fetch users and wins.", ex);
+        }finally {
+            em.close();
+        }
+        return results;
     }
 
 }

@@ -2,21 +2,34 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.sevencardstud.dao.UserDAO" %>
 <%@ page import="com.example.sevencardstud.model.entity.User" %>
+<%@ page import="java.util.Collections" %>
 
 <%
-    // Check if user is not logged in
-    User user = (User) request.getSession().getAttribute("wins");
-    if (user == null) {
-        // User is not logged in; redirect to index.jsp
-        response.sendRedirect("index.jsp");
-        return; // Terminate the current JSP processing
+    UserDAO userDAO = new UserDAO();
+    List<Object[]> usernameAndWinsList = userDAO.findAllUsernamesAndWins();
+
+    // create the list of usernames and their wins
+    List<User> leaderboard = new ArrayList<>();
+    for (Object[] userData : usernameAndWinsList) {
+        User user = new User();
+        user.setUsername((String) userData[0]);
+        user.setWins((int) userData[1]);
+        leaderboard.add(user);
     }
 
-    // Assuming that "getWins()" returns the number of wins for the user
-    //int wins = user.getWins();
+    // sort based on the largest amount of wins to least amount of wins
+    leaderboard.sort((user1, user2) -> Integer.compare(user2.getWins(), user1.getWins()));
 %>
 
-<div class="user">
-    <!-- Display the number of wins -->
-    <h2>Number of Wins: <%= user.getWins() %></h2>
+<div class="leaderboard">
+    <h3>Leaderboard (Sorted Most Wins to Least Wins):</h3>
+    <ol>
+        <%
+            for (User user : leaderboard) {
+        %>
+        <li><%= user.getUsername() %> - Wins: <%= user.getWins() %></li>
+        <%
+            }
+        %>
+    </ol>
 </div>
