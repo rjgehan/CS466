@@ -225,143 +225,171 @@ To change this template use File | Settings | File Templates.
 
 <script>
     var currentTurn = 1; // Initialize the current turn to 1
+    var timerDuration = 15; // Duration of the timer in seconds
+    var countdown; // Countdown interval
+    var playersTurn = 1;
 
     function nextTurn() {
-        // Change the current turn to the next player's turn
+        clearInterval(countdown);
         if (currentTurn < 6) {
             currentTurn++;
         } else {
-            currentTurn = 1; // Wrap around to player 1
+            currentTurn = 1;
         }
 
-        // Call a function to update the display based on the current turn
         updateDisplay();
+        startTimer();
+        // Hide the button after clicking
+        document.getElementById("endTurnButton").style.display = "none";
+    }
+
+    function startTimer() {
+        var timerDisplay = document.getElementById("timer");
+        var timeLeft = timerDuration;
+        timerDisplay.innerHTML = timeLeft;
+
+        countdown = setInterval(function () {
+            timeLeft--;
+            timerDisplay.innerHTML = timeLeft;
+
+            if (timeLeft === 0) {
+                clearInterval(countdown);
+                nextTurn();
+            }
+        }, 1000);
     }
 
     function updateDisplay() {
-        // Remove highlighting from all hands
         var allHands = document.querySelectorAll(".hand-container");
-        allHands.forEach(function(hand) {
+        allHands.forEach(function (hand) {
             hand.classList.remove("highlighted");
         });
 
-        // Highlight the current player's hand
         var currentHand = document.getElementById("hand" + currentTurn);
         currentHand.classList.add("highlighted");
 
-        // Update the display to show whose turn it is
         var botText = document.querySelectorAll(".bot p");
-        botText.forEach(function(p) {
+        botText.forEach(function (p) {
             p.style.fontWeight = "normal";
         });
 
         var currentPlayerBot = document.querySelector(".hand" + currentTurn + " .bot p");
         currentPlayerBot.style.fontWeight = "bold";
+
+        var timerDisplay = document.getElementById("timer");
+        timerDisplay.innerHTML = "";
+
+        // Show the button when it's the player's turn
+        if (currentTurn === playersTurn) {
+            document.getElementById("endTurnButton").style.display = "block";
+        }
+
     }
 </script>
 
 
 
-
-<!-- Will display cards from hand 1 -->
-<div class="hand1" id="hand1">
-    <%
-        for (Card card : hand1.getCards())
-        {
-            String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
-    %>
-    <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
-    <%
-        }
-    %>
-    <!-- Will display bot 1 to go with hand 1 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
-    <div class="bot">
-        <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
-        <p class="text">Bot 1: David</p>
+<div class="players-container">
+    <!-- Will display cards from hand 1 -->
+    <div class="hand1" id="hand1">
+        <%
+            for (Card card : hand1.getCards())
+            {
+                String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
+        %>
+        <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
+        <%
+            }
+        %>
+        <!-- Will display bot 1 to go with hand 1 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
+        <div class="bot">
+            <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
+            <p class="text">Bot 1: David</p>
+        </div>
     </div>
-</div>
 
 
 
 
-<!-- Will display cards from hand 2 -->
-<!-- Will display bot 2 to go with hand 2 to the left of it, this is hard coded right now but will be edited to the amount of users that join our game -->
-<div class="hand2" id="hand2">
-    <div class="bot">
-        <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
-        <p class="text">Bot 2: Kelly</p>
+    <!-- Will display cards from hand 2 -->
+    <!-- Will display bot 2 to go with hand 2 to the left of it, this is hard coded right now but will be edited to the amount of users that join our game -->
+    <div class="hand2" id="hand2">
+        <div class="bot">
+            <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
+            <p class="text">Bot 2: Kelly</p>
+        </div>
+        <%
+            for (Card card : hand2.getCards())
+            {
+                String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
+        %>
+        <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
+        <%
+            }
+        %>
     </div>
-    <%
-        for (Card card : hand2.getCards())
-        {
-            String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
-    %>
-    <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
-    <%
-        }
-    %>
-</div>
 
 
 
 
-<!-- Will display cards from hand 3 -->
-<div class="hand3" id="hand3">
-    <%
-        for (Card card : hand3.getCards())
-        {
-            String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
-    %>
-    <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
-    <%
-        }
-    %>
-    <!-- Will display bot 3 to go with hand 3 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
-    <div class="bot">
-        <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
-        <p class="text">Bot 3: Juliana</p>
+    <!-- Will display cards from hand 3 -->
+    <div class="hand3" id="hand3">
+        <%
+            for (Card card : hand3.getCards())
+            {
+                String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
+        %>
+        <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
+        <%
+            }
+        %>
+        <!-- Will display bot 3 to go with hand 3 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
+        <div class="bot">
+            <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
+            <p class="text">Bot 3: Juliana</p>
+        </div>
     </div>
-</div>
 
 
 
 
-<!-- Will display cards from hand 4 -->
-<!-- Will display bot 4 to go with hand 4 to the left of it, this is hard coded right now but will be edited to the amount of users that join our game -->
-<div class="hand4" id="hand4">
-    <div class="bot">
-        <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
-        <p class="text">Bot 4: Peter</p>
+    <!-- Will display cards from hand 4 -->
+    <!-- Will display bot 4 to go with hand 4 to the left of it, this is hard coded right now but will be edited to the amount of users that join our game -->
+    <div class="hand4" id="hand4">
+        <div class="bot">
+            <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
+            <p class="text">Bot 4: Peter</p>
+        </div>
+        <%
+            for (Card card : hand4.getCards())
+            {
+                String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
+        %>
+        <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
+        <%
+            }
+        %>
     </div>
-    <%
-        for (Card card : hand4.getCards())
-        {
-            String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
-    %>
-    <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
-    <%
-        }
-    %>
-</div>
 
 
 
 
-<!-- Will display the cards from hand 5 -->
-<div class="hand5" id="hand5">
-    <%
-        for (Card card : hand5.getCards())
-        {
-            String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
-    %>
-    <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
-    <%
-        }
-    %>
-    <!-- Will display bot 5 to go with hand 5 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
-    <div class="bot">
-        <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
-        <p class="text">Bot 5: Ryan</p>
+    <!-- Will display the cards from hand 5 -->
+    <div class="hand5" id="hand5">
+        <%
+            for (Card card : hand5.getCards())
+            {
+                String imageName = "card" + card.getSuit() + card.getNumber() + ".png";
+        %>
+        <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
+        <%
+            }
+        %>
+        <!-- Will display bot 5 to go with hand 5 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
+        <div class="bot">
+            <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
+            <p class="text">Bot 5: Ryan</p>
+        </div>
     </div>
 </div>
 <body>
@@ -400,6 +428,11 @@ To change this template use File | Settings | File Templates.
         }
     %>
 </div>
+
+<button id="endTurnButton" onclick="nextTurn()">End Turn</button>
+<div id="timer"></div>
+
+
 </body>
 
 
@@ -567,6 +600,20 @@ To change this template use File | Settings | File Templates.
             border: 2px solid yellow;
             box-shadow: 0 0 5px yellow;
         }
+
+        /* CSS for the specific button with ID "endTurnButton" */
+        #endTurnButton {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            z-index: 1;
+        }
+
+        /* Increase the font size and add color for better visibility */
+        #timer {
+            font-size: 24px;
+            color: red;
+        }
     </style>
 
 
@@ -620,6 +667,7 @@ To change this template use File | Settings | File Templates.
         }
     </style>
 </head>
+
 
 
 
