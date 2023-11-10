@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.example.sevencardstud.dao.UserDAO" %>
 <%@ page import="com.example.sevencardstud.model.entity.User" %>
+<%@ page import="org.mindrot.jbcrypt.BCrypt" %>
 
 
 <html>
@@ -43,10 +44,12 @@
                 if (existingUser != null) {
                     errorMessage = "Username already exists.";
                 } else {
+                    String hashedPassword = BCrypt.hashpw(password1, BCrypt.gensalt());
+
                     // Create and save the new user
                     User newUser = new User();
                     newUser.setUsername(username);
-                    newUser.setPassword(password1);
+                    newUser.setPassword(hashedPassword); // Set hashed password
                     userDao.create(newUser);
 
                     // Redirect to home.jsp after successful account creation
