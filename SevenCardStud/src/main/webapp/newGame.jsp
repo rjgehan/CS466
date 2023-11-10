@@ -224,33 +224,34 @@ To change this template use File | Settings | File Templates.
 
 
 <script>
-    var currentTurn = 1; // Initialize the current turn to 1
-    var timerDuration = 15; // Duration of the timer in seconds
+    var currentTurn = 6; // Initialize the current turn to 6
+    var timerDuration = 5; // Duration of the timer in seconds
     var countdown; // Countdown interval
-    var playersTurn = 1;
+    var usersTurn = 6;
+
+    function endTurnButtonClicked() {
+        // Hide the button after clicking
+        document.getElementById("endTurnButton").style.display = "none";
+        currentTurn = 0;
+        nextTurn();
+    }
 
     function nextTurn() {
         clearInterval(countdown);
         if (currentTurn < 6) {
             currentTurn++;
+            startTimer();
         } else {
-            currentTurn = 1;
+            document.getElementById("endTurnButton").style.display = "block";
         }
-
         updateDisplay();
-        startTimer();
-        // Hide the button after clicking
-        document.getElementById("endTurnButton").style.display = "none";
     }
 
     function startTimer() {
-        var timerDisplay = document.getElementById("timer");
         var timeLeft = timerDuration;
-        timerDisplay.innerHTML = timeLeft;
 
         countdown = setInterval(function () {
             timeLeft--;
-            timerDisplay.innerHTML = timeLeft;
 
             if (timeLeft === 0) {
                 clearInterval(countdown);
@@ -271,19 +272,15 @@ To change this template use File | Settings | File Templates.
         var botText = document.querySelectorAll(".bot p");
         botText.forEach(function (p) {
             p.style.fontWeight = "normal";
+            p.style.color = "white";
         });
 
         var currentPlayerBot = document.querySelector(".hand" + currentTurn + " .bot p");
         currentPlayerBot.style.fontWeight = "bold";
+        currentPlayerBot.style.color="red";
 
         var timerDisplay = document.getElementById("timer");
         timerDisplay.innerHTML = "";
-
-        // Show the button when it's the player's turn
-        if (currentTurn === playersTurn) {
-            document.getElementById("endTurnButton").style.display = "block";
-        }
-
     }
 </script>
 
@@ -429,8 +426,7 @@ To change this template use File | Settings | File Templates.
     %>
 </div>
 
-<button id="endTurnButton" onclick="nextTurn()">End Turn</button>
-<div id="timer"></div>
+<button id="endTurnButton" onclick="endTurnButtonClicked()">End Turn</button>
 
 
 </body>
@@ -607,12 +603,6 @@ To change this template use File | Settings | File Templates.
             bottom: 10px;
             left: 10px;
             z-index: 1;
-        }
-
-        /* Increase the font size and add color for better visibility */
-        #timer {
-            font-size: 24px;
-            color: red;
         }
     </style>
 
