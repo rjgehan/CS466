@@ -26,7 +26,6 @@ public class Hand
         hand6 = new ArrayList<>();
         testHand = new ArrayList<>();
         newDeck = new Deck();
-        newDeck.getCards();
         for (int i = 0; i < 2; i++) {
             hand1.add(newDeck.drawCard());
             hand2.add(newDeck.drawCard());
@@ -35,24 +34,6 @@ public class Hand
             hand5.add(newDeck.drawCard());
             hand6.add(newDeck.drawCard());
         }
-
-        /*
-        Card cardOne = new Card("Hearts", "2");
-        Card cardTwo = new Card("Clubs", "3");
-        Card cardThree = new Card("Diamonds", "5");
-        Card cardFour = new Card("Spades", "4");
-        Card cardFive = new Card("Diamonds", "J");
-        Card cardSix = new Card("Hearts", "6");
-        Card cardSeven = new Card("Diamonds", "A");
-        testHand.add(cardOne);
-        testHand.add(cardTwo);
-        testHand.add(cardThree);
-        testHand.add(cardFour);
-        testHand.add(cardFive);
-        testHand.add(cardSix);
-        testHand.add(cardSeven);
-
-         */
     }
 
     public void addCard(List<Card> hand, Card card)
@@ -67,6 +48,26 @@ public class Hand
         hand4.add(newDeck.drawCard());
         hand5.add(newDeck.drawCard());
         hand6.add(newDeck.drawCard());
+    }
+
+    public void initializeHands() {
+        newDeck = new Deck();
+
+        hand1.clear();
+        hand2.clear();
+        hand3.clear();
+        hand4.clear();
+        hand5.clear();
+        hand6.clear();
+
+        for (int i = 0; i < 2; i++) { // Deal two cards to each hand as an example
+            hand1.add(newDeck.drawCard());
+            hand2.add(newDeck.drawCard());
+            hand3.add(newDeck.drawCard());
+            hand4.add(newDeck.drawCard());
+            hand5.add(newDeck.drawCard());
+            hand6.add(newDeck.drawCard());
+        }
     }
 
     public int getSize(List<Card> hand) {
@@ -606,4 +607,19 @@ public class Hand
         }
         System.out.println();
     }
+
+    public static List<List<Card>> getAllHands() {
+        return Arrays.asList(hand1, hand2, hand3, hand4, hand5, hand6);
+    }
+
+    public List<Card> getHand1() {return hand1;}
+    public List<Card> getHand2() {return hand2;}
+    public List<Card> getHand3() {return hand3;}
+    public List<Card> getHand4() {return hand4;}
+    public List<Card> getHand5() {return hand5;}
+    public List<Card> getHand6() {return hand6;}
+
+
+
+
 }
