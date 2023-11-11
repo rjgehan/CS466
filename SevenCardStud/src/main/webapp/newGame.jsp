@@ -90,6 +90,13 @@ To change this template use File | Settings | File Templates.
         nextTurn();
     }
 
+    function betButtonClicked() {
+        var betAmount = document.getElementById("betAmount").value;
+        // Do something with the bet amount, you can send it to the server or process it here
+        console.log("Bet placed: " + betAmount);
+    }
+
+
     function nextTurn() {
         clearInterval(countdown);
         if (currentTurn < 6) {
@@ -136,6 +143,16 @@ To change this template use File | Settings | File Templates.
         var timerDisplay = document.getElementById("timer");
         timerDisplay.innerHTML = "";
     }
+    document.querySelector(".bet-button").addEventListener("click", betButtonClicked);
+    <%
+    String betAmount = request.getParameter("betAmount");
+    if ("placeBet".equals(request.getParameter("action"))) {
+        // Process the bet amount
+         //update the game logic here
+    }
+%>
+
+
 </script>
 
 
@@ -217,6 +234,12 @@ To change this template use File | Settings | File Templates.
 </div>
 
 <button id="endTurnButton" onclick="endTurnButtonClicked()">End Turn</button>
+<div class="bet-container">
+    <form method="post">
+        <input type="number" id="betAmount" name="betAmount" placeholder="Enter bet amount" required>
+        <button type="submit" name="action" value="placeBet" class="bet-button">Bet</button>
+    </form>
+</div>
 
 
 </body>
@@ -227,7 +250,7 @@ To change this template use File | Settings | File Templates.
 
 
     <style>
-        /* Overall layout */
+        /* Ovrall layout */
         body {
             background-image: url('images/PNG/Background.png'); /* Path to your image */
             background-size: cover; /* Cover the entire page */

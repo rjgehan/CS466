@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.example.sevencardstud.dao.UserDAO" %>
+<%@ page import="org.mindrot.jbcrypt.BCrypt" %>
 
 <html>
 <head>
@@ -36,8 +37,9 @@
                 message = "Username cannot be empty.";
             } else {
                 if (userDao.findUserByLogin(username) != null) {
-                    // Logic to reset the password (just a basic example here)
-                    userDao.resetPassword(username, newPassword);
+                    String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+
+                    userDao.resetPassword(username, hashedNewPassword);
                     message = "Password reset successfully!";
                 } else {
                     message = "Username not found.";
