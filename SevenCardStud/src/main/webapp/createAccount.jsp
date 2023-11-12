@@ -3,7 +3,6 @@
 <%@ page import="com.example.sevencardstud.model.entity.User" %>
 <%@ page import="org.mindrot.jbcrypt.BCrypt" %>
 
-
 <html>
 <head>
     <jsp:include page="styles.jsp"></jsp:include>
@@ -15,54 +14,55 @@
             max-width: 400px;
             margin: 0 auto;
         }
-
         form {
             padding-left: 20px;
             padding-right: 20px;
         }
     </style>
-    <title>account</title>
+    <title>Account</title>
 </head>
 <body>
 <a href="home.jsp" class="btn-custom">Home</a> <br/>
 <div>
     <%
         String errorMessage = null;
-        UserDAO userDao = new UserDAO(); // Instantiate the UserDAO
+        UserDAO userDao = new UserDAO();
 
         if ("POST".equalsIgnoreCase(request.getMethod())) {
             String username = request.getParameter("username");
             String password1 = request.getParameter("password1");
             String password2 = request.getParameter("password2");
+            String securityAnswer = request.getParameter("securityAnswer");
 
             if (username == null || username.trim().isEmpty()) {
                 errorMessage = "Username cannot be empty.";
             } else if (!password1.equals(password2)) {
                 errorMessage = "Passwords do not match.";
+            } else if (securityAnswer == null || securityAnswer.trim().isEmpty()) {
+                errorMessage = "Security answer cannot be empty.";
             } else {
                 User existingUser = userDao.findUserByLogin(username);
                 if (existingUser != null) {
                     errorMessage = "Username already exists.";
                 } else {
                     String hashedPassword = BCrypt.hashpw(password1, BCrypt.gensalt());
+                    String hashedReset = BCrypt.hashpw(securityAnswer, BCrypt.gensalt());
 
-                    // Create and save the new user
                     User newUser = new User();
                     newUser.setUsername(username);
-                    newUser.setPassword(hashedPassword); // Set hashed password
-                    userDao.create(newUser);
+                    newUser.setPassword(hashedPassword);
+                    newUser.setSecurityAnswer(hashedReset);
 
-                    // Redirect to home.jsp after successful account creation
+                    userDao.create(newUser);
                     response.sendRedirect("home.jsp");
-                    return; // exit the current page processing after redirection
+                    return;
                 }
             }
         }
     %>
 
-    <!-- Display error/success message -->
     <% if (errorMessage != null) { %>
-    <p style="color: <%=(errorMessage.equals("Account created successfully!") ? "green" : "red")%>;"><%= errorMessage %></p>
+    <p style="color: <%= (errorMessage.equals("Account created successfully!") ? "green" : "red") %>;"><%= errorMessage %></p>
     <% } %>
 
     <form method="post">
@@ -75,13 +75,23 @@
         <label for="password2">Re-Enter Password</label>
         <input type="password" id="password2" name="password2" placeholder="Re-Enter Password">
 
+        <label for="securityQuestion">Select a Security Question:</label>
+        <select id="securityQuestion" name="securityQuestion">
+            <option value="firstPet">Name of your first pet</option>
+            <option value="birthCity">City where you were born</option>
+            <option value="firstCar">Mother's maiden name</option>
+            <option value="childhoodHero">Street that you grew up on</option>
+        </select>
+
+        <label for="securityAnswer">Your Answer</label>
+        <input type="text" id="securityAnswer" name="securityAnswer" placeholder="Your answer">
+
         <input type="submit" value="Create">
     </form>
 
     <a href="index.jsp">
         <button type="button">Already have an account?</button>
     </a>
-
 </div>
 </body>
 </html>

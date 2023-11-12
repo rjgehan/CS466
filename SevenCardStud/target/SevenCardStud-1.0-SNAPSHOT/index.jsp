@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.example.sevencardstud.dao.UserDAO" %>
 <%@ page import="com.example.sevencardstud.model.entity.User" %>
+<%@ page import="org.mindrot.jbcrypt.BCrypt" %>
 
 <html>
 <head>
@@ -53,7 +54,7 @@
                 User user = userDao.findUserByLogin(username);
                 if (user == null) {
                     errorMessage = "User not found.";
-                } else if (!user.getPassword().equals(password)) {
+                } else if (!BCrypt.checkpw(password, user.getPassword())) {
                     errorMessage = "Incorrect password.";
                 } else {
                     // User is authenticated; save user in session
