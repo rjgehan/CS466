@@ -8,6 +8,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+import static java.sql.DriverManager.getConnection;
+
 
 /***
  * UserDAO is a subclass of GenericDAO.
@@ -123,4 +125,5 @@ public class UserDAO extends GenericDAO<User> {
         }
         return results;
     }
+
 }
