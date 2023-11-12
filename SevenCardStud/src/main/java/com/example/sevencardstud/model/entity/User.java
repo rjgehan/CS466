@@ -3,7 +3,7 @@ package com.example.sevencardstud.model.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")  // Assuming your table name is "users". Adjust if needed.
+@Table(name = "users")
 public class User extends BaseEntity {
 
     @Id
@@ -18,21 +18,25 @@ public class User extends BaseEntity {
     private String password;
 
     @Column(name = "Balance")
-    private Double balance = 0.0;  // Using Double for balance. Adjust if needed.
+    private Double balance = 0.0;
 
     @Column(name = "Wins")
     private Integer wins = 0;
+
+    @Column(name = "SecurityAnswer")
+    private String securityAnswer;
 
     public User() {
         // Default constructor
     }
 
-    public User(Integer ID, String username, String password, Double balance, Integer wins) {
+    public User(Integer ID, String username, String password, Double balance, Integer wins, String securityAnswer) {
         this.ID = ID;
         this.username = username;
         this.password = password;
         this.balance = balance;
         this.wins = wins;
+        this.securityAnswer = securityAnswer;
     }
 
     // ID methods
@@ -79,4 +83,14 @@ public class User extends BaseEntity {
     public void setWins(Integer wins) {
         this.wins = wins;
     }
+
+    // SecurityAnswer methods
+    public String getSecurityAnswer() {
+        return securityAnswer;
+    }
+
+    public void setSecurityAnswer(String securityAnswer) {
+        this.securityAnswer = securityAnswer;
+    }
+
 }
