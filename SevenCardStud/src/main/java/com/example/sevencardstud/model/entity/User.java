@@ -23,6 +23,9 @@ public class User extends BaseEntity {
     @Column(name = "Wins")
     private Integer wins = 0;
 
+    @Column(name = "selectedImage")
+    private String selectedImage;
+
     @Column(name = "SecurityAnswer")
     private String securityAnswer;
 
@@ -87,6 +90,14 @@ public class User extends BaseEntity {
     // SecurityAnswer methods
     public String getSecurityAnswer() {
         return securityAnswer;
+    }
+
+    public String getSelectedImage() {
+        return selectedImage;
+    }
+
+    public void setSelectedImage(String selectedImage) {
+        this.selectedImage = selectedImage;
     }
 
     public void setSecurityAnswer(String securityAnswer) {
