@@ -732,8 +732,66 @@ public class Hand
 
     public int straightTie(List<Card> handOne, List<Card> handTwo)
     {
-        // NEED TO DO THIS
-        return 0;
+        int sortedHandOne[] = sort(handOne);
+        int straightHandOne[] = new int[handOne.size()];
+        int count = 1;
+        int highestValue = 0;
+        int index = 0;
+
+        for (int i = handOne.size() - 1; i >= 1; i--)
+        {
+            if (sortedHandOne[i] == sortedHandOne[i - 1] + 1)
+            {
+                count++;
+                straightHandOne[index] = sortedHandOne[i];
+                index++;
+                if (count == 5)
+                {
+                    break;
+                }
+            }
+
+            else
+            {
+                count = 1;
+            }
+        }
+        Arrays.sort(straightHandOne);
+        highestValue = straightHandOne[6];
+
+        int sortedHandTwo[] = sort(handTwo);
+        int straightHandTwo[] = new int[handTwo.size()];
+        int indexTwo = 0;
+        int countTwo = 1;
+        int highestValueTwo = 0;
+
+        for (int i = handTwo.size() - 1; i >= 1; i--)
+        {
+            if (sortedHandTwo[i] == sortedHandTwo[i - 1] + 1)
+            {
+                countTwo++;
+                straightHandTwo[indexTwo] = sortedHandTwo[i];
+                indexTwo++;
+                if (countTwo == 5)
+                {
+                    break;
+                }
+            }
+
+            else
+            {
+                countTwo = 1;
+            }
+        }
+        Arrays.sort(straightHandTwo);
+        highestValueTwo = straightHandTwo[6];
+
+        if(highestValue > highestValueTwo)
+            return 1;
+        else if(highestValue < highestValueTwo)
+            return 2;
+        else
+            return 0;
     }
 
     public int threeOfAKindTie(List<Card> handOne, List<Card> handTwo)
