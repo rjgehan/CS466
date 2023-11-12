@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+
 /***
  * UserDAO is a subclass of GenericDAO.
  * It is a good practice to extend GenericDAO for each specific entity.
@@ -27,7 +28,7 @@ public class UserDAO extends GenericDAO<User> {
     public User findUserByLogin(String login){
         EntityManager em = getEntityManager();
 
-        String query = "SELECT u FROM User u WHERE u.username = :loginParam"; // :loginParam is a parameter, to avoid SQL Injection
+        String query = "SELECT u FROM User u WHERE u.username = :loginParam";
         User found;
 
         try {
@@ -47,7 +48,7 @@ public class UserDAO extends GenericDAO<User> {
             User userToUpdate = findUserByLogin(username);
 
             if (userToUpdate != null) {
-                userToUpdate.setBalance(50.0);  // directly set to 50
+                userToUpdate.setBalance(50.0);
                 em.merge(userToUpdate);
             }
 
@@ -87,21 +88,17 @@ public class UserDAO extends GenericDAO<User> {
     public void resetPassword(String username, String newPassword) {
         EntityManager em = getEntityManager();
         try {
-            // Start a new transaction
             em.getTransaction().begin();
 
-            // Retrieve the user by username
             User userToUpdate = findUserByLogin(username);
 
             if (userToUpdate != null) {
-                userToUpdate.setPassword(newPassword); // assuming you have a setPassword method in User entity
-                em.merge(userToUpdate); // Update the user
+                userToUpdate.setPassword(newPassword);
+                em.merge(userToUpdate);
             }
 
-            // Commit the transaction
             em.getTransaction().commit();
         } catch (Exception ex) {
-            // If there's an exception, roll back the transaction
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
@@ -126,5 +123,4 @@ public class UserDAO extends GenericDAO<User> {
         }
         return results;
     }
-
 }
