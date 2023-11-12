@@ -483,8 +483,150 @@ public class Hand
 
     public int straightFlushTie(List<Card> handOne, List<Card> handTwo)
     {
-        // NEED TO DO THIS
-        return 0;
+        String flushSuit = "";
+        for (int i = 0; i < handOne.size(); i++)
+        {
+            int sameSuitCount = 1;
+            for (int j = i + 1; j < handOne.size(); j++)
+            {
+                if (handOne.get(i).getSuit().equals(handOne.get(j).getSuit()))
+                {
+                    sameSuitCount++;
+                    if (sameSuitCount == 5)
+                    {
+                        flushSuit = handOne.get(i).getSuit();
+                    }
+                }
+            }
+        }
+        int potentialStraightFlush[] = new int[handOne.size()];
+        int sfIndex = 0;
+        for(int i = 0; i < handOne.size(); i++)
+        {
+            int value = 0;
+            if(handOne.get(i).getSuit().equals(flushSuit))
+            {
+                if(handOne.get(i).getNumber().equals("A"))
+                {
+                    if(aceHighOrLow(handOne))
+                        value = 14;
+                    else
+                        value = 1;
+                }
+                else if(handOne.get(i).getNumber().equals("K"))
+                    value = 13;
+                else if(handOne.get(i).getNumber().equals("Q"))
+                    value = 12;
+                else if(handOne.get(i).getNumber().equals("J"))
+                    value= 11;
+                else
+                    value = Integer.parseInt(handOne.get(i).getNumber());
+                potentialStraightFlush[sfIndex] = value;
+                sfIndex++;
+            }
+        }
+        Arrays.sort(potentialStraightFlush);
+        int straightHandOne[] = new int[handOne.size()];
+        int count = 1;
+        int highestValue = 0;
+        int index = 0;
+
+        for (int i = handOne.size() - 1; i >= 1; i--)
+        {
+            if (potentialStraightFlush[i] == potentialStraightFlush[i - 1] + 1)
+            {
+                count++;
+                straightHandOne[index] = potentialStraightFlush[i];
+                index++;
+                if (count == 5)
+                {
+                    break;
+                }
+            }
+
+            else
+            {
+                count = 1;
+            }
+        }
+        Arrays.sort(straightHandOne);
+        highestValue = straightHandOne[6];
+
+        String flushSuitTwo = "";
+        for (int i = 0; i < handTwo.size(); i++)
+        {
+            int sameSuitCountTwo = 1;
+            for (int j = i + 1; j < handTwo.size(); j++)
+            {
+                if (handTwo.get(i).getSuit().equals(handTwo.get(j).getSuit()))
+                {
+                    sameSuitCountTwo++;
+                    if (sameSuitCountTwo == 5)
+                    {
+                        flushSuitTwo = handTwo.get(i).getSuit();
+                    }
+                }
+            }
+        }
+        int potentialStraightFlushTwo[] = new int[handTwo.size()];
+        int sfIndexTwo = 0;
+        for(int i = 0; i < handTwo.size(); i++)
+        {
+            int value = 0;
+            if(handTwo.get(i).getSuit().equals(flushSuitTwo))
+            {
+                if(handTwo.get(i).getNumber().equals("A"))
+                {
+                    if(aceHighOrLow(handTwo))
+                        value = 14;
+                    else
+                        value = 1;
+                }
+                else if(handTwo.get(i).getNumber().equals("K"))
+                    value = 13;
+                else if(handTwo.get(i).getNumber().equals("Q"))
+                    value = 12;
+                else if(handTwo.get(i).getNumber().equals("J"))
+                    value= 11;
+                else
+                    value = Integer.parseInt(handTwo.get(i).getNumber());
+                potentialStraightFlushTwo[sfIndexTwo] = value;
+                sfIndexTwo++;
+            }
+        }
+        Arrays.sort(potentialStraightFlushTwo);
+        int straightHandTwo[] = new int[handTwo.size()];
+        int countTwo = 1;
+        int highestValueTwo = 0;
+        int indexTwo = 0;
+
+        for (int i = handTwo.size() - 1; i >= 1; i--)
+        {
+            if (potentialStraightFlushTwo[i] == potentialStraightFlushTwo[i - 1] + 1)
+            {
+                countTwo++;
+                straightHandTwo[indexTwo] = potentialStraightFlushTwo[i];
+                indexTwo++;
+                if (countTwo == 5)
+                {
+                    break;
+                }
+            }
+
+            else
+            {
+                countTwo = 1;
+            }
+        }
+        Arrays.sort(straightHandTwo);
+        highestValueTwo = straightHandTwo[6];
+
+        if(highestValue > highestValueTwo)
+            return 1;
+        else if(highestValue < highestValueTwo)
+            return 2;
+        else
+            return 0;
     }
 
     public int fourOfAKindTie(List<Card> handOne, List<Card> handTwo)
