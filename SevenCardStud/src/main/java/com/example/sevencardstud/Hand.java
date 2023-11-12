@@ -16,6 +16,8 @@ public class Hand
     public static List<Card> hand5;
     public static List<Card> hand6;
     public static List<Card> testHand;
+
+    public static List<Card> testHand2;
     public Deck newDeck;
 
     public Hand() {
@@ -26,6 +28,7 @@ public class Hand
         hand5 = new ArrayList<>();
         hand6 = new ArrayList<>();
         testHand = new ArrayList<>();
+        testHand2 = new ArrayList<>();
         newDeck = new Deck();
         for (int i = 0; i < 2; i++) {
             hand1.add(newDeck.drawCard());
@@ -461,21 +464,21 @@ public class Hand
         int value = 0;
         if(royalFlush(hand))
             value = 10;
-        if(straightFlush(hand))
+        else if(straightFlush(hand))
             value = 9;
-        if(fourOfaKind(hand))
+        else if(fourOfaKind(hand))
             value = 8;
-        if(fullHouse(hand))
+        else if(fullHouse(hand))
             value = 7;
-        if(flush(hand))
+        else if(flush(hand))
             value = 6;
-        if(straight(hand))
+        else if(straight(hand))
             value = 5;
-        if(threeOfaKind(hand))
+        else if(threeOfaKind(hand))
             value = 4;
-        if(twoPair(hand))
+        else if(twoPair(hand))
             value = 3;
-        if(onePair(hand))
+        else if(onePair(hand))
             value = 2;
 
         return value;
