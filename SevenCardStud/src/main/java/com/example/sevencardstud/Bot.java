@@ -1,18 +1,22 @@
 package com.example.sevencardstud;
 
+import java.util.*;
 public class Bot
 {
-    private String botName;
-    private Hand hand;
-    private int botMoney;
-    private int wins;
+    public String botName;
+    public List<Card> hand;
+    public int botMoney;
+    public int wins;
 
-    public Bot(String name, Hand hand)
+    private boolean isFolded;
+
+    public Bot(String name, List<Card> hand)
     {
         this.botName = name;
         this.hand = hand;
         this.botMoney = 50;
         this.wins = 0;
+        this.isFolded = false;
     }
 
     public String getBotName()
@@ -20,7 +24,7 @@ public class Bot
         return botName;
     }
 
-    public Hand getHand()
+    public List<Card> getHand()
     {
         return hand;
     }
