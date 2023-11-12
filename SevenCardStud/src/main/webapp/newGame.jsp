@@ -85,7 +85,7 @@ To change this template use File | Settings | File Templates.
 
     function endTurnButtonClicked() {
         // Hide the button after clicking
-        document.getElementById("endTurnButton").style.display = "none";
+        document.getElementById("action-bar").style.display = "none";
         currentTurn = 0;
         nextTurn();
     }
@@ -103,7 +103,7 @@ To change this template use File | Settings | File Templates.
             currentTurn++;
             startTimer();
         } else {
-            document.getElementById("endTurnButton").style.display = "block";
+            document.getElementById("action-bar").style.display = "flex";
         }
         updateDisplay();
     }
@@ -266,7 +266,7 @@ To change this template use File | Settings | File Templates.
     </div>
 </div>
 
-<div class="action-buttons">
+<div class="action-buttons" id="action-bar">
     <form method="post">
         <button type="submit" name="action" value="addCards" class="add-cards-button">Add Cards</button>
     </form>
