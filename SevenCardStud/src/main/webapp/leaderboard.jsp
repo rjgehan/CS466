@@ -33,7 +33,6 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('path/to/your/background-image.jpg') center center fixed;
             background-size: cover;
         }
 
