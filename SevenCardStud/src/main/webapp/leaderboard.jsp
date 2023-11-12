@@ -23,9 +23,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <a href="home.jsp" class="btn-custom">Home</a> <br/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Page Title</title>
+    <title>Fancy Leaderboard</title>
     <style>
         body {
             margin: 0;
@@ -33,7 +34,7 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-size: cover;
+            background: linear-gradient(to right, #6b5b95, #4b6cb7);
         }
 
         .leaderboard {
@@ -42,9 +43,10 @@
             padding: 30px;
             border: 3px solid #fff;
             border-radius: 15px;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(107, 91, 149, 0.8);
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.3);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            animation: fadeInUp 1s ease-in-out;
         }
 
         .leaderboard h3 {
@@ -62,9 +64,9 @@
             margin-bottom: 20px;
             padding: 15px;
             border-bottom: 2px solid #fff;
-            background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            background: linear-gradient(rgba(107, 91, 149, 0.2), rgba(107, 91, 149, 0.1));
             box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         .leaderboard li:last-child {
@@ -72,12 +74,24 @@
         }
 
         .leaderboard li:hover {
-            background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.3));
+            background: linear-gradient(rgba(107, 91, 149, 0.4), rgba(107, 91, 149, 0.3));
+            transform: scale(1.02);
         }
 
         .leaderboard li strong {
             font-weight: bold;
             color: #FFD700; /* Set a gold color for the wins */
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
     <jsp:include page="styles.jsp"></jsp:include>
