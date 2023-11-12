@@ -1,0 +1,309 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GamePlay</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.sevencardstud</a>
+</div>
+
+<h1>Coverage Summary for Class: GamePlay (com.example.sevencardstud)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GamePlay</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    70.7%
+  </span>
+  <span class="absValue">
+    (106/150)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.sevencardstud;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;public class GamePlay
+&nbsp;{
+&nbsp;    public static Bot bot1;
+&nbsp;    public static Bot bot2;
+&nbsp;    public static Bot bot3;
+&nbsp;    public static Bot bot4;
+&nbsp;    public static Bot bot5;
+&nbsp;    public static Hand hand;
+&nbsp;
+&nbsp;    public GamePlay()
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        List&lt;Card&gt; bot1Hand = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        List&lt;Card&gt; bot2Hand = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        List&lt;Card&gt; bot3Hand = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        List&lt;Card&gt; bot4Hand = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        List&lt;Card&gt; bot5Hand = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        bot1 = new Bot(&quot;Bot 1&quot;, bot1Hand);</b>
+<b class="fc">&nbsp;        bot2 = new Bot(&quot;Bot 2&quot;, bot2Hand);</b>
+<b class="fc">&nbsp;        bot3 = new Bot(&quot;Bot 3&quot;, bot3Hand);</b>
+<b class="fc">&nbsp;        bot4 = new Bot(&quot;Bot 4&quot;, bot4Hand);</b>
+<b class="fc">&nbsp;        bot5 = new Bot(&quot;Bot 5&quot;, bot5Hand);</b>
+&nbsp;
+<b class="fc">&nbsp;        hand = new Hand();</b>
+<b class="fc">&nbsp;        bot1Hand.addAll(hand.hand1);</b>
+<b class="fc">&nbsp;        bot2Hand.addAll(hand.hand2);</b>
+<b class="fc">&nbsp;        bot3Hand.addAll(hand.hand3);</b>
+<b class="fc">&nbsp;        bot4Hand.addAll(hand.hand4);</b>
+<b class="fc">&nbsp;        bot5Hand.addAll(hand.hand5);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int cardNumberValue(String number)
+&nbsp;    {
+&nbsp;        // fix this for ace high or low
+<b class="fc">&nbsp;        if(number.equals(&quot;A&quot;))</b>
+<b class="fc">&nbsp;            return 14;</b>
+<b class="fc">&nbsp;        else if(number.equals(&quot;K&quot;))</b>
+<b class="nc">&nbsp;            return 13;</b>
+<b class="fc">&nbsp;        else if(number.equals(&quot;Q&quot;))</b>
+<b class="nc">&nbsp;            return 12;</b>
+<b class="fc">&nbsp;        else if(number.equals(&quot;J&quot;))</b>
+<b class="fc">&nbsp;            return 11;</b>
+&nbsp;        else
+<b class="fc">&nbsp;            return Integer.parseInt(number);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int shouldFold(List&lt;Card&gt; hand)
+&nbsp;    {
+<b class="fc">&nbsp;        int shouldFoldLevel = 0;</b>
+&nbsp;        // don&#39;t fold if there are only two, three, or four cards in the deck
+<b class="fc">&nbsp;        if(hand.size() == 2 || hand.size() == 3)</b>
+<b class="fc">&nbsp;            shouldFoldLevel = 0;</b>
+<b class="fc">&nbsp;        else if(hand.size() == 4)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            int thirdValue = cardNumberValue(hand.get(2).getNumber());</b>
+<b class="fc">&nbsp;            int fourthValue = cardNumberValue(hand.get(3).getNumber());</b>
+<b class="fc">&nbsp;            if(thirdValue == fourthValue)</b>
+<b class="fc">&nbsp;                shouldFoldLevel = 0;</b>
+<b class="fc">&nbsp;            else if(hand.get(2).getSuit().equals((hand.get(3).getSuit())))</b>
+<b class="fc">&nbsp;                shouldFoldLevel = 0;</b>
+<b class="fc">&nbsp;            else if(thirdValue + 1 == fourthValue || thirdValue - 1 == fourthValue)</b>
+<b class="fc">&nbsp;                shouldFoldLevel = 0;</b>
+&nbsp;            else
+<b class="fc">&nbsp;                shouldFoldLevel = 2;</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        else if(hand.size() == 5)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            int thirdValue = cardNumberValue(hand.get(2).getNumber());</b>
+<b class="fc">&nbsp;            int fourthValue = cardNumberValue(hand.get(3).getNumber());</b>
+<b class="fc">&nbsp;            int fifthValue = cardNumberValue(hand.get(4).getNumber());</b>
+<b class="fc">&nbsp;            String thirdSuit = hand.get(2).getSuit();</b>
+<b class="fc">&nbsp;            String fourthSuit = hand.get(3).getSuit();</b>
+<b class="fc">&nbsp;            String fifthSuit = hand.get(4).getSuit();</b>
+<b class="fc">&nbsp;            int sortedCards[] = new int[3];</b>
+<b class="fc">&nbsp;            sortedCards[0] = thirdValue;</b>
+<b class="fc">&nbsp;            sortedCards[1] = fourthValue;</b>
+<b class="fc">&nbsp;            sortedCards[2] = fifthValue;</b>
+<b class="fc">&nbsp;            Arrays.sort(sortedCards);</b>
+<b class="fc">&nbsp;            if(thirdValue == fourthValue &amp;&amp; fourthValue == fifthValue)</b>
+<b class="fc">&nbsp;                shouldFoldLevel = 0;</b>
+<b class="fc">&nbsp;            else if(thirdValue == fourthValue || thirdValue == fifthValue || fourthValue == fifthValue)</b>
+<b class="fc">&nbsp;                shouldFoldLevel = 1;</b>
+<b class="fc">&nbsp;            else if(thirdSuit.equals(fourthSuit) &amp;&amp; fourthSuit.equals(fifthSuit))</b>
+<b class="fc">&nbsp;                shouldFoldLevel = 0;</b>
+<b class="fc">&nbsp;            else if(thirdSuit.equals(fourthSuit) || thirdSuit.equals(fifthSuit) || fourthSuit.equals(fifthSuit))</b>
+<b class="fc">&nbsp;                shouldFoldLevel = 1;</b>
+<b class="fc">&nbsp;            else if(sortedCards[2] - 1 == sortedCards[1] &amp;&amp; sortedCards[1] - 1 == sortedCards[0])</b>
+<b class="fc">&nbsp;                shouldFoldLevel = 0;</b>
+<b class="fc">&nbsp;            else if(sortedCards[2] - 1 == sortedCards[1] || sortedCards[1] - 1 == sortedCards[0])</b>
+<b class="fc">&nbsp;                shouldFoldLevel = 1;</b>
+<b class="fc">&nbsp;            else shouldFoldLevel = 2;</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        else if(hand.size() == 6)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            int thirdValue = cardNumberValue(hand.get(2).getNumber());</b>
+<b class="fc">&nbsp;            int fourthValue = cardNumberValue(hand.get(3).getNumber());</b>
+<b class="fc">&nbsp;            int fifthValue = cardNumberValue(hand.get(4).getNumber());</b>
+<b class="fc">&nbsp;            int sixthValue = cardNumberValue(hand.get(5).getNumber());</b>
+<b class="fc">&nbsp;            String thirdSuit = hand.get(2).getSuit();</b>
+<b class="fc">&nbsp;            String fourthSuit = hand.get(3).getSuit();</b>
+<b class="fc">&nbsp;            String fifthSuit = hand.get(4).getSuit();</b>
+<b class="fc">&nbsp;            String sixthSuit = hand.get(5).getSuit();</b>
+<b class="fc">&nbsp;            int sortedCards[] = new int[4];</b>
+<b class="fc">&nbsp;            sortedCards[0] = thirdValue;</b>
+<b class="fc">&nbsp;            sortedCards[1] = fourthValue;</b>
+<b class="fc">&nbsp;            sortedCards[2] = fifthValue;</b>
+<b class="fc">&nbsp;            sortedCards[3] = sixthValue;</b>
+<b class="fc">&nbsp;            Arrays.sort(sortedCards);</b>
+<b class="fc">&nbsp;            if(thirdValue == fourthValue &amp;&amp; fourthValue == fifthValue &amp;&amp; fifthValue == sixthValue)</b>
+<b class="fc">&nbsp;                shouldFoldLevel = 0;</b>
+<b class="fc">&nbsp;            else if(thirdValue == fourthValue &amp;&amp; fourthValue == fifthValue)</b>
+<b class="nc">&nbsp;                shouldFoldLevel = 1;</b>
+<b class="fc">&nbsp;            else if(thirdValue == fourthValue || thirdValue == fifthValue || thirdValue == sixthValue || fourthValue == fifthValue || fourthValue == sixthValue || fifthValue == sixthValue)</b>
+<b class="fc">&nbsp;                shouldFoldLevel = 1;</b>
+<b class="fc">&nbsp;            else if(thirdSuit.equals(fourthSuit) &amp;&amp; fourthSuit.equals(fifthSuit) &amp;&amp; fifthSuit.equals(sixthSuit))</b>
+<b class="fc">&nbsp;                shouldFoldLevel = 0;</b>
+<b class="fc">&nbsp;            else if(thirdSuit.equals(fourthSuit) || thirdSuit.equals(fifthSuit) || thirdSuit.equals(sixthSuit) || fourthSuit.equals(fifthSuit) || fourthSuit.equals(sixthSuit) || fifthSuit.equals(sixthSuit))</b>
+<b class="nc">&nbsp;                shouldFoldLevel = 1;</b>
+<b class="fc">&nbsp;            else if(sortedCards[3] - 1 == sortedCards[2] &amp;&amp; sortedCards[2] - 1 == sortedCards[1] &amp;&amp; sortedCards[1] - 1 == sortedCards[0])</b>
+<b class="fc">&nbsp;                shouldFoldLevel = 0;</b>
+<b class="fc">&nbsp;            else shouldFoldLevel = 2;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return shouldFoldLevel;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void afterFirstRound(Bot bot)
+&nbsp;    {
+<b class="fc">&nbsp;        hand.newRound();</b>
+<b class="fc">&nbsp;        if(bot == bot1)</b>
+<b class="fc">&nbsp;            bot1.hand.add(hand.hand1.get(2));</b>
+<b class="nc">&nbsp;        else if(bot == bot2)</b>
+<b class="nc">&nbsp;            bot2.hand.add(hand.hand2.get(2));</b>
+<b class="nc">&nbsp;        else if(bot == bot3)</b>
+<b class="nc">&nbsp;            bot3.hand.add(hand.hand3.get(2));</b>
+<b class="nc">&nbsp;        else if(bot == bot4)</b>
+<b class="nc">&nbsp;            bot4.hand.add(hand.hand4.get(2));</b>
+<b class="nc">&nbsp;        else if(bot == bot5)</b>
+<b class="nc">&nbsp;            bot5.hand.add(hand.hand5.get(2));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void afterSecondRound(Bot bot)
+&nbsp;    {
+<b class="fc">&nbsp;        hand.newRound();</b>
+<b class="fc">&nbsp;        if(bot == bot1)</b>
+<b class="fc">&nbsp;            bot1.hand.add(hand.hand1.get(3));</b>
+<b class="nc">&nbsp;        else if(bot == bot2)</b>
+<b class="nc">&nbsp;            bot2.hand.add(hand.hand2.get(3));</b>
+<b class="nc">&nbsp;        else if(bot == bot3)</b>
+<b class="nc">&nbsp;            bot3.hand.add(hand.hand3.get(3));</b>
+<b class="nc">&nbsp;        else if(bot == bot4)</b>
+<b class="nc">&nbsp;            bot4.hand.add(hand.hand4.get(3));</b>
+<b class="nc">&nbsp;        else if(bot == bot5)</b>
+<b class="nc">&nbsp;            bot5.hand.add(hand.hand5.get(3));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void afterThirdRound(Bot bot)
+&nbsp;    {
+<b class="fc">&nbsp;        hand.newRound();</b>
+<b class="fc">&nbsp;        if(bot == bot1)</b>
+<b class="fc">&nbsp;            bot1.hand.add(hand.hand1.get(4));</b>
+<b class="nc">&nbsp;        else if(bot == bot2)</b>
+<b class="nc">&nbsp;            bot2.hand.add(hand.hand2.get(4));</b>
+<b class="nc">&nbsp;        else if(bot == bot3)</b>
+<b class="nc">&nbsp;            bot3.hand.add(hand.hand3.get(4));</b>
+<b class="nc">&nbsp;        else if(bot == bot4)</b>
+<b class="nc">&nbsp;            bot4.hand.add(hand.hand4.get(4));</b>
+<b class="nc">&nbsp;        else if(bot == bot5)</b>
+<b class="nc">&nbsp;            bot5.hand.add(hand.hand5.get(4));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void afterFourthRound(Bot bot)
+&nbsp;    {
+<b class="fc">&nbsp;        hand.newRound();</b>
+<b class="fc">&nbsp;        if(bot == bot1)</b>
+<b class="fc">&nbsp;            bot1.hand.add(hand.hand1.get(5));</b>
+<b class="nc">&nbsp;        else if(bot == bot2)</b>
+<b class="nc">&nbsp;            bot2.hand.add(hand.hand2.get(5));</b>
+<b class="nc">&nbsp;        else if(bot == bot3)</b>
+<b class="nc">&nbsp;            bot3.hand.add(hand.hand3.get(5));</b>
+<b class="nc">&nbsp;        else if(bot == bot4)</b>
+<b class="nc">&nbsp;            bot4.hand.add(hand.hand4.get(5));</b>
+<b class="nc">&nbsp;        else if(bot == bot5)</b>
+<b class="nc">&nbsp;            bot5.hand.add(hand.hand5.get(5));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void afterFifthRound(Bot bot)
+&nbsp;    {
+<b class="fc">&nbsp;        hand.newRound();</b>
+<b class="fc">&nbsp;        if(bot == bot1)</b>
+<b class="fc">&nbsp;            bot1.hand.add(hand.hand1.get(6));</b>
+<b class="nc">&nbsp;        else if(bot == bot2)</b>
+<b class="nc">&nbsp;            bot2.hand.add(hand.hand2.get(6));</b>
+<b class="nc">&nbsp;        else if(bot == bot3)</b>
+<b class="nc">&nbsp;            bot3.hand.add(hand.hand3.get(6));</b>
+<b class="nc">&nbsp;        else if(bot == bot4)</b>
+<b class="nc">&nbsp;            bot4.hand.add(hand.hand4.get(6));</b>
+<b class="nc">&nbsp;        else if(bot == bot5)</b>
+<b class="nc">&nbsp;            bot5.hand.add(hand.hand5.get(6));</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-12 17:54</div>
+</div>
+</body>
+</html>

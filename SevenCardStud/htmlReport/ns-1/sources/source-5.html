@@ -1,0 +1,176 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Login</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.sevencardstud</a>
+</div>
+
+<h1>Coverage Summary for Class: Login (com.example.sevencardstud)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Login</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.sevencardstud;
+&nbsp;
+&nbsp;import jakarta.servlet.annotation.WebServlet;
+&nbsp;import okhttp3.*;
+&nbsp;import org.json.JSONObject;
+&nbsp;import java.io.IOException;
+&nbsp;
+<b class="nc">&nbsp;@WebServlet(name = &quot;loginServlet&quot;, value = &quot;/login&quot;)</b>
+<b class="nc">&nbsp;public class Login {</b>
+&nbsp;
+&nbsp;    private static final String API_URL = &quot;https://us-east-1.aws.data.mongodb-api.com/app/data-zijhp/endpoint/data/v1/action/find&quot;;
+&nbsp;    private static final String API_KEY = &quot;9FraaR50K7EYEiJhvH4WaOR08l991xPJRR5Wuo8jSZgNdgvhUHRlS0P93NcMFp60A&quot;; // Replace with your API key
+&nbsp;
+&nbsp;    private OkHttpClient client;
+&nbsp;
+&nbsp;    public void Login() {
+<b class="nc">&nbsp;        this.client = new OkHttpClient();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void login(OkHttpClient client) {
+<b class="nc">&nbsp;        this.client = client;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean validateCredentials(String username, String password) {
+&nbsp;        // Prepare payload
+<b class="nc">&nbsp;        JSONObject payload = new JSONObject();</b>
+<b class="nc">&nbsp;        payload.put(&quot;collection&quot;, &quot;users&quot;);</b>
+<b class="nc">&nbsp;        payload.put(&quot;database&quot;, &quot;users&quot;);</b>
+<b class="nc">&nbsp;        payload.put(&quot;dataSource&quot;, &quot;CS489&quot;);</b>
+<b class="nc">&nbsp;        payload.put(&quot;query&quot;, &quot;{username: \&quot;&quot; + username + &quot;\&quot;, password: \&quot;&quot; + password + &quot;\&quot;}&quot;);</b>
+&nbsp;
+&nbsp;        // Make request to MongoDB API
+<b class="nc">&nbsp;        RequestBody body = RequestBody.create(</b>
+<b class="nc">&nbsp;                MediaType.parse(&quot;application/json; charset=utf-8&quot;),</b>
+<b class="nc">&nbsp;                payload.toString()</b>
+&nbsp;        );
+&nbsp;
+<b class="nc">&nbsp;        Request request = new Request.Builder()</b>
+<b class="nc">&nbsp;                .url(API_URL)</b>
+<b class="nc">&nbsp;                .post(body)</b>
+<b class="nc">&nbsp;                .addHeader(&quot;Content-Type&quot;, &quot;application/json&quot;)</b>
+<b class="nc">&nbsp;                .addHeader(&quot;api-key&quot;, API_KEY)</b>
+<b class="nc">&nbsp;                .build();</b>
+&nbsp;
+<b class="nc">&nbsp;        try (Response response = client.newCall(request).execute()) {</b>
+<b class="nc">&nbsp;            if (response.isSuccessful()) {</b>
+<b class="nc">&nbsp;                assert response.body() != null;</b>
+<b class="nc">&nbsp;                String responseBody = response.body().string();</b>
+<b class="nc">&nbsp;                JSONObject jsonResponse = new JSONObject(responseBody);</b>
+&nbsp;
+&nbsp;                // Assuming your MongoDB API returns an array of users
+<b class="nc">&nbsp;                return !jsonResponse.getJSONArray(&quot;users&quot;).isEmpty();</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void main(String[] args) {
+<b class="nc">&nbsp;        Login login = new Login();</b>
+&nbsp;
+&nbsp;        // Test
+<b class="nc">&nbsp;        if (login.validateCredentials(&quot;testUsername&quot;, &quot;testPassword&quot;)) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Valid credentials!&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            System.out.println(&quot;Invalid credentials!&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-10-28 18:55</div>
+</div>
+</body>
+</html>

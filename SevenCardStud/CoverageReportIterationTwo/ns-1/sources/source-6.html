@@ -1,0 +1,1369 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Hand</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.sevencardstud</a>
+</div>
+
+<h1>Coverage Summary for Class: Hand (com.example.sevencardstud)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Hand</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73%
+  </span>
+  <span class="absValue">
+    (27/37)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    82.9%
+  </span>
+  <span class="absValue">
+    (577/696)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.sevencardstud;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Map.Entry;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;public class Hand
+&nbsp;{
+&nbsp;    public static List&lt;Card&gt; hand1;
+&nbsp;    public static List&lt;Card&gt; hand2;
+&nbsp;    public static List&lt;Card&gt; hand3;
+&nbsp;    public static List&lt;Card&gt; hand4;
+&nbsp;    public static List&lt;Card&gt; hand5;
+&nbsp;    public static List&lt;Card&gt; hand6;
+&nbsp;    public static List&lt;Card&gt; testHand;
+&nbsp;
+&nbsp;    public static List&lt;Card&gt; testHand2;
+&nbsp;    public Deck newDeck;
+&nbsp;
+<b class="fc">&nbsp;    public Hand() {</b>
+<b class="fc">&nbsp;        hand1 = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        hand2 = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        hand3 = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        hand4 = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        hand5 = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        hand6 = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        testHand = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        testHand2 = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        newDeck = new Deck();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 2; i++) {</b>
+<b class="fc">&nbsp;            hand1.add(newDeck.drawCard());</b>
+<b class="fc">&nbsp;            hand2.add(newDeck.drawCard());</b>
+<b class="fc">&nbsp;            hand3.add(newDeck.drawCard());</b>
+<b class="fc">&nbsp;            hand4.add(newDeck.drawCard());</b>
+<b class="fc">&nbsp;            hand5.add(newDeck.drawCard());</b>
+<b class="fc">&nbsp;            hand6.add(newDeck.drawCard());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addCard(List&lt;Card&gt; hand, Card card)
+&nbsp;    {
+<b class="fc">&nbsp;        hand.add(card);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void newRound() {
+<b class="fc">&nbsp;        hand1.add(newDeck.drawCard());</b>
+<b class="fc">&nbsp;        hand2.add(newDeck.drawCard());</b>
+<b class="fc">&nbsp;        hand3.add(newDeck.drawCard());</b>
+<b class="fc">&nbsp;        hand4.add(newDeck.drawCard());</b>
+<b class="fc">&nbsp;        hand5.add(newDeck.drawCard());</b>
+<b class="fc">&nbsp;        hand6.add(newDeck.drawCard());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void initializeHands() {
+<b class="nc">&nbsp;        newDeck = new Deck();</b>
+&nbsp;
+<b class="nc">&nbsp;        hand1.clear();</b>
+<b class="nc">&nbsp;        hand2.clear();</b>
+<b class="nc">&nbsp;        hand3.clear();</b>
+<b class="nc">&nbsp;        hand4.clear();</b>
+<b class="nc">&nbsp;        hand5.clear();</b>
+<b class="nc">&nbsp;        hand6.clear();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; 2; i++) { // Deal two cards to each hand as an example</b>
+<b class="nc">&nbsp;            hand1.add(newDeck.drawCard());</b>
+<b class="nc">&nbsp;            hand2.add(newDeck.drawCard());</b>
+<b class="nc">&nbsp;            hand3.add(newDeck.drawCard());</b>
+<b class="nc">&nbsp;            hand4.add(newDeck.drawCard());</b>
+<b class="nc">&nbsp;            hand5.add(newDeck.drawCard());</b>
+<b class="nc">&nbsp;            hand6.add(newDeck.drawCard());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getSize(List&lt;Card&gt; hand) {
+<b class="fc">&nbsp;        return hand.size();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean aceHighOrLow(List&lt;Card&gt; hand)
+&nbsp;    {
+<b class="fc">&nbsp;        boolean aceHigh = true;</b>
+<b class="fc">&nbsp;        boolean containsTwo = false;</b>
+<b class="fc">&nbsp;        boolean containsThree = false;</b>
+<b class="fc">&nbsp;        boolean containsFour = false;</b>
+<b class="fc">&nbsp;        boolean containsFive = false;</b>
+<b class="fc">&nbsp;        for(int i = 0; i &lt; hand.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(hand.get(i).getNumber().equals(&quot;2&quot;))</b>
+<b class="fc">&nbsp;                containsTwo = true;</b>
+<b class="fc">&nbsp;            else if(hand.get(i).getNumber().equals(&quot;3&quot;))</b>
+<b class="fc">&nbsp;                containsThree = true;</b>
+<b class="fc">&nbsp;            else if(hand.get(i).getNumber().equals(&quot;4&quot;))</b>
+<b class="fc">&nbsp;                containsFour = true;</b>
+<b class="fc">&nbsp;            else if(hand.get(i).getNumber().equals(&quot;5&quot;))</b>
+<b class="fc">&nbsp;                containsFive = true;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if(containsTwo &amp;&amp; containsThree &amp;&amp; containsFour &amp;&amp; containsFive)</b>
+<b class="fc">&nbsp;            aceHigh = false;</b>
+&nbsp;
+<b class="fc">&nbsp;        return aceHigh;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int[] sort(List&lt;Card&gt; hand)
+&nbsp;    {
+<b class="fc">&nbsp;        int valueArray[] = new int[hand.size()];</b>
+&nbsp;
+<b class="fc">&nbsp;        for(int i = 0; i &lt; hand.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(hand.get(i).getNumber().equals(&quot;A&quot;))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if(aceHighOrLow(hand))</b>
+<b class="fc">&nbsp;                    valueArray[i] = 14;</b>
+&nbsp;                else
+<b class="fc">&nbsp;                    valueArray[i] = 1;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if(hand.get(i).getNumber().equals(&quot;K&quot;))</b>
+<b class="fc">&nbsp;                valueArray[i] = 13;</b>
+<b class="fc">&nbsp;            else if(hand.get(i).getNumber().equals(&quot;Q&quot;))</b>
+<b class="fc">&nbsp;                valueArray[i] = 12;</b>
+<b class="fc">&nbsp;            else if(hand.get(i).getNumber().equals(&quot;J&quot;))</b>
+<b class="fc">&nbsp;                valueArray[i] = 11;</b>
+&nbsp;            else
+<b class="fc">&nbsp;                valueArray[i] = Integer.parseInt(hand.get(i).getNumber());</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Arrays.sort(valueArray);</b>
+<b class="fc">&nbsp;        return valueArray;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int highCard(List&lt;Card&gt; hand)
+&nbsp;    {
+<b class="fc">&nbsp;        int max = 0;</b>
+&nbsp;        int value;
+<b class="fc">&nbsp;        for(int i = 0; i &lt; hand.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(hand.get(i).getNumber().equals(&quot;A&quot;))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if(aceHighOrLow(hand))</b>
+<b class="fc">&nbsp;                    value = 14;</b>
+&nbsp;                else
+<b class="fc">&nbsp;                    value = 1;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if(hand.get(i).getNumber().equals(&quot;K&quot;))</b>
+<b class="fc">&nbsp;                value = 13;</b>
+<b class="fc">&nbsp;            else if(hand.get(i).getNumber().equals(&quot;Q&quot;))</b>
+<b class="nc">&nbsp;                value = 12;</b>
+<b class="fc">&nbsp;            else if(hand.get(i).getNumber().equals(&quot;J&quot;))</b>
+<b class="fc">&nbsp;                value= 11;</b>
+&nbsp;            else
+<b class="fc">&nbsp;                value = Integer.parseInt(hand.get(i).getNumber());</b>
+&nbsp;
+<b class="fc">&nbsp;            if(value &gt; max)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                max = value;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return max;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean onePair(List&lt;Card&gt; hand)
+&nbsp;    {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; hand.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            int count = 1;</b>
+<b class="fc">&nbsp;            for (int j = i + 1; j &lt; hand.size(); j++)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (hand.get(i).getNumber().equals(hand.get(j).getNumber()))</b>
+<b class="fc">&nbsp;                    count++;</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            if(count == 2)</b>
+<b class="fc">&nbsp;                return true;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean twoPair(List&lt;Card&gt; hand)
+&nbsp;    {
+<b class="fc">&nbsp;        int count = 0;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; hand.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            for (int j = i + 1; j &lt; hand.size(); j++)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (hand.get(i).getNumber().equals(hand.get(j).getNumber()))</b>
+<b class="fc">&nbsp;                    count++;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (count == 2)</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        else
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean threeOfaKind(List&lt;Card&gt; hand)
+&nbsp;    {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; hand.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            int individualCardCount = 1;</b>
+<b class="fc">&nbsp;            for (int j = i + 1; j &lt; hand.size(); j++)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (hand.get(i).getNumber().equals(hand.get(j).getNumber()))</b>
+<b class="fc">&nbsp;                    individualCardCount++;</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            if (individualCardCount == 3)</b>
+<b class="fc">&nbsp;                return true;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean straight(List&lt;Card&gt; hand)
+&nbsp;    {
+<b class="fc">&nbsp;        if (hand.size() &lt; 5)</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        else {
+<b class="fc">&nbsp;            int sortedCards[] = sort(hand);</b>
+<b class="fc">&nbsp;            int acesSorted[] = new int[sortedCards.length];</b>
+<b class="fc">&nbsp;            if(!aceHighOrLow(hand))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                for(int i = 0; i &lt; sortedCards.length; i++)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    int value = sortedCards[i];</b>
+<b class="fc">&nbsp;                    if(value == 14)</b>
+<b class="nc">&nbsp;                        acesSorted[i] = 1;</b>
+&nbsp;                    else
+<b class="fc">&nbsp;                        acesSorted[i] = value;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                Arrays.sort(acesSorted);</b>
+&nbsp;            }
+&nbsp;            else
+<b class="fc">&nbsp;                acesSorted = sortedCards;</b>
+<b class="fc">&nbsp;            int count = 1;</b>
+&nbsp;
+<b class="fc">&nbsp;            for (int i = hand.size() - 1; i &gt; 0; i--)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (acesSorted[i] == acesSorted[i - 1] + 1)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    count++;</b>
+<b class="fc">&nbsp;                    if (count == 5)</b>
+<b class="fc">&nbsp;                        break;</b>
+&nbsp;                }
+&nbsp;
+<b class="fc">&nbsp;                else if(i != 1)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    if((acesSorted[i] == acesSorted[i-1]) &amp;&amp; (acesSorted[i] == acesSorted[i-2] + 1))</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        count++;</b>
+<b class="fc">&nbsp;                        if(count == 5)</b>
+<b class="nc">&nbsp;                            break;</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;
+&nbsp;                else
+<b class="fc">&nbsp;                    count = 1;</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            if (count &lt; 5)</b>
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;            else
+<b class="fc">&nbsp;                return true;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean flush(List&lt;Card&gt; hand)
+&nbsp;    {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; hand.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            int sameSuitCount = 1;</b>
+<b class="fc">&nbsp;            for (int j = i + 1; j &lt; hand.size(); j++)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (hand.get(i).getSuit().equals(hand.get(j).getSuit()))</b>
+<b class="fc">&nbsp;                    sameSuitCount++;</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            if(sameSuitCount == 5)</b>
+<b class="fc">&nbsp;                return true;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean fullHouse(List&lt;Card&gt; hand)
+&nbsp;    {
+<b class="fc">&nbsp;        if(threeOfaKind(hand))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            List&lt;Card&gt; duplicateHand = new ArrayList&lt;&gt;(hand);</b>
+<b class="fc">&nbsp;            int sortedCards[] = sort(duplicateHand);</b>
+<b class="fc">&nbsp;            int count = 1;</b>
+<b class="fc">&nbsp;            int numberValue = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;            for (int i = 0; i &lt; hand.size() - 1; i++) {</b>
+<b class="fc">&nbsp;                if (sortedCards[i] == sortedCards[i + 1]) {</b>
+<b class="fc">&nbsp;                    count++;</b>
+<b class="fc">&nbsp;                    if (count == 3) {</b>
+<b class="fc">&nbsp;                        numberValue = sortedCards[i];</b>
+<b class="fc">&nbsp;                        break;</b>
+&nbsp;                    }
+&nbsp;                } else
+<b class="fc">&nbsp;                    count = 1;</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            int value = 0;</b>
+<b class="fc">&nbsp;            for (int i = hand.size() - 1; i &gt; 0; i--) {</b>
+<b class="fc">&nbsp;                if (hand.get(i).getNumber().equals(&quot;A&quot;))</b>
+<b class="fc">&nbsp;                    value = 14;</b>
+<b class="fc">&nbsp;                else if (hand.get(i).getNumber().equals(&quot;K&quot;))</b>
+<b class="fc">&nbsp;                    value = 13;</b>
+<b class="fc">&nbsp;                else if (hand.get(i).getNumber().equals(&quot;Q&quot;))</b>
+<b class="fc">&nbsp;                    value = 12;</b>
+<b class="fc">&nbsp;                else if (hand.get(i).getNumber().equals(&quot;J&quot;))</b>
+<b class="fc">&nbsp;                    value = 11;</b>
+&nbsp;                else
+<b class="fc">&nbsp;                    value = Integer.parseInt(hand.get(i).getNumber());</b>
+&nbsp;
+<b class="fc">&nbsp;                if (value == numberValue) {</b>
+<b class="fc">&nbsp;                    duplicateHand.remove(i);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            if (onePair(duplicateHand))</b>
+<b class="fc">&nbsp;                return true;</b>
+&nbsp;            else
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        else
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean fourOfaKind(List&lt;Card&gt; hand)
+&nbsp;    {
+<b class="fc">&nbsp;        boolean isFourOfAKind = false;</b>
+&nbsp;
+<b class="fc">&nbsp;        int sortedHand[] = sort(hand);</b>
+&nbsp;
+<b class="fc">&nbsp;        Map&lt;Integer, Integer&gt; handMap = new HashMap&lt;Integer, Integer&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int value : sortedHand) {</b>
+<b class="fc">&nbsp;            handMap.put(value, handMap.getOrDefault(value, 0) + 1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        for(Map.Entry&lt;Integer, Integer&gt; values : handMap.entrySet())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(values.getValue() == 4)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                isFourOfAKind = true;</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        return isFourOfAKind;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean straightFlush(List&lt;Card&gt; hand)
+&nbsp;    {
+<b class="fc">&nbsp;        if (flush(hand))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            String flushSuit = &quot;&quot;;</b>
+<b class="fc">&nbsp;            for (int i = 0; i &lt; hand.size(); i++)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                int sameSuitCount = 1;</b>
+<b class="fc">&nbsp;                for (int j = i + 1; j &lt; hand.size(); j++)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    if (hand.get(i).getSuit().equals(hand.get(j).getSuit()))</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        sameSuitCount++;</b>
+<b class="fc">&nbsp;                        if (sameSuitCount == 5)</b>
+&nbsp;                        {
+<b class="fc">&nbsp;                            flushSuit = hand.get(i).getSuit();</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            List&lt;Card&gt; duplicateHand = new ArrayList&lt;&gt;(hand);</b>
+<b class="fc">&nbsp;            Collections.sort(duplicateHand, Card::compare);</b>
+<b class="fc">&nbsp;            List&lt;Card&gt; potentialStraightCards = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;            for (int j = 0; j &lt; hand.size(); j++) {</b>
+<b class="fc">&nbsp;                if (duplicateHand.get(j).getSuit().equals(flushSuit))</b>
+<b class="fc">&nbsp;                    potentialStraightCards.add(duplicateHand.get(j));</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            Collections.sort(potentialStraightCards, Card::compare);</b>
+&nbsp;
+<b class="fc">&nbsp;            if(potentialStraightCards.size() == 5)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if(straight(potentialStraightCards))</b>
+<b class="fc">&nbsp;                    return true;</b>
+&nbsp;                else
+<b class="fc">&nbsp;                    return false;</b>
+&nbsp;            }
+&nbsp;            else {
+&nbsp;
+<b class="fc">&nbsp;                if (straight(potentialStraightCards))</b>
+<b class="fc">&nbsp;                    return true;</b>
+&nbsp;                else
+<b class="nc">&nbsp;                    return false;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        else
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean royalFlush(List&lt;Card&gt; hand)
+&nbsp;    {
+<b class="fc">&nbsp;        if (flush(hand))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            String flushSuit = &quot;&quot;;</b>
+<b class="fc">&nbsp;            for (int i = 0; i &lt; hand.size(); i++) {</b>
+<b class="fc">&nbsp;                int sameSuitCount = 1;</b>
+<b class="fc">&nbsp;                for (int j = i + 1; j &lt; hand.size(); j++) {</b>
+<b class="fc">&nbsp;                    if (hand.get(i).getSuit().equals(hand.get(j).getSuit()))</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        sameSuitCount++;</b>
+<b class="fc">&nbsp;                        if (sameSuitCount == 5)</b>
+&nbsp;                        {
+<b class="fc">&nbsp;                            flushSuit = hand.get(i).getSuit();</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            List&lt;Card&gt; duplicateHand = new ArrayList&lt;&gt;(hand);</b>
+<b class="fc">&nbsp;            Collections.sort(duplicateHand, Card::compare);</b>
+<b class="fc">&nbsp;            List&lt;Card&gt; potentialStraightCards = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;            for (int j = 0; j &lt; hand.size(); j++) {</b>
+<b class="fc">&nbsp;                if (duplicateHand.get(j).getSuit().equals(flushSuit))</b>
+<b class="fc">&nbsp;                    potentialStraightCards.add(duplicateHand.get(j));</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            String firstNumber = potentialStraightCards.get(potentialStraightCards.size() - 5).getNumber();</b>
+<b class="fc">&nbsp;            String secondNumber = potentialStraightCards.get(potentialStraightCards.size() - 4).getNumber();</b>
+<b class="fc">&nbsp;            String thirdNumber = potentialStraightCards.get(potentialStraightCards.size() - 3).getNumber();</b>
+<b class="fc">&nbsp;            String fourthNumber = potentialStraightCards.get(potentialStraightCards.size() - 2).getNumber();</b>
+<b class="fc">&nbsp;            String fifthNumber = potentialStraightCards.get(potentialStraightCards.size() - 1).getNumber();</b>
+&nbsp;
+<b class="fc">&nbsp;            if (straight(potentialStraightCards)) {</b>
+<b class="fc">&nbsp;                if (firstNumber.equals(&quot;10&quot;) &amp;&amp; secondNumber.equals(&quot;J&quot;) &amp;&amp; thirdNumber.equals(&quot;Q&quot;) &amp;&amp; fourthNumber.equals(&quot;K&quot;) &amp;&amp; fifthNumber.equals(&quot;A&quot;))</b>
+<b class="fc">&nbsp;                    return true;</b>
+&nbsp;                else
+<b class="fc">&nbsp;                    return false;</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            else
+<b class="fc">&nbsp;                return false;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        else
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int handValue(List&lt;Card&gt; hand)
+&nbsp;    {
+<b class="fc">&nbsp;        int value = 0;</b>
+<b class="fc">&nbsp;        if(royalFlush(hand))</b>
+<b class="fc">&nbsp;            value = 10;</b>
+<b class="fc">&nbsp;        else if(straightFlush(hand))</b>
+<b class="fc">&nbsp;            value = 9;</b>
+<b class="fc">&nbsp;        else if(fourOfaKind(hand))</b>
+<b class="fc">&nbsp;            value = 8;</b>
+<b class="fc">&nbsp;        else if(fullHouse(hand))</b>
+<b class="fc">&nbsp;            value = 7;</b>
+<b class="fc">&nbsp;        else if(flush(hand))</b>
+<b class="fc">&nbsp;            value = 6;</b>
+<b class="fc">&nbsp;        else if(straight(hand))</b>
+<b class="fc">&nbsp;            value = 5;</b>
+<b class="fc">&nbsp;        else if(threeOfaKind(hand))</b>
+<b class="fc">&nbsp;            value = 4;</b>
+<b class="fc">&nbsp;        else if(twoPair(hand))</b>
+<b class="fc">&nbsp;            value = 3;</b>
+<b class="fc">&nbsp;        else if(onePair(hand))</b>
+<b class="fc">&nbsp;            value = 2;</b>
+&nbsp;
+<b class="fc">&nbsp;        return value;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int straightFlushTie(List&lt;Card&gt; handOne, List&lt;Card&gt; handTwo)
+&nbsp;    {
+<b class="fc">&nbsp;        String flushSuit = &quot;&quot;;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; handOne.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            int sameSuitCount = 1;</b>
+<b class="fc">&nbsp;            for (int j = i + 1; j &lt; handOne.size(); j++)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (handOne.get(i).getSuit().equals(handOne.get(j).getSuit()))</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    sameSuitCount++;</b>
+<b class="fc">&nbsp;                    if (sameSuitCount == 5)</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        flushSuit = handOne.get(i).getSuit();</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        int potentialStraightFlush[] = new int[handOne.size()];</b>
+<b class="fc">&nbsp;        int sfIndex = 0;</b>
+<b class="fc">&nbsp;        for(int i = 0; i &lt; handOne.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            int value = 0;</b>
+<b class="fc">&nbsp;            if(handOne.get(i).getSuit().equals(flushSuit))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if(handOne.get(i).getNumber().equals(&quot;A&quot;))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    if(aceHighOrLow(handOne))</b>
+<b class="nc">&nbsp;                        value = 14;</b>
+&nbsp;                    else
+<b class="nc">&nbsp;                        value = 1;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                else if(handOne.get(i).getNumber().equals(&quot;K&quot;))</b>
+<b class="nc">&nbsp;                    value = 13;</b>
+<b class="fc">&nbsp;                else if(handOne.get(i).getNumber().equals(&quot;Q&quot;))</b>
+<b class="fc">&nbsp;                    value = 12;</b>
+<b class="fc">&nbsp;                else if(handOne.get(i).getNumber().equals(&quot;J&quot;))</b>
+<b class="fc">&nbsp;                    value= 11;</b>
+&nbsp;                else
+<b class="fc">&nbsp;                    value = Integer.parseInt(handOne.get(i).getNumber());</b>
+<b class="fc">&nbsp;                potentialStraightFlush[sfIndex] = value;</b>
+<b class="fc">&nbsp;                sfIndex++;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        Arrays.sort(potentialStraightFlush);</b>
+<b class="fc">&nbsp;        int straightHandOne[] = new int[handOne.size()];</b>
+<b class="fc">&nbsp;        int count = 1;</b>
+<b class="fc">&nbsp;        int highestValue = 0;</b>
+<b class="fc">&nbsp;        int index = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int i = handOne.size() - 1; i &gt;= 1; i--)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if (potentialStraightFlush[i] == potentialStraightFlush[i - 1] + 1)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                count++;</b>
+<b class="fc">&nbsp;                straightHandOne[index] = potentialStraightFlush[i];</b>
+<b class="fc">&nbsp;                index++;</b>
+<b class="fc">&nbsp;                if (count == 5)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                count = 1;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        Arrays.sort(straightHandOne);</b>
+<b class="fc">&nbsp;        highestValue = straightHandOne[6];</b>
+&nbsp;
+<b class="fc">&nbsp;        String flushSuitTwo = &quot;&quot;;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; handTwo.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            int sameSuitCountTwo = 1;</b>
+<b class="fc">&nbsp;            for (int j = i + 1; j &lt; handTwo.size(); j++)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if (handTwo.get(i).getSuit().equals(handTwo.get(j).getSuit()))</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    sameSuitCountTwo++;</b>
+<b class="fc">&nbsp;                    if (sameSuitCountTwo == 5)</b>
+&nbsp;                    {
+<b class="fc">&nbsp;                        flushSuitTwo = handTwo.get(i).getSuit();</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        int potentialStraightFlushTwo[] = new int[handTwo.size()];</b>
+<b class="fc">&nbsp;        int sfIndexTwo = 0;</b>
+<b class="fc">&nbsp;        for(int i = 0; i &lt; handTwo.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            int value = 0;</b>
+<b class="fc">&nbsp;            if(handTwo.get(i).getSuit().equals(flushSuitTwo))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if(handTwo.get(i).getNumber().equals(&quot;A&quot;))</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    if(aceHighOrLow(handTwo))</b>
+<b class="nc">&nbsp;                        value = 14;</b>
+&nbsp;                    else
+<b class="fc">&nbsp;                        value = 1;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                else if(handTwo.get(i).getNumber().equals(&quot;K&quot;))</b>
+<b class="nc">&nbsp;                    value = 13;</b>
+<b class="fc">&nbsp;                else if(handTwo.get(i).getNumber().equals(&quot;Q&quot;))</b>
+<b class="nc">&nbsp;                    value = 12;</b>
+<b class="fc">&nbsp;                else if(handTwo.get(i).getNumber().equals(&quot;J&quot;))</b>
+<b class="nc">&nbsp;                    value= 11;</b>
+&nbsp;                else
+<b class="fc">&nbsp;                    value = Integer.parseInt(handTwo.get(i).getNumber());</b>
+<b class="fc">&nbsp;                potentialStraightFlushTwo[sfIndexTwo] = value;</b>
+<b class="fc">&nbsp;                sfIndexTwo++;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        Arrays.sort(potentialStraightFlushTwo);</b>
+<b class="fc">&nbsp;        int straightHandTwo[] = new int[handTwo.size()];</b>
+<b class="fc">&nbsp;        int countTwo = 1;</b>
+<b class="fc">&nbsp;        int highestValueTwo = 0;</b>
+<b class="fc">&nbsp;        int indexTwo = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int i = handTwo.size() - 1; i &gt;= 1; i--)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if (potentialStraightFlushTwo[i] == potentialStraightFlushTwo[i - 1] + 1)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                countTwo++;</b>
+<b class="fc">&nbsp;                straightHandTwo[indexTwo] = potentialStraightFlushTwo[i];</b>
+<b class="fc">&nbsp;                indexTwo++;</b>
+<b class="fc">&nbsp;                if (countTwo == 5)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                countTwo = 1;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        Arrays.sort(straightHandTwo);</b>
+<b class="fc">&nbsp;        highestValueTwo = straightHandTwo[6];</b>
+&nbsp;
+<b class="fc">&nbsp;        if(highestValue &gt; highestValueTwo)</b>
+<b class="fc">&nbsp;            return 1;</b>
+<b class="nc">&nbsp;        else if(highestValue &lt; highestValueTwo)</b>
+<b class="nc">&nbsp;            return 2;</b>
+&nbsp;        else
+<b class="nc">&nbsp;            return 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int fourOfAKindTie(List&lt;Card&gt; handOne, List&lt;Card&gt; handTwo)
+&nbsp;    {
+<b class="fc">&nbsp;        int sortedHandOne[] = sort(handOne);</b>
+<b class="fc">&nbsp;        int sortedHandTwo[] = sort(handTwo);</b>
+&nbsp;
+<b class="fc">&nbsp;        Map&lt;Integer, Integer&gt; handOneMap = new HashMap&lt;Integer, Integer&gt;();</b>
+<b class="fc">&nbsp;        Map&lt;Integer, Integer&gt; handTwoMap = new HashMap&lt;Integer, Integer&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int value : sortedHandOne) {</b>
+<b class="fc">&nbsp;            handOneMap.put(value, handOneMap.getOrDefault(value, 0) + 1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        for (int value : sortedHandTwo) {</b>
+<b class="fc">&nbsp;            handTwoMap.put(value, handTwoMap.getOrDefault(value, 0) + 1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        int handOneValue = 0;</b>
+<b class="fc">&nbsp;        int handTwoValue = 0;</b>
+<b class="fc">&nbsp;        for(Map.Entry&lt;Integer, Integer&gt; values : handOneMap.entrySet())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(values.getValue() == 4)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                handOneValue = values.getKey();</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        for(Map.Entry&lt;Integer, Integer&gt; values2 : handTwoMap.entrySet())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(values2.getValue() == 4)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                handTwoValue = values2.getKey();</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        if(handOneValue &gt; handTwoValue)</b>
+<b class="nc">&nbsp;            return 1;</b>
+<b class="fc">&nbsp;        else if(handOneValue &lt; handTwoValue)</b>
+<b class="fc">&nbsp;            return 2;</b>
+&nbsp;        else
+<b class="nc">&nbsp;            return 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int fullHouseTie(List&lt;Card&gt; handOne, List&lt;Card&gt; handTwo)
+&nbsp;    {
+<b class="fc">&nbsp;        int sortedHandOne[] = sort(handOne);</b>
+<b class="fc">&nbsp;        int sortedHandTwo[] = sort(handTwo);</b>
+&nbsp;
+<b class="fc">&nbsp;        Map&lt;Integer, Integer&gt; handOneMap = new HashMap&lt;Integer, Integer&gt;();</b>
+<b class="fc">&nbsp;        Map&lt;Integer, Integer&gt; handTwoMap = new HashMap&lt;Integer, Integer&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int value : sortedHandOne) {</b>
+<b class="fc">&nbsp;            handOneMap.put(value, handOneMap.getOrDefault(value, 0) + 1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        for (int value : sortedHandTwo) {</b>
+<b class="fc">&nbsp;            handTwoMap.put(value, handTwoMap.getOrDefault(value, 0) + 1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        int handOneValue = 0;</b>
+<b class="fc">&nbsp;        int handTwoValue = 0;</b>
+<b class="fc">&nbsp;        int handOneCount = 0;</b>
+<b class="fc">&nbsp;        int handTwoCount = 0;</b>
+<b class="fc">&nbsp;        for(Map.Entry&lt;Integer, Integer&gt; values : handOneMap.entrySet())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(values.getValue() == 3)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                handOneCount++;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        for(Map.Entry&lt;Integer, Integer&gt; values2 : handTwoMap.entrySet())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(values2.getValue() == 3)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                handTwoCount++;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        if(handOneCount == 1)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            for(Map.Entry&lt;Integer, Integer&gt; values : handOneMap.entrySet())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if(values.getValue() == 3)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    handOneValue = values.getKey();</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        else if(handOneCount == 2)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            ArrayList&lt;Integer&gt; handOneThrees = new ArrayList&lt;Integer&gt;();</b>
+<b class="nc">&nbsp;            for(Map.Entry&lt;Integer, Integer&gt; values : handOneMap.entrySet())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if(values.getValue() == 3)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    handOneThrees.add(values.getKey());</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            if(handOneThrees.get(0) &gt; handOneThrees.get(1))</b>
+<b class="nc">&nbsp;                handOneValue = handOneThrees.get(0);</b>
+&nbsp;            else
+<b class="nc">&nbsp;                handOneValue = handOneThrees.get(1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if(handTwoCount == 1)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            for(Map.Entry&lt;Integer, Integer&gt; values : handTwoMap.entrySet())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if(values.getValue() == 3)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    handTwoValue = values.getKey();</b>
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        else if(handTwoCount == 2)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            ArrayList&lt;Integer&gt; handTwoThrees = new ArrayList&lt;Integer&gt;();</b>
+<b class="nc">&nbsp;            for(Map.Entry&lt;Integer, Integer&gt; values : handTwoMap.entrySet())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if(values.getValue() == 3)</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    handTwoThrees.add(values.getKey());</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            if(handTwoThrees.get(0) &gt; handTwoThrees.get(1))</b>
+<b class="nc">&nbsp;                handTwoValue = handTwoThrees.get(0);</b>
+&nbsp;            else
+<b class="nc">&nbsp;                handTwoValue = handTwoThrees.get(1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if(handOneValue &gt; handTwoValue)</b>
+<b class="nc">&nbsp;            return 1;</b>
+<b class="fc">&nbsp;        else if(handOneValue &lt; handTwoValue)</b>
+<b class="fc">&nbsp;            return 2;</b>
+&nbsp;        else
+<b class="nc">&nbsp;            return 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int flushTie(List&lt;Card&gt; handOne, List&lt;Card&gt; handTwo)
+&nbsp;    {
+<b class="fc">&nbsp;        String handOneSuit = &quot;&quot;;</b>
+<b class="fc">&nbsp;        for(int i = 0; i &lt; handOne.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            int sameSuitCount = 1;</b>
+<b class="fc">&nbsp;            for(int j = i + 1; j &lt; handOne.size(); j++)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if(handOne.get(i).getSuit().equals(handOne.get(j).getSuit()))</b>
+<b class="fc">&nbsp;                    sameSuitCount++;</b>
+<b class="fc">&nbsp;                if(sameSuitCount == 5)</b>
+<b class="fc">&nbsp;                    handOneSuit = handOne.get(i).getSuit();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String handTwoSuit = &quot;&quot;;</b>
+<b class="fc">&nbsp;        for(int i = 0; i &lt; handTwo.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            int sameSuitCount = 1;</b>
+<b class="fc">&nbsp;            for(int j = i + 1; j &lt; handTwo.size(); j++)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if(handTwo.get(i).getSuit().equals(handTwo.get(j).getSuit()))</b>
+<b class="fc">&nbsp;                    sameSuitCount++;</b>
+<b class="fc">&nbsp;                if(sameSuitCount == 5)</b>
+<b class="fc">&nbsp;                    handTwoSuit = handTwo.get(i).getSuit();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        int handOneValues[] = new int[handOne.size()];</b>
+<b class="fc">&nbsp;        int index = 0;</b>
+<b class="fc">&nbsp;        int value = 0;</b>
+<b class="fc">&nbsp;        for(int i = 0; i &lt; handOne.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(handOne.get(i).getSuit().equals(handOneSuit))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if(handOne.get(i).getNumber().equals(&quot;A&quot;))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    if(aceHighOrLow(handOne))</b>
+<b class="nc">&nbsp;                        value = 14;</b>
+&nbsp;                    else
+<b class="nc">&nbsp;                        value = 1;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                else if(handOne.get(i).getNumber().equals(&quot;K&quot;))</b>
+<b class="nc">&nbsp;                    value = 13;</b>
+<b class="fc">&nbsp;                else if(handOne.get(i).getNumber().equals(&quot;Q&quot;))</b>
+<b class="fc">&nbsp;                    value = 12;</b>
+<b class="fc">&nbsp;                else if(handOne.get(i).getNumber().equals(&quot;J&quot;))</b>
+<b class="nc">&nbsp;                    value= 11;</b>
+&nbsp;                else
+<b class="fc">&nbsp;                    value = Integer.parseInt(handOne.get(i).getNumber());</b>
+<b class="fc">&nbsp;                handOneValues[index] = value;</b>
+<b class="fc">&nbsp;                index++;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        int handTwoValues[] = new int[handTwo.size()];</b>
+<b class="fc">&nbsp;        int indexTwo = 0;</b>
+<b class="fc">&nbsp;        int valueTwo = 0;</b>
+<b class="fc">&nbsp;        for(int i = 0; i &lt; handTwo.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(handTwo.get(i).getSuit().equals(handTwoSuit))</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if(handTwo.get(i).getNumber().equals(&quot;A&quot;))</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    if(aceHighOrLow(handTwo))</b>
+<b class="nc">&nbsp;                        valueTwo = 14;</b>
+&nbsp;                    else
+<b class="nc">&nbsp;                        valueTwo = 1;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                else if(handTwo.get(i).getNumber().equals(&quot;K&quot;))</b>
+<b class="nc">&nbsp;                    valueTwo = 13;</b>
+<b class="fc">&nbsp;                else if(handTwo.get(i).getNumber().equals(&quot;Q&quot;))</b>
+<b class="fc">&nbsp;                    valueTwo = 12;</b>
+<b class="fc">&nbsp;                else if(handTwo.get(i).getNumber().equals(&quot;J&quot;))</b>
+<b class="nc">&nbsp;                    valueTwo= 11;</b>
+&nbsp;                else
+<b class="fc">&nbsp;                    valueTwo = Integer.parseInt(handTwo.get(i).getNumber());</b>
+<b class="fc">&nbsp;                handTwoValues[indexTwo] = valueTwo;</b>
+<b class="fc">&nbsp;                indexTwo++;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        int returnValue = 0;</b>
+<b class="fc">&nbsp;        for(int i = 6; i &gt; 1; i--)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(handOneValues[i] &gt; handTwoValues[i])</b>
+&nbsp;            {
+<b class="fc">&nbsp;                returnValue = 1;</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if(handOneValues[i] &lt; handTwoValues[i])</b>
+&nbsp;            {
+<b class="nc">&nbsp;                returnValue = 2;</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return returnValue;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int straightTie(List&lt;Card&gt; handOne, List&lt;Card&gt; handTwo)
+&nbsp;    {
+<b class="fc">&nbsp;        int sortedHandOne[] = sort(handOne);</b>
+<b class="fc">&nbsp;        int straightHandOne[] = new int[handOne.size()];</b>
+<b class="fc">&nbsp;        int count = 1;</b>
+<b class="fc">&nbsp;        int highestValue = 0;</b>
+<b class="fc">&nbsp;        int index = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int i = handOne.size() - 1; i &gt;= 1; i--)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if (sortedHandOne[i] == sortedHandOne[i - 1] + 1)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                count++;</b>
+<b class="fc">&nbsp;                straightHandOne[index] = sortedHandOne[i];</b>
+<b class="fc">&nbsp;                index++;</b>
+<b class="fc">&nbsp;                if (count == 5)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+&nbsp;            else
+&nbsp;            {
+<b class="nc">&nbsp;                count = 1;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        Arrays.sort(straightHandOne);</b>
+<b class="fc">&nbsp;        highestValue = straightHandOne[6];</b>
+&nbsp;
+<b class="fc">&nbsp;        int sortedHandTwo[] = sort(handTwo);</b>
+<b class="fc">&nbsp;        int straightHandTwo[] = new int[handTwo.size()];</b>
+<b class="fc">&nbsp;        int indexTwo = 0;</b>
+<b class="fc">&nbsp;        int countTwo = 1;</b>
+<b class="fc">&nbsp;        int highestValueTwo = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int i = handTwo.size() - 1; i &gt;= 1; i--)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if (sortedHandTwo[i] == sortedHandTwo[i - 1] + 1)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                countTwo++;</b>
+<b class="fc">&nbsp;                straightHandTwo[indexTwo] = sortedHandTwo[i];</b>
+<b class="fc">&nbsp;                indexTwo++;</b>
+<b class="fc">&nbsp;                if (countTwo == 5)</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    break;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+&nbsp;            else
+&nbsp;            {
+<b class="fc">&nbsp;                countTwo = 1;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        Arrays.sort(straightHandTwo);</b>
+<b class="fc">&nbsp;        highestValueTwo = straightHandTwo[6];</b>
+&nbsp;
+<b class="fc">&nbsp;        if(highestValue &gt; highestValueTwo)</b>
+<b class="fc">&nbsp;            return 1;</b>
+<b class="fc">&nbsp;        else if(highestValue &lt; highestValueTwo)</b>
+<b class="nc">&nbsp;            return 2;</b>
+&nbsp;        else
+<b class="fc">&nbsp;            return 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int threeOfAKindTie(List&lt;Card&gt; handOne, List&lt;Card&gt; handTwo)
+&nbsp;    {
+<b class="fc">&nbsp;        int sortedHandOne[] = sort(handOne);</b>
+<b class="fc">&nbsp;        int sortedHandTwo[] = sort(handTwo);</b>
+&nbsp;
+<b class="fc">&nbsp;        Map&lt;Integer, Integer&gt; handOneMap = new HashMap&lt;Integer, Integer&gt;();</b>
+<b class="fc">&nbsp;        Map&lt;Integer, Integer&gt; handTwoMap = new HashMap&lt;Integer, Integer&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int value : sortedHandOne) {</b>
+<b class="fc">&nbsp;            handOneMap.put(value, handOneMap.getOrDefault(value, 0) + 1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        for (int value : sortedHandTwo) {</b>
+<b class="fc">&nbsp;            handTwoMap.put(value, handTwoMap.getOrDefault(value, 0) + 1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        int handOneValue = 0;</b>
+<b class="fc">&nbsp;        int handTwoValue = 0;</b>
+<b class="fc">&nbsp;        for(Map.Entry&lt;Integer, Integer&gt; values : handOneMap.entrySet())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(values.getValue() == 3)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                handOneValue = values.getKey();</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        for(Map.Entry&lt;Integer, Integer&gt; values2 : handTwoMap.entrySet())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(values2.getValue() == 3)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                handTwoValue = values2.getKey();</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        if(handOneValue &gt; handTwoValue)</b>
+<b class="nc">&nbsp;            return 1;</b>
+<b class="fc">&nbsp;        else if(handOneValue &lt; handTwoValue)</b>
+<b class="fc">&nbsp;            return 2;</b>
+&nbsp;        else
+<b class="nc">&nbsp;            return 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int twoPairTie(List&lt;Card&gt; handOne, List&lt;Card&gt; handTwo)
+&nbsp;    {
+<b class="fc">&nbsp;        int sortedHandOne[] = sort(handOne);</b>
+<b class="fc">&nbsp;        int sortedHandTwo[] = sort(handTwo);</b>
+&nbsp;
+<b class="fc">&nbsp;        Map&lt;Integer, Integer&gt; handOneMap = new HashMap&lt;Integer, Integer&gt;();</b>
+<b class="fc">&nbsp;        Map&lt;Integer, Integer&gt; handTwoMap = new HashMap&lt;Integer, Integer&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int value : sortedHandOne) {</b>
+<b class="fc">&nbsp;            handOneMap.put(value, handOneMap.getOrDefault(value, 0) + 1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        for (int value : sortedHandTwo) {</b>
+<b class="fc">&nbsp;            handTwoMap.put(value, handTwoMap.getOrDefault(value, 0) + 1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        int handOneTwos[] = new int[handOne.size()];</b>
+<b class="fc">&nbsp;        int remainingHandOne[] = new int[3];</b>
+<b class="fc">&nbsp;        int index = 0;</b>
+<b class="fc">&nbsp;        int remainingIndex = 0;</b>
+<b class="fc">&nbsp;        for(Map.Entry&lt;Integer, Integer&gt; values : handOneMap.entrySet())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(values.getValue() == 2)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                handOneTwos[index] = values.getKey();</b>
+<b class="fc">&nbsp;                index++;</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="fc">&nbsp;                remainingHandOne[remainingIndex] = values.getKey();</b>
+<b class="fc">&nbsp;                remainingIndex++;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        if(handOneTwos[2] != 0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            remainingHandOne[remainingIndex] = handOneTwos[0];</b>
+<b class="nc">&nbsp;            remainingIndex++;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        int handTwoTwos[] = new int[handOne.size()];</b>
+<b class="fc">&nbsp;        int remainingHandTwo[] = new int[3];</b>
+<b class="fc">&nbsp;        int indexTwo = 0;</b>
+<b class="fc">&nbsp;        int remainingIndexTwo = 0;</b>
+<b class="fc">&nbsp;        for(Map.Entry&lt;Integer, Integer&gt; values2 : handTwoMap.entrySet())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(values2.getValue() == 2)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                handTwoTwos[indexTwo] = values2.getKey();</b>
+<b class="fc">&nbsp;                indexTwo++;</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="fc">&nbsp;                remainingHandTwo[remainingIndexTwo] = values2.getKey();</b>
+<b class="fc">&nbsp;                remainingIndexTwo++;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        if(handTwoTwos[2] != 0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            remainingHandTwo[remainingIndexTwo] = handTwoTwos[0];</b>
+<b class="nc">&nbsp;            remainingIndexTwo++;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        if(handOneTwos[index - 1] &gt; handTwoTwos[indexTwo - 1])</b>
+<b class="fc">&nbsp;            return 1;</b>
+<b class="fc">&nbsp;        else if(handOneTwos[index - 1] &lt; handTwoTwos[indexTwo - 1])</b>
+<b class="nc">&nbsp;            return 2;</b>
+&nbsp;        else //if(handOneTwos[index - 1] == handTwoTwos[indexTwo - 1])
+&nbsp;        {
+<b class="fc">&nbsp;            if(handOneTwos[index - 2] &gt; handTwoTwos[indexTwo - 2])</b>
+<b class="nc">&nbsp;                return 1;</b>
+<b class="fc">&nbsp;            else if(handOneTwos[index - 2] &lt; handTwoTwos[indexTwo - 2])</b>
+<b class="nc">&nbsp;                return 2;</b>
+&nbsp;            else
+&nbsp;            {
+<b class="fc">&nbsp;                Arrays.sort(remainingHandOne);</b>
+<b class="fc">&nbsp;                Arrays.sort(remainingHandTwo);</b>
+<b class="fc">&nbsp;                if(remainingHandOne[remainingHandOne.length - 1] &gt; remainingHandTwo[remainingHandTwo.length - 1])</b>
+<b class="nc">&nbsp;                    return 1;</b>
+<b class="fc">&nbsp;                else if(remainingHandOne[remainingHandOne.length - 1] &lt; remainingHandTwo[remainingHandTwo.length - 1])</b>
+<b class="fc">&nbsp;                    return 2;</b>
+&nbsp;                else
+<b class="nc">&nbsp;                    return 0;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public int onePairTie(List&lt;Card&gt; handOne, List&lt;Card&gt; handTwo)
+&nbsp;    {
+<b class="fc">&nbsp;        int sortedHandOne[] = sort(handOne);</b>
+<b class="fc">&nbsp;        int sortedHandTwo[] = sort(handTwo);</b>
+&nbsp;
+<b class="fc">&nbsp;        Map&lt;Integer, Integer&gt; handOneMap = new HashMap&lt;Integer, Integer&gt;();</b>
+<b class="fc">&nbsp;        Map&lt;Integer, Integer&gt; handTwoMap = new HashMap&lt;Integer, Integer&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int value : sortedHandOne) {</b>
+<b class="fc">&nbsp;            handOneMap.put(value, handOneMap.getOrDefault(value, 0) + 1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        for (int value : sortedHandTwo) {</b>
+<b class="fc">&nbsp;            handTwoMap.put(value, handTwoMap.getOrDefault(value, 0) + 1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        int handOnePairValue = 0;</b>
+<b class="fc">&nbsp;        int remainingHandOne[] = new int[5];</b>
+<b class="fc">&nbsp;        int remainingIndex = 0;</b>
+<b class="fc">&nbsp;        for(Map.Entry&lt;Integer, Integer&gt; values : handOneMap.entrySet())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(values.getValue() == 2)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                handOnePairValue = values.getKey();</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="fc">&nbsp;                remainingHandOne[remainingIndex] = values.getKey();</b>
+<b class="fc">&nbsp;                remainingIndex++;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        int handTwoPairValue = 0;</b>
+<b class="fc">&nbsp;        int remainingHandTwo[] = new int[5];</b>
+<b class="fc">&nbsp;        int remainingIndexTwo = 0;</b>
+<b class="fc">&nbsp;        for(Map.Entry&lt;Integer, Integer&gt; values2 : handTwoMap.entrySet())</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(values2.getValue() == 2)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                handTwoPairValue = values2.getKey();</b>
+&nbsp;            }
+&nbsp;            else
+&nbsp;            {
+<b class="fc">&nbsp;                remainingHandTwo[remainingIndexTwo] = values2.getKey();</b>
+<b class="fc">&nbsp;                remainingIndexTwo++;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        if(handOnePairValue &gt; handTwoPairValue)</b>
+<b class="nc">&nbsp;            return 1;</b>
+<b class="fc">&nbsp;        else if(handOnePairValue &lt; handTwoPairValue)</b>
+<b class="fc">&nbsp;            return 2;</b>
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            Arrays.sort(remainingHandOne);</b>
+<b class="nc">&nbsp;            Arrays.sort(remainingHandTwo);</b>
+&nbsp;
+<b class="nc">&nbsp;            int returnValue = 0;</b>
+<b class="nc">&nbsp;            for(int i = 4; i &gt; 1; i--)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                if(remainingHandOne[i] &gt; remainingHandTwo[i])</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    returnValue = 1;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                else if(remainingHandOne[i] &lt; remainingHandTwo[i])</b>
+&nbsp;                {
+<b class="nc">&nbsp;                    returnValue = 2;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            return returnValue;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public int highCardTie(List&lt;Card&gt; handOne, List&lt;Card&gt; handTwo)
+&nbsp;    {
+<b class="nc">&nbsp;        int sortedHandOne[] = sort(handOne);</b>
+<b class="nc">&nbsp;        int sortedHandTwo[] = sort(handTwo);</b>
+<b class="nc">&nbsp;        int returnValue = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        for(int i = sortedHandOne.length - 2; i &gt;= 2; i--)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if(sortedHandOne[i] &gt; sortedHandTwo[i])</b>
+&nbsp;            {
+<b class="nc">&nbsp;                returnValue = 1;</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(sortedHandOne[i] &lt; sortedHandTwo[i])</b>
+&nbsp;            {
+<b class="nc">&nbsp;                returnValue = 2;</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return returnValue;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void tie(List&lt;Card&gt; handOne, List&lt;Card&gt; handTwo)
+&nbsp;    {
+&nbsp;        // HERE YOU WILL HAVE TO SPLIT THE WINNINGS BETWEEN THE TWO HANDS
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    public int compareHands(List&lt;Card&gt; handOne, List&lt;Card&gt; handTwo)
+&nbsp;    {
+&nbsp;        // SHOULD WE HAVE A NEW DECK THAT ONLY CONTAINS THE FIVE CARDS YOU ARE USING AS YOUR HAND
+<b class="fc">&nbsp;        if(handValue(handOne) &gt; handValue(handTwo))</b>
+<b class="fc">&nbsp;            return 1;</b>
+<b class="fc">&nbsp;        else if(handValue(handOne) &lt; handValue(handTwo))</b>
+<b class="fc">&nbsp;            return 2;</b>
+<b class="fc">&nbsp;        else if(handValue(handOne) == 10 &amp;&amp; handValue(handTwo) == 10)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.println(&quot;Comparing royal flush&quot;);</b>
+<b class="fc">&nbsp;            tie(handOne, handTwo);</b>
+<b class="fc">&nbsp;            return 0;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if(handValue(handOne) == 9 &amp;&amp; handValue(handTwo) == 9)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.println(&quot;Comparing straight flush&quot;);</b>
+<b class="fc">&nbsp;            return straightFlushTie(handOne, handTwo);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if(handValue(handOne) == 8 &amp;&amp; handValue(handTwo) == 8)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.println(&quot;Comparing four of a kind&quot;);</b>
+<b class="fc">&nbsp;            return fourOfAKindTie(handOne, handTwo);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if(handValue(handOne) == 7 &amp;&amp; handValue(handTwo) == 7)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.println(&quot;Comparing full house&quot;);</b>
+<b class="fc">&nbsp;            return fullHouseTie(handOne, handTwo);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if(handValue(handOne) == 6 &amp;&amp; handValue(handTwo) == 6)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.println(&quot;Comparing flush&quot;);</b>
+<b class="fc">&nbsp;            return flushTie(handOne, handTwo);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if(handValue(handOne) == 5 &amp;&amp; handValue(handTwo) == 5)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.println(&quot;Comparing straight&quot;);</b>
+<b class="fc">&nbsp;            return straightTie(handOne, handTwo);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if(handValue(handOne) == 4 &amp;&amp; handValue(handTwo) == 4)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.println(&quot;Comparing three of a kind&quot;);</b>
+<b class="fc">&nbsp;            return threeOfAKindTie(handOne, handTwo);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if(handValue(handOne) == 3 &amp;&amp; handValue(handTwo) == 3)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.println(&quot;Comparing two pair&quot;);</b>
+<b class="fc">&nbsp;            return twoPairTie(handOne, handTwo);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if(handValue(handOne) == 2 &amp;&amp; handValue(handTwo) == 2)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            System.out.println(&quot;Comparing one pair&quot;);</b>
+<b class="fc">&nbsp;            return onePairTie(handOne, handTwo);</b>
+&nbsp;        }
+&nbsp;        else
+&nbsp;        {
+<b class="nc">&nbsp;            System.out.println(&quot;Comparing high card&quot;);</b>
+<b class="nc">&nbsp;            if(highCard(handOne) &gt; highCard(handTwo))</b>
+<b class="nc">&nbsp;                return 1;</b>
+<b class="nc">&nbsp;            else if(highCard(handOne) &lt; highCard(handTwo))</b>
+<b class="nc">&nbsp;                return 2;</b>
+&nbsp;            else
+<b class="nc">&nbsp;                return highCardTie(handOne, handTwo);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void printHand(List&lt;Card&gt; hand)
+&nbsp;    {
+<b class="nc">&nbsp;        for (int i = 0; i &lt; hand.size(); i++)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            System.out.print(hand.get(i).getNumber() + hand.get(i).getSuit() + &quot; &quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static List&lt;List&lt;Card&gt;&gt; getAllHands() {
+<b class="nc">&nbsp;        return Arrays.asList(hand1, hand2, hand3, hand4, hand5, hand6);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    public List&lt;Card&gt; getHand1() {return hand1;}</b>
+<b class="nc">&nbsp;    public List&lt;Card&gt; getHand2() {return hand2;}</b>
+<b class="nc">&nbsp;    public List&lt;Card&gt; getHand3() {return hand3;}</b>
+<b class="nc">&nbsp;    public List&lt;Card&gt; getHand4() {return hand4;}</b>
+<b class="nc">&nbsp;    public List&lt;Card&gt; getHand5() {return hand5;}</b>
+<b class="nc">&nbsp;    public List&lt;Card&gt; getHand6() {return hand6;}</b>
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-12 17:54</div>
+</div>
+</body>
+</html>
