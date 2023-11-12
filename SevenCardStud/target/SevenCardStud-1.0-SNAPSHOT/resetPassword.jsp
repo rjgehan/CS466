@@ -42,7 +42,6 @@
                 message = "Password reset successfully!";
             } else {
                 message = (user == null) ? "Username not found." : "Incorrect security answer.";
-=======
                 if (userDao.findUserByLogin(username) != null) {
                     String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
 
