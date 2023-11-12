@@ -90,6 +90,13 @@ To change this template use File | Settings | File Templates.
         nextTurn();
     }
 
+    function betButtonClicked() {
+        var betAmount = document.getElementById("betAmount").value;
+        // Do something with the bet amount, you can send it to the server or process it here
+        console.log("Bet placed: " + betAmount);
+    }
+
+
     function nextTurn() {
         clearInterval(countdown);
         if (currentTurn < 6) {
@@ -136,6 +143,53 @@ To change this template use File | Settings | File Templates.
         var timerDisplay = document.getElementById("timer");
         timerDisplay.innerHTML = "";
     }
+
+    function openBetPopup() {
+        document.getElementById("betPopup").style.display = "block";
+        populateImageGrid(); // Function to populate the image grid
+    }
+
+    function closeBetPopup() {
+        document.getElementById("betPopup").style.display = "none";
+    }
+
+    function populateImageGrid() {
+        const imagePaths = [
+            "<%= contextPath %>/images/PNG/Chips/chipBlackWhite.png",
+            "<%= contextPath %>/images/PNG/Chips/chipBlueWhite.png",
+            "<%= contextPath %>/images/PNG/Chips/chipGreenWhite.png",
+            "<%= contextPath %>/images/PNG/Chips/chipRedWhite.png",
+            "<%= contextPath %>/images/PNG/Chips/chipWhiteBlue.png",
+            "<%= contextPath %>/images/PNG/Chips/chipBlue.png",
+            "<%= contextPath %>/images/PNG/Chips/chipGreen.png",
+            "<%= contextPath %>/images/PNG/Chips/chipWhite.png",
+
+        ];
+
+        const imageGrid = document.querySelector(".image-grid");
+        imageGrid.innerHTML = ""; // Clear previous content
+
+        imagePaths.forEach(path => {
+            const img = document.createElement("img");
+            img.src = path;
+            imageGrid.appendChild(img);
+        });
+    }
+
+    function betButtonClicked() {
+        openBetPopup();
+    }
+
+    document.querySelector(".bet-button").addEventListener("click", betButtonClicked);
+    <%
+    String betAmount = request.getParameter("betAmount");
+    if ("placeBet".equals(request.getParameter("action"))) {
+        // Process the bet amount
+         //update the game logic here
+    }
+%>
+
+
 </script>
 
 
@@ -204,7 +258,15 @@ To change this template use File | Settings | File Templates.
     %>
 </div>
 
-<div style="text-align: center;">
+<div id="betPopup" class="bet-popup">
+    <div class="bet-popup-content">
+        <span class="close" onclick="closeBetPopup()">&times;</span>
+        <div class="image-grid">
+        </div>
+    </div>
+</div>
+
+<div class="action-buttons">
     <form method="post">
         <button type="submit" name="action" value="addCards" class="add-cards-button">Add Cards</button>
     </form>
@@ -212,11 +274,17 @@ To change this template use File | Settings | File Templates.
         <button type="submit" name="action" value="toggleShowCards" class="show-button">Show Cards</button>
     </form>
     <form method="post">
-        <button type="submit" name="action" value="resetHands" class="show-button">reset hands</button>
+        <button type="submit" name="action" value="resetHands" class="show-button">Reset Hands</button>
     </form>
+    <button id="endTurnButton" onclick="endTurnButtonClicked()">Fold</button>
+    <div class="bet-container">
+        <form method="post">
+            <input type="number" id="betAmount" name="betAmount" placeholder="Enter bet amount" required>
+            <button type="submit" name="action" value="placeBet" class="bet-button" onclick="betButtonClicked()">Bet</button>
+        </form>
+    </div>
 </div>
 
-<button id="endTurnButton" onclick="endTurnButtonClicked()">End Turn</button>
 
 
 </body>
@@ -227,7 +295,7 @@ To change this template use File | Settings | File Templates.
 
 
     <style>
-        /* Overall layout */
+        /* Ovrall layout */
         body {
             background-image: url('images/PNG/Background.png'); /* Path to your image */
             background-size: cover; /* Cover the entire page */
@@ -388,18 +456,104 @@ To change this template use File | Settings | File Templates.
     </style>
 
     <style>
+        .action-buttons {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: purple;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .action-buttons button,
+        .action-buttons input[type="number"],
+        .action-buttons .bet-button {
+            margin: 5px;
+        }
+
+        .action-buttons button,
+        .action-buttons .bet-button {
+            background-color: #8a2be2; /* Purple */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .action-buttons input[type="number"] {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #8a2be2; /* Purple */
+        }
+
+        .action-buttons input[type="number"]:focus {
+            outline: none;
+            border-color: #6a1fcb; /* Darker purple on focus */
+        }
+
+        .action-buttons .bet-button {
+            background-color: #8a2be2; /* Purple */
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .bet-popup {
+            display: none;
+            position: fixed;
+            top: 20%;
+            left: 20%;
+            border: 1px solid #8a2be2;
+            background-color: #ffffff;
+            z-index: 9;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+            border-radius: 5px;
+        }
+
+        .bet-popup-content {
+            padding: 20px;
+        }
+
+        .bet-popup-content .close {
+            color: #8a2be2;
+            float: right;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .bet-popup-content .close:hover {
+            color: #6a1fcb;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .image-grid img {
+            width: 100px;
+            height: auto;
+            transition: transform 0.3s;
+        }
+
+        .image-grid img:hover {
+            transform: scale(1.1);
+        }
+
+    </style>
+
+    <style>
         /* Add a hover effect for the card images */
         .card-image:hover {
             border: 2px solid yellow;
             box-shadow: 0 0 5px yellow;
-        }
-
-        /* CSS for the specific button with ID "endTurnButton" */
-        #endTurnButton {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            z-index: 1;
         }
     </style>
 

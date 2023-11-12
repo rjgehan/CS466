@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.example.sevencardstud.dao.UserDAO" %>
 <%@ page import="org.mindrot.jbcrypt.BCrypt" %>
-<%@ page import="com.example.sevencardstud.model.entity.User" %>
 
 <html>
 <head>
@@ -14,6 +13,7 @@
             max-width: 400px;
             margin: 0 auto;
         }
+
         form {
             padding-left: 20px;
             padding-right: 20px;
@@ -31,17 +31,19 @@
 
         if ("POST".equalsIgnoreCase(request.getMethod())) {
             String username = request.getParameter("username");
-            String providedSecurityAnswer = request.getParameter("securityAnswer");
             String newPassword = request.getParameter("newPassword");
 
-            User user = userDao.findUserByLogin(username);
-
-            if (user != null && BCrypt.checkpw(providedSecurityAnswer, user.getSecurityAnswer())) {
-                String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-                userDao.resetPassword(username, hashedNewPassword);
-                message = "Password reset successfully!";
+            if (username == null || username.trim().isEmpty()) {
+                message = "Username cannot be empty.";
             } else {
-                message = (user == null) ? "Username not found." : "Incorrect security answer.";
+                if (userDao.findUserByLogin(username) != null) {
+                    String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+
+                    userDao.resetPassword(username, hashedNewPassword);
+                    message = "Password reset successfully!";
+                } else {
+                    message = "Username not found.";
+                }
             }
         }
     %>
@@ -55,16 +57,13 @@
         <label for="username">Username</label>
         <input type="text" id="username" name="username" placeholder="Enter your username..">
 
-        <label for="securityAnswer">Security Answer</label>
-        <input type="text" id="securityAnswer" name="securityAnswer" placeholder="Enter your security answer..">
-
         <label for="newPassword">New Password</label>
         <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password..">
 
         <input type="submit" value="Reset Password">
     </form>
 
-    <a href="index.jsp">
+    <a href="login.jsp">
         <button type="button">Go to Login</button>
     </a>
 

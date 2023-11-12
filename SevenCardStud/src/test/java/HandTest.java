@@ -739,4 +739,508 @@ public class HandTest
         hand.addCard(hand.testHand, cardSeven);
         assertEquals(6, hand.handValue(hand.testHand));
     }
+
+    @Test
+    public void testCompareHigherFirst()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Diamonds", "K");
+        Card cardTwo = new Card("Clubs", "K");
+        Card cardThree = new Card("Diamonds", "A");
+        Card cardFour = new Card("Spades", "K");
+        Card cardFive = new Card("Clubs", "5");
+        Card cardSix = new Card("Hearts", "K");
+        Card cardSeven = new Card("Diamonds", "3");
+        Hand hand2 = new Hand();
+        Card cardOne2 = new Card("Clubs", "A");
+        Card cardTwo2 = new Card("Spades", "2");
+        Card cardThree2 = new Card("Diamonds", "A");
+        Card cardFour2 = new Card("Spades", "7");
+        Card cardFive2 = new Card("Clubs", "5");
+        Card cardSix2 = new Card("Hearts", "9");
+        Card cardSeven2 = new Card("Diamonds", "3");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        hand2.addCard(hand.testHand2, cardOne2);
+        hand2.addCard(hand.testHand2, cardTwo2);
+        hand2.addCard(hand.testHand2, cardThree2);
+        hand2.addCard(hand.testHand2, cardFour2);
+        hand2.addCard(hand.testHand2, cardFive2);
+        hand2.addCard(hand.testHand2, cardSix2);
+        hand2.addCard(hand.testHand2, cardSeven2);
+        assertEquals(1, hand.compareHands(hand.testHand, hand.testHand2));
+    }
+
+    @Test
+    public void testCompareHigherSecond()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Diamonds", "K");
+        Card cardTwo = new Card("Clubs", "K");
+        Card cardThree = new Card("Diamonds", "A");
+        Card cardFour = new Card("Spades", "K");
+        Card cardFive = new Card("Clubs", "5");
+        Card cardSix = new Card("Hearts", "A");
+        Card cardSeven = new Card("Diamonds", "3");
+        Hand hand2 = new Hand();
+        Card cardOne2 = new Card("Clubs", "9");
+        Card cardTwo2 = new Card("Spades", "2");
+        Card cardThree2 = new Card("Diamonds", "9");
+        Card cardFour2 = new Card("Spades", "9");
+        Card cardFive2 = new Card("Clubs", "5");
+        Card cardSix2 = new Card("Hearts", "9");
+        Card cardSeven2 = new Card("Diamonds", "3");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        hand2.addCard(hand.testHand2, cardOne2);
+        hand2.addCard(hand.testHand2, cardTwo2);
+        hand2.addCard(hand.testHand2, cardThree2);
+        hand2.addCard(hand.testHand2, cardFour2);
+        hand2.addCard(hand.testHand2, cardFive2);
+        hand2.addCard(hand.testHand2, cardSix2);
+        hand2.addCard(hand.testHand2, cardSeven2);
+        assertEquals(2, hand.compareHands(hand.testHand, hand.testHand2));
+    }
+
+    @Test
+    public void testCompareRoyalFlushTie()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Diamonds", "10");
+        Card cardTwo = new Card("Diamonds", "K");
+        Card cardThree = new Card("Diamonds", "A");
+        Card cardFour = new Card("Spades", "3");
+        Card cardFive = new Card("Clubs", "5");
+        Card cardSix = new Card("Diamonds", "J");
+        Card cardSeven = new Card("Diamonds", "Q");
+        Hand hand2 = new Hand();
+        Card cardOne2 = new Card("Clubs", "Q");
+        Card cardTwo2 = new Card("Clubs", "J");
+        Card cardThree2 = new Card("Clubs", "A");
+        Card cardFour2 = new Card("Clubs", "K");
+        Card cardFive2 = new Card("Clubs", "5");
+        Card cardSix2 = new Card("Clubs", "10");
+        Card cardSeven2 = new Card("Diamonds", "3");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        hand2.addCard(hand.testHand2, cardOne2);
+        hand2.addCard(hand.testHand2, cardTwo2);
+        hand2.addCard(hand.testHand2, cardThree2);
+        hand2.addCard(hand.testHand2, cardFour2);
+        hand2.addCard(hand.testHand2, cardFive2);
+        hand2.addCard(hand.testHand2, cardSix2);
+        hand2.addCard(hand.testHand2, cardSeven2);
+        assertEquals(0, hand.compareHands(hand.testHand, hand.testHand2));
+    }
+
+    @Test
+    public void testCompareStraightFlushTie()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "8");
+        Card cardTwo = new Card("Hearts", "10");
+        Card cardThree = new Card("Hearts", "J");
+        Card cardFour = new Card("Hearts", "9");
+        Card cardFive = new Card("Clubs", "5");
+        Card cardSix = new Card("Hearts", "Q");
+        Card cardSeven = new Card("Diamonds", "3");
+        Hand hand2 = new Hand();
+        Card cardOne2 = new Card("Clubs", "9");
+        Card cardTwo2 = new Card("Diamonds", "2");
+        Card cardThree2 = new Card("Diamonds", "A");
+        Card cardFour2 = new Card("Diamonds", "3");
+        Card cardFive2 = new Card("Diamonds", "5");
+        Card cardSix2 = new Card("Hearts", "9");
+        Card cardSeven2 = new Card("Diamonds", "4");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        hand2.addCard(hand.testHand2, cardOne2);
+        hand2.addCard(hand.testHand2, cardTwo2);
+        hand2.addCard(hand.testHand2, cardThree2);
+        hand2.addCard(hand.testHand2, cardFour2);
+        hand2.addCard(hand.testHand2, cardFive2);
+        hand2.addCard(hand.testHand2, cardSix2);
+        hand2.addCard(hand.testHand2, cardSeven2);
+        assertEquals(1, hand.compareHands(hand.testHand, hand.testHand2));
+    }
+
+    @Test
+    public void testCompareFourOfaKindTie()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "8");
+        Card cardTwo = new Card("Diamonds", "8");
+        Card cardThree = new Card("Hearts", "J");
+        Card cardFour = new Card("Spades", "8");
+        Card cardFive = new Card("Clubs", "8");
+        Card cardSix = new Card("Hearts", "Q");
+        Card cardSeven = new Card("Diamonds", "3");
+        Hand hand2 = new Hand();
+        Card cardOne2 = new Card("Clubs", "10");
+        Card cardTwo2 = new Card("Diamonds", "10");
+        Card cardThree2 = new Card("Diamonds", "A");
+        Card cardFour2 = new Card("Spades", "10");
+        Card cardFive2 = new Card("Diamonds", "5");
+        Card cardSix2 = new Card("Hearts", "10");
+        Card cardSeven2 = new Card("Diamonds", "4");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        hand2.addCard(hand.testHand2, cardOne2);
+        hand2.addCard(hand.testHand2, cardTwo2);
+        hand2.addCard(hand.testHand2, cardThree2);
+        hand2.addCard(hand.testHand2, cardFour2);
+        hand2.addCard(hand.testHand2, cardFive2);
+        hand2.addCard(hand.testHand2, cardSix2);
+        hand2.addCard(hand.testHand2, cardSeven2);
+        assertEquals(2, hand.compareHands(hand.testHand, hand.testHand2));
+    }
+
+    @Test
+    public void testCompareFullHouseTie()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "8");
+        Card cardTwo = new Card("Diamonds", "10");
+        Card cardThree = new Card("Spades", "J");
+        Card cardFour = new Card("Hearts", "J");
+        Card cardFive = new Card("Clubs", "8");
+        Card cardSix = new Card("Hearts", "Q");
+        Card cardSeven = new Card("Diamonds", "8");
+        Hand hand2 = new Hand();
+        Card cardOne2 = new Card("Clubs", "A");
+        Card cardTwo2 = new Card("Diamonds", "K");
+        Card cardThree2 = new Card("Diamonds", "A");
+        Card cardFour2 = new Card("Clubs", "K");
+        Card cardFive2 = new Card("Diamonds", "5");
+        Card cardSix2 = new Card("Hearts", "K");
+        Card cardSeven2 = new Card("Diamonds", "4");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        hand2.addCard(hand.testHand2, cardOne2);
+        hand2.addCard(hand.testHand2, cardTwo2);
+        hand2.addCard(hand.testHand2, cardThree2);
+        hand2.addCard(hand.testHand2, cardFour2);
+        hand2.addCard(hand.testHand2, cardFive2);
+        hand2.addCard(hand.testHand2, cardSix2);
+        hand2.addCard(hand.testHand2, cardSeven2);
+        assertEquals(2, hand.compareHands(hand.testHand, hand.testHand2));
+    }
+
+    @Test
+    public void testCompareFlushTie()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "8");
+        Card cardTwo = new Card("Hearts", "2");
+        Card cardThree = new Card("Hearts", "7");
+        Card cardFour = new Card("Hearts", "10");
+        Card cardFive = new Card("Clubs", "5");
+        Card cardSix = new Card("Hearts", "Q");
+        Card cardSeven = new Card("Diamonds", "3");
+        Hand hand2 = new Hand();
+        Card cardOne2 = new Card("Clubs", "9");
+        Card cardTwo2 = new Card("Diamonds", "2");
+        Card cardThree2 = new Card("Diamonds", "Q");
+        Card cardFour2 = new Card("Diamonds", "8");
+        Card cardFive2 = new Card("Diamonds", "3");
+        Card cardSix2 = new Card("Hearts", "9");
+        Card cardSeven2 = new Card("Diamonds", "5");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        hand2.addCard(hand.testHand2, cardOne2);
+        hand2.addCard(hand.testHand2, cardTwo2);
+        hand2.addCard(hand.testHand2, cardThree2);
+        hand2.addCard(hand.testHand2, cardFour2);
+        hand2.addCard(hand.testHand2, cardFive2);
+        hand2.addCard(hand.testHand2, cardSix2);
+        hand2.addCard(hand.testHand2, cardSeven2);
+        assertEquals(1, hand.compareHands(hand.testHand, hand.testHand2));
+    }
+
+    @Test
+    public void testCompareStraightTie()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "8");
+        Card cardTwo = new Card("Clubs", "10");
+        Card cardThree = new Card("Hearts", "J");
+        Card cardFour = new Card("Diamonds", "9");
+        Card cardFive = new Card("Clubs", "5");
+        Card cardSix = new Card("Spades", "Q");
+        Card cardSeven = new Card("Diamonds", "3");
+        Hand hand2 = new Hand();
+        Card cardOne2 = new Card("Clubs", "9");
+        Card cardTwo2 = new Card("Diamonds", "2");
+        Card cardThree2 = new Card("Spades", "A");
+        Card cardFour2 = new Card("Hearts", "3");
+        Card cardFive2 = new Card("Diamonds", "5");
+        Card cardSix2 = new Card("Hearts", "9");
+        Card cardSeven2 = new Card("Diamonds", "4");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        hand2.addCard(hand.testHand2, cardOne2);
+        hand2.addCard(hand.testHand2, cardTwo2);
+        hand2.addCard(hand.testHand2, cardThree2);
+        hand2.addCard(hand.testHand2, cardFour2);
+        hand2.addCard(hand.testHand2, cardFive2);
+        hand2.addCard(hand.testHand2, cardSix2);
+        hand2.addCard(hand.testHand2, cardSeven2);
+        assertEquals(1, hand.compareHands(hand.testHand, hand.testHand2));
+    }
+
+    @Test
+    public void testCompareStraightSameValuesTie()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "8");
+        Card cardTwo = new Card("Clubs", "10");
+        Card cardThree = new Card("Hearts", "J");
+        Card cardFour = new Card("Diamonds", "9");
+        Card cardFive = new Card("Clubs", "5");
+        Card cardSix = new Card("Spades", "Q");
+        Card cardSeven = new Card("Diamonds", "3");
+        Hand hand2 = new Hand();
+        Card cardOne2 = new Card("Clubs", "9");
+        Card cardTwo2 = new Card("Diamonds", "8");
+        Card cardThree2 = new Card("Spades", "J");
+        Card cardFour2 = new Card("Hearts", "Q");
+        Card cardFive2 = new Card("Diamonds", "10");
+        Card cardSix2 = new Card("Hearts", "2");
+        Card cardSeven2 = new Card("Diamonds", "4");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        hand2.addCard(hand.testHand2, cardOne2);
+        hand2.addCard(hand.testHand2, cardTwo2);
+        hand2.addCard(hand.testHand2, cardThree2);
+        hand2.addCard(hand.testHand2, cardFour2);
+        hand2.addCard(hand.testHand2, cardFive2);
+        hand2.addCard(hand.testHand2, cardSix2);
+        hand2.addCard(hand.testHand2, cardSeven2);
+        assertEquals(0, hand.compareHands(hand.testHand, hand.testHand2));
+    }
+
+    @Test
+    public void testCompareThreeOfaKindTie()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "5");
+        Card cardTwo = new Card("Clubs", "10");
+        Card cardThree = new Card("Hearts", "J");
+        Card cardFour = new Card("Diamonds", "5");
+        Card cardFive = new Card("Clubs", "5");
+        Card cardSix = new Card("Spades", "Q");
+        Card cardSeven = new Card("Diamonds", "3");
+        Hand hand2 = new Hand();
+        Card cardOne2 = new Card("Clubs", "9");
+        Card cardTwo2 = new Card("Diamonds", "2");
+        Card cardThree2 = new Card("Spades", "9");
+        Card cardFour2 = new Card("Hearts", "3");
+        Card cardFive2 = new Card("Diamonds", "5");
+        Card cardSix2 = new Card("Hearts", "9");
+        Card cardSeven2 = new Card("Diamonds", "4");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        hand2.addCard(hand.testHand2, cardOne2);
+        hand2.addCard(hand.testHand2, cardTwo2);
+        hand2.addCard(hand.testHand2, cardThree2);
+        hand2.addCard(hand.testHand2, cardFour2);
+        hand2.addCard(hand.testHand2, cardFive2);
+        hand2.addCard(hand.testHand2, cardSix2);
+        hand2.addCard(hand.testHand2, cardSeven2);
+        assertEquals(2, hand.compareHands(hand.testHand, hand.testHand2));
+    }
+
+    @Test
+    public void testCompareTwoPairTie()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "8");
+        Card cardTwo = new Card("Clubs", "10");
+        Card cardThree = new Card("Hearts", "J");
+        Card cardFour = new Card("Diamonds", "8");
+        Card cardFive = new Card("Clubs", "5");
+        Card cardSix = new Card("Spades", "10");
+        Card cardSeven = new Card("Diamonds", "3");
+        Hand hand2 = new Hand();
+        Card cardOne2 = new Card("Clubs", "9");
+        Card cardTwo2 = new Card("Diamonds", "2");
+        Card cardThree2 = new Card("Spades", "2");
+        Card cardFour2 = new Card("Hearts", "3");
+        Card cardFive2 = new Card("Diamonds", "5");
+        Card cardSix2 = new Card("Hearts", "9");
+        Card cardSeven2 = new Card("Diamonds", "4");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        hand2.addCard(hand.testHand2, cardOne2);
+        hand2.addCard(hand.testHand2, cardTwo2);
+        hand2.addCard(hand.testHand2, cardThree2);
+        hand2.addCard(hand.testHand2, cardFour2);
+        hand2.addCard(hand.testHand2, cardFive2);
+        hand2.addCard(hand.testHand2, cardSix2);
+        hand2.addCard(hand.testHand2, cardSeven2);
+        assertEquals(1, hand.compareHands(hand.testHand, hand.testHand2));
+    }
+
+    @Test
+    public void testCompareTwoPairHighCardTie()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "8");
+        Card cardTwo = new Card("Clubs", "10");
+        Card cardThree = new Card("Hearts", "J");
+        Card cardFour = new Card("Diamonds", "8");
+        Card cardFive = new Card("Clubs", "5");
+        Card cardSix = new Card("Spades", "10");
+        Card cardSeven = new Card("Diamonds", "3");
+        Hand hand2 = new Hand();
+        Card cardOne2 = new Card("Clubs", "8");
+        Card cardTwo2 = new Card("Diamonds", "10");
+        Card cardThree2 = new Card("Spades", "8");
+        Card cardFour2 = new Card("Hearts", "10");
+        Card cardFive2 = new Card("Diamonds", "5");
+        Card cardSix2 = new Card("Hearts", "A");
+        Card cardSeven2 = new Card("Diamonds", "4");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        hand2.addCard(hand.testHand2, cardOne2);
+        hand2.addCard(hand.testHand2, cardTwo2);
+        hand2.addCard(hand.testHand2, cardThree2);
+        hand2.addCard(hand.testHand2, cardFour2);
+        hand2.addCard(hand.testHand2, cardFive2);
+        hand2.addCard(hand.testHand2, cardSix2);
+        hand2.addCard(hand.testHand2, cardSeven2);
+        assertEquals(2, hand.compareHands(hand.testHand, hand.testHand2));
+    }
+
+    @Test
+    public void testCompareOnePairTie()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "8");
+        Card cardTwo = new Card("Clubs", "10");
+        Card cardThree = new Card("Hearts", "J");
+        Card cardFour = new Card("Diamonds", "8");
+        Card cardFive = new Card("Clubs", "5");
+        Card cardSix = new Card("Spades", "A");
+        Card cardSeven = new Card("Diamonds", "3");
+        Hand hand2 = new Hand();
+        Card cardOne2 = new Card("Clubs", "9");
+        Card cardTwo2 = new Card("Diamonds", "2");
+        Card cardThree2 = new Card("Spades", "J");
+        Card cardFour2 = new Card("Hearts", "3");
+        Card cardFive2 = new Card("Diamonds", "5");
+        Card cardSix2 = new Card("Hearts", "9");
+        Card cardSeven2 = new Card("Diamonds", "4");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        hand2.addCard(hand.testHand2, cardOne2);
+        hand2.addCard(hand.testHand2, cardTwo2);
+        hand2.addCard(hand.testHand2, cardThree2);
+        hand2.addCard(hand.testHand2, cardFour2);
+        hand2.addCard(hand.testHand2, cardFive2);
+        hand2.addCard(hand.testHand2, cardSix2);
+        hand2.addCard(hand.testHand2, cardSeven2);
+        assertEquals(2, hand.compareHands(hand.testHand, hand.testHand2));
+    }
+
+    @Test
+    public void testCompareHighCardTie()
+    {
+        Hand hand = new Hand();
+        Card cardOne = new Card("Hearts", "2");
+        Card cardTwo = new Card("Clubs", "4");
+        Card cardThree = new Card("Hearts", "6");
+        Card cardFour = new Card("Diamonds", "8");
+        Card cardFive = new Card("Clubs", "J");
+        Card cardSix = new Card("Spades", "10");
+        Card cardSeven = new Card("Diamonds", "3");
+        Hand hand2 = new Hand();
+        Card cardOne2 = new Card("Clubs", "3");
+        Card cardTwo2 = new Card("Diamonds", "5");
+        Card cardThree2 = new Card("Spades", "7");
+        Card cardFour2 = new Card("Hearts", "9");
+        Card cardFive2 = new Card("Diamonds", "Q");
+        Card cardSix2 = new Card("Hearts", "8");
+        Card cardSeven2 = new Card("Diamonds", "4");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        hand.addCard(hand.testHand, cardSeven);
+        hand2.addCard(hand.testHand2, cardOne2);
+        hand2.addCard(hand.testHand2, cardTwo2);
+        hand2.addCard(hand.testHand2, cardThree2);
+        hand2.addCard(hand.testHand2, cardFour2);
+        hand2.addCard(hand.testHand2, cardFive2);
+        hand2.addCard(hand.testHand2, cardSix2);
+        hand2.addCard(hand.testHand2, cardSeven2);
+        assertEquals(2, hand.compareHands(hand.testHand, hand.testHand2));
+    }
 }
