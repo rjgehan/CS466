@@ -221,7 +221,7 @@ To change this template use File | Settings | File Templates.
     %>
 </div>
 
-<div style="text-align: center;">
+<div class="action-buttons">
     <form method="post">
         <button type="submit" name="action" value="addCards" class="add-cards-button">Add Cards</button>
     </form>
@@ -229,17 +229,17 @@ To change this template use File | Settings | File Templates.
         <button type="submit" name="action" value="toggleShowCards" class="show-button">Show Cards</button>
     </form>
     <form method="post">
-        <button type="submit" name="action" value="resetHands" class="show-button">reset hands</button>
+        <button type="submit" name="action" value="resetHands" class="show-button">Reset Hands</button>
     </form>
+    <button id="endTurnButton" onclick="endTurnButtonClicked()">Fold</button>
+    <div class="bet-container">
+        <form method="post">
+            <input type="number" id="betAmount" name="betAmount" placeholder="Enter bet amount" required>
+            <button type="submit" name="action" value="placeBet" class="bet-button">Bet</button>
+        </form>
+    </div>
 </div>
 
-<button id="endTurnButton" onclick="endTurnButtonClicked()">End Turn</button>
-<div class="bet-container">
-    <form method="post">
-        <input type="number" id="betAmount" name="betAmount" placeholder="Enter bet amount" required>
-        <button type="submit" name="action" value="placeBet" class="bet-button">Bet</button>
-    </form>
-</div>
 
 
 </body>
@@ -411,18 +411,59 @@ To change this template use File | Settings | File Templates.
     </style>
 
     <style>
+        .action-buttons {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: purple;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .action-buttons button,
+        .action-buttons input[type="number"],
+        .action-buttons .bet-button {
+            margin: 5px;
+        }
+
+        .action-buttons button,
+        .action-buttons .bet-button {
+            background-color: #8a2be2; /* Purple */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .action-buttons input[type="number"] {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #8a2be2; /* Purple */
+        }
+
+        .action-buttons input[type="number"]:focus {
+            outline: none;
+            border-color: #6a1fcb; /* Darker purple on focus */
+        }
+
+        .action-buttons .bet-button {
+            background-color: #8a2be2; /* Purple */
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+
+    <style>
         /* Add a hover effect for the card images */
         .card-image:hover {
             border: 2px solid yellow;
             box-shadow: 0 0 5px yellow;
-        }
-
-        /* CSS for the specific button with ID "endTurnButton" */
-        #endTurnButton {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            z-index: 1;
         }
     </style>
 
