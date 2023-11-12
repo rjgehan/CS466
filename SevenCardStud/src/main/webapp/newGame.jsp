@@ -235,6 +235,7 @@ To change this template use File | Settings | File Templates.
 </div>
 
 
+
 <!-- Will display bot 6 to go with hand 6 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
 <div class="bot">
     <img src="<%= contextPath %>loggedInUser.getSelectedImage()" alt="UserIcon">
