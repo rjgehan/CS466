@@ -1,10 +1,11 @@
 package com.example.sevencardstud;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.*;
 
 public class Hand
 {
@@ -243,11 +244,14 @@ public class Hand
                         break;
                 }
 
-                else if((acesSorted[i] == acesSorted[i-1]) && (acesSorted[i] == acesSorted[i-2] + 1))
+                else if(i != 1)
                 {
-                    count++;
-                    if(count == 5)
-                        break;
+                    if((acesSorted[i] == acesSorted[i-1]) && (acesSorted[i] == acesSorted[i-2] + 1))
+                    {
+                        count++;
+                        if(count == 5)
+                            break;
+                    }
                 }
 
                 else
@@ -329,20 +333,26 @@ public class Hand
 
     public boolean fourOfaKind(List<Card> hand)
     {
-        for (int i = 0; i < hand.size(); i++)
-        {
-            int individualCardCount = 1;
-            for (int j = 1; j < hand.size(); j++)
-            {
-                if (hand.get(i).getNumber().equals(hand.get(j).getNumber()))
-                    individualCardCount++;
-            }
+        boolean isFourOfAKind = false;
 
-            if(individualCardCount == 4)
-                return true;
+        int sortedHand[] = sort(hand);
+
+        Map<Integer, Integer> handMap = new HashMap<Integer, Integer>();
+
+        for (int value : sortedHand) {
+            handMap.put(value, handMap.getOrDefault(value, 0) + 1);
         }
 
-        return false;
+        for(Map.Entry<Integer, Integer> values : handMap.entrySet())
+        {
+            if(values.getValue() == 4)
+            {
+                isFourOfAKind = true;
+                break;
+            }
+        }
+
+        return isFourOfAKind;
     }
 
     public boolean straightFlush(List<Card> hand)
@@ -471,133 +481,560 @@ public class Hand
         return value;
     }
 
+    public int straightFlushTie(List<Card> handOne, List<Card> handTwo)
+    {
+        // NEED TO DO THIS
+        return 0;
+    }
+
+    public int fourOfAKindTie(List<Card> handOne, List<Card> handTwo)
+    {
+        int sortedHandOne[] = sort(handOne);
+        int sortedHandTwo[] = sort(handTwo);
+
+        Map<Integer, Integer> handOneMap = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> handTwoMap = new HashMap<Integer, Integer>();
+
+        for (int value : sortedHandOne) {
+            handOneMap.put(value, handOneMap.getOrDefault(value, 0) + 1);
+        }
+
+        for (int value : sortedHandTwo) {
+            handTwoMap.put(value, handTwoMap.getOrDefault(value, 0) + 1);
+        }
+
+        int handOneValue = 0;
+        int handTwoValue = 0;
+        for(Map.Entry<Integer, Integer> values : handOneMap.entrySet())
+        {
+            if(values.getValue() == 4)
+            {
+                handOneValue = values.getKey();
+                break;
+            }
+        }
+
+        for(Map.Entry<Integer, Integer> values2 : handTwoMap.entrySet())
+        {
+            if(values2.getValue() == 4)
+            {
+                handTwoValue = values2.getKey();
+                break;
+            }
+        }
+
+        if(handOneValue > handTwoValue)
+            return 1;
+        else if(handOneValue < handTwoValue)
+            return 2;
+        else
+            return 0;
+    }
+
+    public int fullHouseTie(List<Card> handOne, List<Card> handTwo)
+    {
+        int sortedHandOne[] = sort(handOne);
+        int sortedHandTwo[] = sort(handTwo);
+
+        Map<Integer, Integer> handOneMap = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> handTwoMap = new HashMap<Integer, Integer>();
+
+        for (int value : sortedHandOne) {
+            handOneMap.put(value, handOneMap.getOrDefault(value, 0) + 1);
+        }
+
+        for (int value : sortedHandTwo) {
+            handTwoMap.put(value, handTwoMap.getOrDefault(value, 0) + 1);
+        }
+
+        int handOneValue = 0;
+        int handTwoValue = 0;
+        int handOneCount = 0;
+        int handTwoCount = 0;
+        for(Map.Entry<Integer, Integer> values : handOneMap.entrySet())
+        {
+            if(values.getValue() == 3)
+            {
+                handOneCount++;
+            }
+        }
+
+        for(Map.Entry<Integer, Integer> values2 : handTwoMap.entrySet())
+        {
+            if(values2.getValue() == 3)
+            {
+                handTwoCount++;
+            }
+        }
+
+        if(handOneCount == 1)
+        {
+            for(Map.Entry<Integer, Integer> values : handOneMap.entrySet())
+            {
+                if(values.getValue() == 3)
+                {
+                    handOneValue = values.getKey();
+                    break;
+                }
+            }
+        }
+
+        else if(handOneCount == 2)
+        {
+            ArrayList<Integer> handOneThrees = new ArrayList<Integer>();
+            for(Map.Entry<Integer, Integer> values : handOneMap.entrySet())
+            {
+                if(values.getValue() == 3)
+                {
+                    handOneThrees.add(values.getKey());
+                }
+            }
+            if(handOneThrees.get(0) > handOneThrees.get(1))
+                handOneValue = handOneThrees.get(0);
+            else
+                handOneValue = handOneThrees.get(1);
+        }
+
+        if(handTwoCount == 1)
+        {
+            for(Map.Entry<Integer, Integer> values : handTwoMap.entrySet())
+            {
+                if(values.getValue() == 3)
+                {
+                    handTwoValue = values.getKey();
+                    break;
+                }
+            }
+        }
+
+        else if(handTwoCount == 2)
+        {
+            ArrayList<Integer> handTwoThrees = new ArrayList<Integer>();
+            for(Map.Entry<Integer, Integer> values : handTwoMap.entrySet())
+            {
+                if(values.getValue() == 3)
+                {
+                    handTwoThrees.add(values.getKey());
+                }
+            }
+            if(handTwoThrees.get(0) > handTwoThrees.get(1))
+                handTwoValue = handTwoThrees.get(0);
+            else
+                handTwoValue = handTwoThrees.get(1);
+        }
+
+        if(handOneValue > handTwoValue)
+            return 1;
+        else if(handOneValue < handTwoValue)
+            return 2;
+        else
+            return 0;
+    }
+
+    public int flushTie(List<Card> handOne, List<Card> handTwo)
+    {
+        String handOneSuit = "";
+        for(int i = 0; i < handOne.size(); i++)
+        {
+            int sameSuitCount = 1;
+            for(int j = i + 1; j < handOne.size(); j++)
+            {
+                if(handOne.get(i).getSuit().equals(handOne.get(j).getSuit()))
+                    sameSuitCount++;
+                if(sameSuitCount == 5)
+                    handOneSuit = handOne.get(i).getSuit();
+            }
+        }
+
+        String handTwoSuit = "";
+        for(int i = 0; i < handTwo.size(); i++)
+        {
+            int sameSuitCount = 1;
+            for(int j = i + 1; j < handTwo.size(); j++)
+            {
+                if(handTwo.get(i).getSuit().equals(handTwo.get(j).getSuit()))
+                    sameSuitCount++;
+                if(sameSuitCount == 5)
+                    handTwoSuit = handTwo.get(i).getSuit();
+            }
+        }
+
+        int handOneValues[] = new int[handOne.size()];
+        int index = 0;
+        int value = 0;
+        for(int i = 0; i < handOne.size(); i++)
+        {
+            if(handOne.get(i).getSuit().equals(handOneSuit))
+            {
+                if(handOne.get(i).getNumber().equals("A"))
+                {
+                    if(aceHighOrLow(handOne))
+                        value = 14;
+                    else
+                        value = 1;
+                }
+                else if(handOne.get(i).getNumber().equals("K"))
+                    value = 13;
+                else if(handOne.get(i).getNumber().equals("Q"))
+                    value = 12;
+                else if(handOne.get(i).getNumber().equals("J"))
+                    value= 11;
+                else
+                    value = Integer.parseInt(handOne.get(i).getNumber());
+                handOneValues[index] = value;
+                index++;
+            }
+        }
+
+        int handTwoValues[] = new int[handTwo.size()];
+        int indexTwo = 0;
+        int valueTwo = 0;
+        for(int i = 0; i < handTwo.size(); i++)
+        {
+            if(handTwo.get(i).getSuit().equals(handTwoSuit))
+            {
+                if(handTwo.get(i).getNumber().equals("A"))
+                {
+                    if(aceHighOrLow(handTwo))
+                        valueTwo = 14;
+                    else
+                        valueTwo = 1;
+                }
+                else if(handTwo.get(i).getNumber().equals("K"))
+                    valueTwo = 13;
+                else if(handTwo.get(i).getNumber().equals("Q"))
+                    valueTwo = 12;
+                else if(handTwo.get(i).getNumber().equals("J"))
+                    valueTwo= 11;
+                else
+                    valueTwo = Integer.parseInt(handTwo.get(i).getNumber());
+                handTwoValues[indexTwo] = valueTwo;
+                indexTwo++;
+            }
+        }
+
+        int returnValue = 0;
+        for(int i = 6; i > 1; i--)
+        {
+            if(handOneValues[i] > handTwoValues[i])
+            {
+                returnValue = 1;
+                break;
+            }
+            else if(handOneValues[i] < handTwoValues[i])
+            {
+                returnValue = 2;
+                break;
+            }
+        }
+        return returnValue;
+    }
+
+    public int straightTie(List<Card> handOne, List<Card> handTwo)
+    {
+        // NEED TO DO THIS
+        return 0;
+    }
+
+    public int threeOfAKindTie(List<Card> handOne, List<Card> handTwo)
+    {
+        int sortedHandOne[] = sort(handOne);
+        int sortedHandTwo[] = sort(handTwo);
+
+        Map<Integer, Integer> handOneMap = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> handTwoMap = new HashMap<Integer, Integer>();
+
+        for (int value : sortedHandOne) {
+            handOneMap.put(value, handOneMap.getOrDefault(value, 0) + 1);
+        }
+
+        for (int value : sortedHandTwo) {
+            handTwoMap.put(value, handTwoMap.getOrDefault(value, 0) + 1);
+        }
+
+        int handOneValue = 0;
+        int handTwoValue = 0;
+        for(Map.Entry<Integer, Integer> values : handOneMap.entrySet())
+        {
+            if(values.getValue() == 3)
+            {
+                handOneValue = values.getKey();
+                break;
+            }
+        }
+
+        for(Map.Entry<Integer, Integer> values2 : handTwoMap.entrySet())
+        {
+            if(values2.getValue() == 3)
+            {
+                handTwoValue = values2.getKey();
+                break;
+            }
+        }
+
+        if(handOneValue > handTwoValue)
+            return 1;
+        else if(handOneValue < handTwoValue)
+            return 2;
+        else
+            return 0;
+    }
+
+    public int twoPairTie(List<Card> handOne, List<Card> handTwo)
+    {
+        int sortedHandOne[] = sort(handOne);
+        int sortedHandTwo[] = sort(handTwo);
+
+        Map<Integer, Integer> handOneMap = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> handTwoMap = new HashMap<Integer, Integer>();
+
+        for (int value : sortedHandOne) {
+            handOneMap.put(value, handOneMap.getOrDefault(value, 0) + 1);
+        }
+
+        for (int value : sortedHandTwo) {
+            handTwoMap.put(value, handTwoMap.getOrDefault(value, 0) + 1);
+        }
+
+        int handOneTwos[] = new int[handOne.size()];
+        int remainingHandOne[] = new int[3];
+        int index = 0;
+        int remainingIndex = 0;
+        for(Map.Entry<Integer, Integer> values : handOneMap.entrySet())
+        {
+            if(values.getValue() == 2)
+            {
+                handOneTwos[index] = values.getKey();
+                index++;
+            }
+            else
+            {
+                remainingHandOne[remainingIndex] = values.getKey();
+                remainingIndex++;
+            }
+        }
+        if(handOneTwos[2] != 0)
+        {
+            remainingHandOne[remainingIndex] = handOneTwos[0];
+            remainingIndex++;
+        }
+
+        int handTwoTwos[] = new int[handOne.size()];
+        int remainingHandTwo[] = new int[3];
+        int indexTwo = 0;
+        int remainingIndexTwo = 0;
+        for(Map.Entry<Integer, Integer> values2 : handTwoMap.entrySet())
+        {
+            if(values2.getValue() == 2)
+            {
+                handTwoTwos[indexTwo] = values2.getKey();
+                indexTwo++;
+            }
+            else
+            {
+                remainingHandTwo[remainingIndexTwo] = values2.getKey();
+                remainingIndexTwo++;
+            }
+        }
+        if(handTwoTwos[2] != 0)
+        {
+            remainingHandTwo[remainingIndexTwo] = handTwoTwos[0];
+            remainingIndexTwo++;
+        }
+
+
+        if(handOneTwos[index - 1] > handTwoTwos[indexTwo - 1])
+            return 1;
+        else if(handOneTwos[index - 1] < handTwoTwos[indexTwo - 1])
+            return 2;
+        else //if(handOneTwos[index - 1] == handTwoTwos[indexTwo - 1])
+        {
+            if(handOneTwos[index - 2] > handTwoTwos[indexTwo - 2])
+                return 1;
+            else if(handOneTwos[index - 2] < handTwoTwos[indexTwo - 2])
+                return 2;
+            else
+            {
+                Arrays.sort(remainingHandOne);
+                Arrays.sort(remainingHandTwo);
+                if(remainingHandOne[remainingHandOne.length - 1] > remainingHandTwo[remainingHandTwo.length - 1])
+                    return 1;
+                else if(remainingHandOne[remainingHandOne.length - 1] < remainingHandTwo[remainingHandTwo.length - 1])
+                    return 2;
+                else
+                    return 0;
+            }
+        }
+
+    }
+
+    public int onePairTie(List<Card> handOne, List<Card> handTwo)
+    {
+        int sortedHandOne[] = sort(handOne);
+        int sortedHandTwo[] = sort(handTwo);
+
+        Map<Integer, Integer> handOneMap = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> handTwoMap = new HashMap<Integer, Integer>();
+
+        for (int value : sortedHandOne) {
+            handOneMap.put(value, handOneMap.getOrDefault(value, 0) + 1);
+        }
+
+        for (int value : sortedHandTwo) {
+            handTwoMap.put(value, handTwoMap.getOrDefault(value, 0) + 1);
+        }
+
+        int handOnePairValue = 0;
+        int remainingHandOne[] = new int[5];
+        int remainingIndex = 0;
+        for(Map.Entry<Integer, Integer> values : handOneMap.entrySet())
+        {
+            if(values.getValue() == 2)
+            {
+                handOnePairValue = values.getKey();
+            }
+            else
+            {
+                remainingHandOne[remainingIndex] = values.getKey();
+                remainingIndex++;
+            }
+        }
+
+        int handTwoPairValue = 0;
+        int remainingHandTwo[] = new int[5];
+        int remainingIndexTwo = 0;
+        for(Map.Entry<Integer, Integer> values2 : handTwoMap.entrySet())
+        {
+            if(values2.getValue() == 2)
+            {
+                handTwoPairValue = values2.getKey();
+            }
+            else
+            {
+                remainingHandTwo[remainingIndexTwo] = values2.getKey();
+                remainingIndexTwo++;
+            }
+        }
+
+        if(handOnePairValue > handTwoPairValue)
+            return 1;
+        else if(handOnePairValue < handTwoPairValue)
+            return 2;
+        else
+        {
+            Arrays.sort(remainingHandOne);
+            Arrays.sort(remainingHandTwo);
+
+            int returnValue = 0;
+            for(int i = 4; i > 1; i--)
+            {
+                if(remainingHandOne[i] > remainingHandTwo[i])
+                {
+                    returnValue = 1;
+                    break;
+                }
+                else if(remainingHandOne[i] < remainingHandTwo[i])
+                {
+                    returnValue = 2;
+                    break;
+                }
+            }
+            return returnValue;
+        }
+    }
+
+    public int highCardTie(List<Card> handOne, List<Card> handTwo)
+    {
+        int sortedHandOne[] = sort(handOne);
+        int sortedHandTwo[] = sort(handTwo);
+        int returnValue = 0;
+
+        for(int i = sortedHandOne.length - 2; i >= 2; i--)
+        {
+            if(sortedHandOne[i] > sortedHandTwo[i])
+            {
+                returnValue = 1;
+                break;
+            }
+            else if(sortedHandOne[i] < sortedHandTwo[i])
+            {
+                returnValue = 2;
+                break;
+            }
+        }
+
+        return returnValue;
+    }
+
     public void tie(List<Card> handOne, List<Card> handTwo)
     {
         // HERE YOU WILL HAVE TO SPLIT THE WINNINGS BETWEEN THE TWO HANDS
     }
 
-    /*
-    public List<Card> compareHands(List<Card> handOne, List<Card> handTwo)
+    public int compareHands(List<Card> handOne, List<Card> handTwo)
     {
         // SHOULD WE HAVE A NEW DECK THAT ONLY CONTAINS THE FIVE CARDS YOU ARE USING AS YOUR HAND
         if(handValue(handOne) > handValue(handTwo))
-            return handOne;
+            return 1;
         else if(handValue(handOne) < handValue(handTwo))
-            return handTwo;
+            return 2;
         else if(handValue(handOne) == 10 && handValue(handTwo) == 10)
         {
-            // IF TWO ROYAL FLUSHES THEN THERE IS A TIE;
+            System.out.println("Comparing royal flush");
             tie(handOne, handTwo);
+            return 0;
         }
         else if(handValue(handOne) == 9 && handValue(handTwo) == 9)
         {
-            // HIGH CARD HAS TO BE OF THE 5 CARDS BEING USED IN THE STRAIGHT
-            // NEED TO CHANGE THE PARAMETERS TO JUST THE FOUR OF A KIND
-            if(highCard(handOne) > highCard(handTwo))
-                return handOne;
-            else if(highCard(handOne) < highCard(handTwo))
-                return handTwo;
-            else
-                tie(handOne, handTwo);
-            // THERE IS A TIE
+            System.out.println("Comparing straight flush");
+            return straightFlushTie(handOne, handTwo);
         }
         else if(handValue(handOne) == 8 && handValue(handTwo) == 8)
         {
-            // HAVE TO SEE WHICH CARD IN THE FOUR OF A KIND IS HIGHER
-            // NEED TO CHANGE THE PARAMETERS TO JUST THE FOUR OF A KIND)
-            if(highCard(handOne) > highCard(handTwo))
-                return handOne;
-            else
-                return handTwo;
+            System.out.println("Comparing four of a kind");
+            return fourOfAKindTie(handOne, handTwo);
         }
         else if(handValue(handOne) == 7 && handValue(handTwo) == 7)
         {
-            // HAVE TO SEE WHICH OF THE THREE OF A KIND IS A HIGHER CARD
-            // NEED TO CHANGE THE PARAMETERS TO JUST THE THREE OF A KIND
-            if(highCard(handOne) > highCard(handTwo))
-                return handOne;
-            else
-                return handTwo;
+            System.out.println("Comparing full house");
+            return fullHouseTie(handOne, handTwo);
         }
         else if(handValue(handOne) == 6 && handValue(handTwo) == 6)
         {
-            // HIGH CARD HAS TO BE OF THE 5 CARDS BEING USED
-            // NEED TO CHANGE PARAMETERS TO JUST THE 5 CARDS BEING USED
-            if(highCard(handOne) > highCard(handTwo))
-                return handOne;
-            else if(highCard(handOne) < highCard(handTwo))
-                return handTwo;
-            else
-                tie(handOne, handTwo);
-            // THERE IS A TIE;
+            System.out.println("Comparing flush");
+            return flushTie(handOne, handTwo);
         }
         else if(handValue(handOne) == 5 && handValue(handTwo) == 5)
         {
-            // HIGH CARD HAS TO BE OF THE 5 CARDS BEING USED
-            // NEED TO CHANGE PARAMETERS TO JUST THE 5 CARDS BEING USED
-            if(highCard(handOne) > highCard(handTwo))
-                return handOne;
-            else if(highCard(handOne) < highCard(handTwo))
-                return handTwo;
-            else
-                tie(handOne, handTwo);
-            // THERE IS A TIE
+            System.out.println("Comparing straight");
+            return straightTie(handOne, handTwo);
         }
         else if(handValue(handOne) == 4 && handValue(handTwo) == 4)
         {
-            // HIGH CARD HAS TO COME FROM THE THREE OF A KIND CARDS
-            // NEED TO CHANGE PARAMETERS TO JUST THE THREE OF A KIND CARDS
-            if(highCard(handOne) > highCard(handTwo))
-                return handOne;
-            else if(highCard(handOne) < highCard(handTwo))
-                return handTwo;
+            System.out.println("Comparing three of a kind");
+            return threeOfAKindTie(handOne, handTwo);
         }
         else if(handValue(handOne) == 3 && handValue(handTwo) == 3)
         {
-            // FIRST CHECK FOR A HIGH CARD FROM THE FOUR PAIRS
-            // IF FIRST TWO ARE THE SAME THEN CHECK FOR THE SECOND PAIR
-            // THEN IF THE SAME CHECK FOR A HIGH CARD ON THE LAST REMAINING ONE
-            // OTHERWISE TIE
-            if(highCard(handOne) > highCard(handTwo))
-                return handOne;
-            else if(highCard(handOne) < highCard(handTwo))
-                return handTwo;
-            else
-            {
-                if(highCard(handOne) > highCard(handTwo))
-                    return handOne;
-                else if(highCard(handOne) < highCard(handTwo))
-                    return handTwo;
-                else
-                    tie(handOne, handTwo);
-                // THERE IS A TIE
-            }
+            System.out.println("Comparing two pair");
+            return twoPairTie(handOne, handTwo);
         }
         else if(handValue(handOne) == 2 && handValue(handTwo) == 2)
         {
-            // FIRST CHECK FOR THE HIGHER OF THE PAIRS
-            // IF THE SAME CHECK FOR THE HIGHEST CARD IN THE THREE REMAINING
-            // IF SAME CHECK IN TWO REMAINING AND SO ON
-            // OTHERWISE TIE
+            System.out.println("Comparing one pair");
+            return onePairTie(handOne, handTwo);
+        }
+        else
+        {
+            System.out.println("Comparing high card");
             if(highCard(handOne) > highCard(handTwo))
-                return handOne;
+                return 1;
             else if(highCard(handOne) < highCard(handTwo))
-                return handTwo;
+                return 2;
             else
-            {
-                if(highCard(handOne) > highCard(handTwo))
-                    return handOne;
-                else if(highCard(handOne) < highCard(handTwo))
-                    return handTwo;
-                else
-                {
-                    tie(handOne, handTwo);
-                }
-            }
+                return highCardTie(handOne, handTwo);
         }
     }
-
-     */
 
     public void printHand(List<Card> hand)
     {
