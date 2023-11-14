@@ -26,21 +26,43 @@
     .header h1 {
       font-size: 36px;
       margin: 0;
-      color: #fff; /* White color */
+      color: #fff;
     }
 
     .header i {
       font-size: 40px;
       vertical-align: middle;
-      color: #fff; /* White color */
+      color: #fff;
+    }
+
+    #profileButton {
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin: 10px;
+      text-decoration: none;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+
+    #content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
 
     .btn-custom {
       display: inline-block;
       padding: 15px 30px;
       font-size: 18px;
-      background-color: #fff; /* White button */
-      color: #000; /* Black text */
+      background-color: #fff;
+      color: #000;
       border: none;
       border-radius: 5px;
       cursor: pointer;
@@ -50,12 +72,7 @@
     }
 
     .btn-custom:hover {
-      background-color: #ddd; /* Light gray on hover */
-    }
-
-    .text-center {
-      text-align: center;
-      margin-top: 30px;
+      background-color: #ddd;
     }
 
     .modal {
@@ -107,10 +124,24 @@
     return;  // Terminate the current JSP processing
   }
 %>
-<div class="header">
-  <h1><i class="bi bi-suit-club" style="color: #fff;"></i><i class="bi bi-suit-diamond-fill" style="color: #fff;"></i><span style="color: #fff;">7 Card Stud</span><i class="bi bi-heart-fill" style="color: #fff;"></i><i class="bi bi-suit-spade" style="color: #fff;"></i></h1>
-</div>
+
 <a href="#" class="btn-custom" id="profileButton">Profile</a>
+
+<div id="content">
+  <div class="header">
+    <h1><i class="bi bi-suit-club" style="color: #fff;"></i><i class="bi bi-suit-diamond-fill" style="color: #fff;"></i><span style="color: #fff;">7 Card Stud</span><i class="bi bi-heart-fill" style="color: #fff;"></i><i class="bi bi-suit-spade" style="color: #fff;"></i></h1>
+  </div>
+
+  <div class="text-center">
+    <!-- Add a class to the "Welcome" heading -->
+    <h1 class="text"><%= "Welcome" %></h1>
+    <a href="newGame.jsp" class="btn-custom">New Game</a> <br/>
+    <a href="bank.jsp" class="btn-custom">Bank</a> <br/>
+    <a href="index.jsp" class="btn-custom">Account</a> <br/>
+    <a href="leaderboard.jsp" class="btn-custom">Leaderboard</a> <br/>
+    <a href="profilePicture.jsp" class="btn-custom">Edit Profile</a> <br/>
+  </div>
+</div>
 
 <!-- Hidden modal dialog for the profile -->
 <div id="profileModal" class="modal">
@@ -124,15 +155,6 @@
   </div>
 </div>
 
-<div class="text-center">
-  <!-- Add a class to the "Welcome" heading -->
-  <h1 class="text"><%= "Welcome" %></h1>
-  <a href="newGame.jsp" class="btn-custom">New Game</a> <br/>
-  <a href="bank.jsp" class="btn-custom">Bank</a> <br/>
-  <a href="index.jsp" class="btn-custom">Account</a> <br/>
-  <a href="leaderboard.jsp" class="btn-custom">Leaderboard</a> <br/>
-  <a href="profilePicture.jsp" class="btn-custom">Edit Profile</a> <br/>
-</div>
 <script>
   // Get the modal and button elements
   const profileModal = document.getElementById("profileModal");
