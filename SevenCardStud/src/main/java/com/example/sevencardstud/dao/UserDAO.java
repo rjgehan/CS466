@@ -126,4 +126,27 @@ public class UserDAO extends GenericDAO<User> {
         return results;
     }
 
+    public void setSelectedImage(String username, String imagePath) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            User userToUpdate = findUserByLogin(username);
+
+            if (userToUpdate != null) {
+                userToUpdate.setSelectedImage(imagePath);
+                em.merge(userToUpdate);
+            }
+
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Failed to update selected image.", ex);
+        } finally {
+            em.close();
+        }
+    }
+
 }
