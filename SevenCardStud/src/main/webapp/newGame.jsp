@@ -237,7 +237,7 @@ To change this template use File | Settings | File Templates.
 
 
 <!-- Will display bot 6 to go with hand 6 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
-<div class="bot">
+<div class="pfp">
     <%
     String image = loggedInUser.getSelectedImage();
     if (image == null) {
@@ -291,6 +291,9 @@ To change this template use File | Settings | File Templates.
         </form>
     </div>
 </div>
+<% if (loggedInUser != null) { %>
+<a href="home.jsp" class="btn-custom">Home</a> <br/>
+<% } %>
 
 
 
@@ -304,7 +307,7 @@ To change this template use File | Settings | File Templates.
     <style>
         /* Ovrall layout */
         body {
-            background-image: url('images/PNG/Background.png'); /* Path to your image */
+            background-image: url('images/PNG/background2.0.png'); /* Path to your image */
             background-size: cover; /* Cover the entire page */
             background-position: center center; /* Center the image on the page */
             background-repeat: no-repeat; /* Do not repeat the image */
@@ -458,6 +461,18 @@ To change this template use File | Settings | File Templates.
             color: white;
             justify-content: center;
             margin-left: 48%;
+        }
+
+        .pfp {
+            text-align: center;
+            margin: 10px;
+        }
+
+
+        /* Size of bot image */
+        .pfp img {
+            width: 50px;
+            height: auto;
         }
 
     </style>
