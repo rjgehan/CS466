@@ -20,6 +20,8 @@ public class Hand
     public static List<Card> testHand2;
     public Deck newDeck;
 
+    public int turn;
+
     public Hand() {
         hand1 = new ArrayList<>();
         hand2 = new ArrayList<>();
@@ -30,6 +32,7 @@ public class Hand
         testHand = new ArrayList<>();
         testHand2 = new ArrayList<>();
         newDeck = new Deck();
+        turn = 1;
         for (int i = 0; i < 2; i++) {
             hand1.add(newDeck.drawCard());
             hand2.add(newDeck.drawCard());
@@ -46,12 +49,20 @@ public class Hand
     }
 
     public void newRound() {
-        hand1.add(newDeck.drawCard());
-        hand2.add(newDeck.drawCard());
-        hand3.add(newDeck.drawCard());
-        hand4.add(newDeck.drawCard());
-        hand5.add(newDeck.drawCard());
-        hand6.add(newDeck.drawCard());
+            hand1.add(newDeck.drawCard());
+            hand2.add(newDeck.drawCard());
+            hand3.add(newDeck.drawCard());
+            hand4.add(newDeck.drawCard());
+            hand5.add(newDeck.drawCard());
+            hand6.add(newDeck.drawCard());
+    }
+
+    public void newTurn() {
+        if (turn != 7) {
+            turn++;
+        } else {
+            turn = 1;
+        }
     }
 
     public void initializeHands() {
@@ -76,6 +87,10 @@ public class Hand
 
     public int getSize(List<Card> hand) {
         return hand.size();
+    }
+
+    public void nextTurn() {
+
     }
 
     public boolean aceHighOrLow(List<Card> hand)

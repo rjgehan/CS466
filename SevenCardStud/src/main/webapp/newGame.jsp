@@ -8,7 +8,6 @@
 <%@ page import="com.example.sevencardstud.Hand" %>
 <%@ page import="com.example.sevencardstud.Card" %>
 
-
 <%--
 Created by IntelliJ IDEA.
 User: Juliana
@@ -73,6 +72,16 @@ To change this template use File | Settings | File Templates.
         cardHands.add(Hand.hand5);
     }
 
+    if ("fold".equals(request.getParameter("action"))) {
+        if (Hand.hand1.size() != 7) {
+            hands.newRound();
+            session.setAttribute("hands", hands);
+        }
+    }
+
+    if ("raise".equals(request.getParameter("action"))) {
+        //raise functionality
+    }
 
 %>
 

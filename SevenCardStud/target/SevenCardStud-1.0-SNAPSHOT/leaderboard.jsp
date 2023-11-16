@@ -26,7 +26,7 @@
     <a href="home.jsp" class="btn-custom">Home</a> <br/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fancy Leaderboard</title>
+    <title>Leaderboard</title>
     <style>
         body {
             margin: 0;

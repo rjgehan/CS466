@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fancy Bank</title>
+    <title>Bank</title>
     <jsp:include page="styles.jsp"></jsp:include>
     <style>
         body {
