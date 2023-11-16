@@ -14,8 +14,6 @@
             max-width: 400px;
             margin: 50px auto;
         }
-
-
         form {
             padding-left: 20px;
             padding-right: 20px;

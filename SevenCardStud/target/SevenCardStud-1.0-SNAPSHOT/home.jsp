@@ -3,12 +3,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <jsp:include page="styles.jsp"></jsp:include>
   <title>7 Card Stud</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f0f0f0;
+      background-image: url('images/PNG/home.png'); /* Path to your image */
+      background-size: cover; /* Cover the entire page */
+      background-position: center center; /* Center the image on the page */
+      background-repeat: no-repeat; /* Do not repeat the image */
+      background-attachment: fixed; /* Optional: Fix the background image during scroll */
       margin: 0;
       padding: 0;
       display: flex;
@@ -129,12 +132,10 @@
 
 <div id="content">
   <div class="header">
-    <h1><i class="bi bi-suit-club" style="color: #fff;"></i><i class="bi bi-suit-diamond-fill" style="color: #fff;"></i><span style="color: #fff;">7 Card Stud</span><i class="bi bi-heart-fill" style="color: #fff;"></i><i class="bi bi-suit-spade" style="color: #fff;"></i></h1>
   </div>
 
   <div class="text-center">
     <!-- Add a class to the "Welcome" heading -->
-    <h1 class="text"><%= "Welcome" %></h1>
     <a href="newGame.jsp" class="btn-custom">New Game</a> <br/>
     <a href="bank.jsp" class="btn-custom">Bank</a> <br/>
     <a href="index.jsp" class="btn-custom">Account</a> <br/>
