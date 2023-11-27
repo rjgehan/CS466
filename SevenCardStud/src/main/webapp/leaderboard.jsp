@@ -23,7 +23,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <a href="home.jsp" class="btn-custom">Home</a> <br/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard</title>
@@ -37,16 +36,41 @@
             background: linear-gradient(to right, #6b5b95, #4b6cb7);
         }
 
+        .container {
+            text-align: center;
+            position: relative; /* New container for positioning the home button */
+            max-width: 400px; /* Adjust as needed */
+        }
+
+        .btn-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: black;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s;
+        }
+        .btn-home:hover {
+            background-color: grey;
+        }
+
         .leaderboard {
             color: white;
             text-align: center;
-            padding: 30px;
+            padding: 35px;
             border: 3px solid #fff;
             border-radius: 15px;
             background-color: rgba(107, 91, 149, 0.8);
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.3);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             animation: fadeInUp 1s ease-in-out;
+            max-width: 50%;
+            margin: auto;
         }
 
         .leaderboard h3 {
@@ -97,18 +121,21 @@
     <jsp:include page="styles.jsp"></jsp:include>
 </head>
 <body>
+<div class="container">
+    <a href="home.jsp" class="btn-home">Home</a>
 
-<div class="leaderboard">
-    <h3>Leaderboard (Sorted Most Wins to Least Wins):</h3>
-    <ol>
-        <%
-            for (User user : leaderboard) {
-        %>
-        <li><strong><%= user.getUsername() %></strong> - Wins: <%= user.getWins() %></li>
-        <%
-            }
-        %>
-    </ol>
+    <div class="leaderboard">
+        <h3>Leaderboard (Sorted Most Wins to Least Wins):</h3>
+        <ol>
+            <%
+                for (User user : leaderboard) {
+            %>
+            <li><strong><%= user.getUsername() %></strong> - Wins: <%= user.getWins() %></li>
+            <%
+                }
+            %>
+        </ol>
+    </div>
 </div>
 
 </body>

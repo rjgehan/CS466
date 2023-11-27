@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fancy Bank</title>
+    <title>Bank</title>
     <jsp:include page="styles.jsp"></jsp:include>
     <style>
         body {
@@ -32,8 +32,8 @@
             display: inline-block;
             padding: 10px 20px;
             font-size: 16px;
-            background-color: #28a745;
-            color: white;
+            background-color: white;
+            color: black;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -41,7 +41,7 @@
         }
 
         .btn-custom:hover {
-            background-color: #218838;
+            background-color: rgb(128, 128, 128);
         }
 
         #counter {

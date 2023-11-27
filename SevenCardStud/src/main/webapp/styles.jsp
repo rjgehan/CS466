@@ -6,10 +6,11 @@
         --primary-end: #724B98;
     }
     body {
-        background: linear-gradient(to bottom, var(--primary-start), var(--primary-end));
-        margin: 0;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
+        background-image: url('images/PNG/otherBackground.png'); /* Path to your image */
+        background-size: cover; /* Cover the entire page */
+        background-position: center center; /* Center the image on the page */
+        background-repeat: no-repeat; /* Do not repeat the image */
+        background-attachment: fixed; /* Optional: Fix the background image during scroll */
     }
     .header {
         background-color: #29134B;
