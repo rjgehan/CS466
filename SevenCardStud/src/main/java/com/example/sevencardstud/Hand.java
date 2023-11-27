@@ -118,6 +118,19 @@ public class Hand
         return aceHigh;
     }
 
+    public int numberStringValue(String cardNumber)
+    {
+        if(cardNumber.equals("A"))
+            return 14;
+        else if(cardNumber.equals("K"))
+            return 13;
+        else if(cardNumber.equals("Q"))
+            return 12;
+        else if(cardNumber.equals("J"))
+            return 11;
+        else
+            return Integer.parseInt(cardNumber);
+    }
     public int[] sort(List<Card> hand)
     {
         int valueArray[] = new int[hand.size()];
@@ -131,14 +144,8 @@ public class Hand
                 else
                     valueArray[i] = 1;
             }
-            else if(hand.get(i).getNumber().equals("K"))
-                valueArray[i] = 13;
-            else if(hand.get(i).getNumber().equals("Q"))
-                valueArray[i] = 12;
-            else if(hand.get(i).getNumber().equals("J"))
-                valueArray[i] = 11;
             else
-                valueArray[i] = Integer.parseInt(hand.get(i).getNumber());
+                valueArray[i] = numberStringValue(hand.get(i).getNumber());
         }
 
         Arrays.sort(valueArray);
@@ -158,14 +165,8 @@ public class Hand
                 else
                     value = 1;
             }
-            else if(hand.get(i).getNumber().equals("K"))
-                value = 13;
-            else if(hand.get(i).getNumber().equals("Q"))
-                value = 12;
-            else if(hand.get(i).getNumber().equals("J"))
-                value= 11;
             else
-                value = Integer.parseInt(hand.get(i).getNumber());
+                value = numberStringValue(hand.get(i).getNumber());
 
             if(value > max)
             {
@@ -323,16 +324,7 @@ public class Hand
 
             int value = 0;
             for (int i = hand.size() - 1; i > 0; i--) {
-                if (hand.get(i).getNumber().equals("A"))
-                    value = 14;
-                else if (hand.get(i).getNumber().equals("K"))
-                    value = 13;
-                else if (hand.get(i).getNumber().equals("Q"))
-                    value = 12;
-                else if (hand.get(i).getNumber().equals("J"))
-                    value = 11;
-                else
-                    value = Integer.parseInt(hand.get(i).getNumber());
+                value = numberStringValue(hand.get(i).getNumber());
 
                 if (value == numberValue) {
                     duplicateHand.remove(i);
@@ -531,14 +523,8 @@ public class Hand
                     else
                         value = 1;
                 }
-                else if(handOne.get(i).getNumber().equals("K"))
-                    value = 13;
-                else if(handOne.get(i).getNumber().equals("Q"))
-                    value = 12;
-                else if(handOne.get(i).getNumber().equals("J"))
-                    value= 11;
                 else
-                    value = Integer.parseInt(handOne.get(i).getNumber());
+                    value = numberStringValue(handOne.get(i).getNumber());
                 potentialStraightFlush[sfIndex] = value;
                 sfIndex++;
             }
@@ -600,14 +586,8 @@ public class Hand
                     else
                         value = 1;
                 }
-                else if(handTwo.get(i).getNumber().equals("K"))
-                    value = 13;
-                else if(handTwo.get(i).getNumber().equals("Q"))
-                    value = 12;
-                else if(handTwo.get(i).getNumber().equals("J"))
-                    value= 11;
                 else
-                    value = Integer.parseInt(handTwo.get(i).getNumber());
+                    value = numberStringValue(handTwo.get(i).getNumber());
                 potentialStraightFlushTwo[sfIndexTwo] = value;
                 sfIndexTwo++;
             }
@@ -833,14 +813,8 @@ public class Hand
                     else
                         value = 1;
                 }
-                else if(handOne.get(i).getNumber().equals("K"))
-                    value = 13;
-                else if(handOne.get(i).getNumber().equals("Q"))
-                    value = 12;
-                else if(handOne.get(i).getNumber().equals("J"))
-                    value= 11;
                 else
-                    value = Integer.parseInt(handOne.get(i).getNumber());
+                    value = numberStringValue(handOne.get(i).getNumber());
                 handOneValues[index] = value;
                 index++;
             }
@@ -860,14 +834,8 @@ public class Hand
                     else
                         valueTwo = 1;
                 }
-                else if(handTwo.get(i).getNumber().equals("K"))
-                    valueTwo = 13;
-                else if(handTwo.get(i).getNumber().equals("Q"))
-                    valueTwo = 12;
-                else if(handTwo.get(i).getNumber().equals("J"))
-                    valueTwo= 11;
                 else
-                    valueTwo = Integer.parseInt(handTwo.get(i).getNumber());
+                    valueTwo = numberStringValue(handTwo.get(i).getNumber());
                 handTwoValues[indexTwo] = valueTwo;
                 indexTwo++;
             }

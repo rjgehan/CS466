@@ -35,8 +35,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            height: 85vh;
             margin: 0;
+            padding-right: 200px;
+            padding-left: 200px;
+            background-image: url('images/PNG/profile.png'); /* Path to your image */
+            background-size: cover; /* Cover the entire page */
+            background-position: center center; /* Center the image on the page */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            background-attachment: fixed; /* Optional: Fix the background image during scroll */
         }
 
 

@@ -18,6 +18,9 @@
             padding-left: 20px;
             padding-right: 20px;
         }
+        body {
+            padding-top: 150px;
+        }
     </style>
     <title>Account</title>
 </head>
