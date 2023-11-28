@@ -47,6 +47,144 @@ public class GamePlay
             return Integer.parseInt(number);
     }
 
+    public boolean valueOne(List<Card> hand)
+    {
+        int max = 0;
+        for(int i = 2; i < hand.size(); i++)
+        {
+            if(cardNumberValue(hand.get(i).getNumber()) > max)
+                max = cardNumberValue(hand.get(i).getNumber());
+        }
+
+        if(max >= 8)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean valueTwo(List<Card> hand)
+    {
+        for (int i = 2; i < hand.size(); i++)
+        {
+            int count = 1;
+            for (int j = i + 1; j < hand.size(); j++)
+            {
+                if (hand.get(i).getNumber().equals(hand.get(j).getNumber()))
+                    count++;
+            }
+
+            if(count == 2)
+                return true;
+        }
+
+        return false;
+    }
+
+    public boolean valueThree(List<Card> hand)
+    {
+        int count = 0;
+        for (int i = 2; i < hand.size(); i++)
+        {
+            for (int j = i + 1; j < hand.size(); j++)
+            {
+                if (hand.get(i).getNumber().equals(hand.get(j).getNumber()))
+                    count++;
+            }
+        }
+
+        if (count == 2)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean valueFour(List<Card> hand)
+    {
+        for (int i = 2; i < hand.size(); i++)
+        {
+            int individualCardCount = 1;
+            for (int j = i + 1; j < hand.size(); j++)
+            {
+                if (hand.get(i).getNumber().equals(hand.get(j).getNumber()))
+                    individualCardCount++;
+            }
+
+            if (individualCardCount == 3)
+                return true;
+        }
+
+        return false;
+    }
+
+    public boolean valueFive(List<Card> hand)
+    {
+        if(hand.size() == 5 || hand.size() == 6) {
+            int sortedCards[] = new int[hand.size() - 2];
+            int index = 0;
+            for (int i = 2; i < hand.size(); i++) {
+                sortedCards[index] = cardNumberValue(hand.get(i).getNumber());
+                index++;
+            }
+            Arrays.sort(sortedCards);
+
+            for (int i = 0; i < sortedCards.length - 1; i++)
+            {
+                if (sortedCards[i] == sortedCards[i + 1])
+                    return false;
+            }
+
+            if (sortedCards[sortedCards.length - 1] - sortedCards[0] <= 4)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
+    public boolean valueSix(List<Card> hand)
+    {
+        boolean isFlush = true;
+        for (int i = 2; i < hand.size() - 1; i++)
+        {
+            if(!hand.get(i).getSuit().equals(hand.get(i+1).getSuit()))
+            {
+                isFlush = false;
+                break;
+            }
+        }
+        return isFlush;
+    }
+
+    public boolean valueSeven(List<Card> hand)
+    {
+        if(valueThree(hand) || valueFour(hand))
+            return true;
+        else
+            return false;
+    }
+
+    public boolean valueEight(List<Card> hand)
+    {
+        boolean isFourOfKind = true;
+        if(hand.size() == 5)
+            isFourOfKind = false;
+        else if(hand.size() == 6)
+        {
+            for (int i = 2; i < hand.size() - 1; i++)
+            {
+                if(!hand.get(i).getNumber().equals(hand.get(i+1).getNumber()))
+                {
+                    isFourOfKind = false;
+                    break;
+                }
+            }
+        }
+        else
+            isFourOfKind = false;
+
+        return isFourOfKind;
+    }
     public int shouldFold(List<Card> hand)
     {
         int shouldFoldLevel = 0;
