@@ -46,3 +46,4 @@ public class Bot
 
     public boolean getIsFolded(){return isFolded;}
 }
+
