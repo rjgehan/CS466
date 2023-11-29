@@ -58,6 +58,7 @@ public class Hand
     }
 
     public void newTurn() {
+        System.out.println("Turn value: " + turn);
         if (turn != 7) {
             turn++;
         } else {
@@ -87,10 +88,6 @@ public class Hand
 
     public int getSize(List<Card> hand) {
         return hand.size();
-    }
-
-    public void nextTurn() {
-
     }
 
     public boolean aceHighOrLow(List<Card> hand)

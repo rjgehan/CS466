@@ -1,12 +1,25 @@
 package com.example.sevencardstud;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.*;
-
 public class Game {
+    private Hand gameHand;
 
+    public Game() {
+        gameHand = new Hand();
+    }
+
+    public Hand getGameHand() {
+        return gameHand;
+    }
+
+    public void playRound() {
+        gameHand.newRound();
+    }
+
+    public void playTurn() {
+        gameHand.newTurn();
+    }
+
+    public void startNewGame() {
+        gameHand.initializeHands();
+    }
 }

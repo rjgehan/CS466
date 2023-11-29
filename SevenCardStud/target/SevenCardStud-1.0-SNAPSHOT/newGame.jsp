@@ -7,7 +7,7 @@
 <%@ page import="com.example.sevencardstud.model.entity.User" %>
 <%@ page import="com.example.sevencardstud.Hand" %>
 <%@ page import="com.example.sevencardstud.Card" %>
-
+<%@ page import="com.example.sevencardstud.Game" %>
 <%--
 Created by IntelliJ IDEA.
 User: Juliana
@@ -21,6 +21,7 @@ To change this template use File | Settings | File Templates.
         response.sendRedirect("index.jsp");
         return;
     }
+
 
     Hand hands = (Hand) session.getAttribute("hands");
     if (hands == null) {
@@ -49,6 +50,10 @@ To change this template use File | Settings | File Templates.
             hands.newRound();
             session.setAttribute("hands", hands);
         }
+    }
+
+    if ("fold".equals(request.getParameter("action"))) {
+        session.setAttribute("hands", hands);
     }
 
     Boolean showCards = (Boolean) session.getAttribute("showCards");
@@ -88,7 +93,7 @@ To change this template use File | Settings | File Templates.
 
 <script>
     var currentTurn = 6; // Initialize the current turn to 6
-    var timerDuration = 5; // Duration of the timer in seconds
+    var timerDuration = 1; // Duration of the timer in seconds
     var countdown; // Countdown interval
     var usersTurn = 6;
 
@@ -96,7 +101,23 @@ To change this template use File | Settings | File Templates.
         // Hide the button after clicking
         document.getElementById("action-bar").style.display = "none";
         currentTurn = 0;
+        playTurn();
         nextTurn();
+    }
+
+    function playTurn() {
+        // Use AJAX to call the server-side method playTurn in your GameServlet
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Handle the response if needed
+                console.log(xhr.responseText);
+                nextTurn();
+            }
+        };
+
+        xhr.open("GET", "GameServlet?action=playTurn", true);
+        xhr.send();
     }
 
     function betButtonClicked() {
@@ -189,6 +210,15 @@ To change this template use File | Settings | File Templates.
         openBetPopup();
     }
 
+    // Retrieve the turn value from the request attribute
+    var turnValue = <%= request.getAttribute("turn") %>;
+    document.getElementById("turnDisplay").innerText = "Turn: " + gameHand.turn;
+    document.getElementById("turnDisplay").style.color = "red";
+    document.getElementById("turnDisplay").style.fontSize = "20px";
+
+    // Update the content of a text field or label
+    document.getElementById("turnDisplay").innerText = "Turn: " + turnValue;
+
     document.querySelector(".bet-button").addEventListener("click", betButtonClicked);
     <%
     String betAmount = request.getParameter("betAmount");
@@ -203,6 +233,8 @@ To change this template use File | Settings | File Templates.
 
 
 <body>
+<span id="turnDisplay" ></span>
+
 <%
     int i = 1; // Start the counter at 1 for hand1, hand2, etc.
     for (List<Card> curr : cardHands) {
