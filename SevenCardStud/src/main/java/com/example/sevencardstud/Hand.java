@@ -1239,7 +1239,4 @@ public class Hand
     public List<Card> getHand5() {return hand5;}
     public List<Card> getHand6() {return hand6;}
 
-
-
-
 }

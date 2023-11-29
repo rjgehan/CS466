@@ -8,7 +8,7 @@ public class Bot
     public int botMoney;
     public int wins;
 
-    private boolean isFolded;
+    public boolean isFolded;
 
     public Bot(String name, List<Card> hand)
     {
@@ -43,4 +43,7 @@ public class Bot
     {
         wins++;
     }
+
+    public boolean getIsFolded(){return isFolded;}
 }
+

@@ -47,103 +47,221 @@ public class GamePlay
             return Integer.parseInt(number);
     }
 
-    public int shouldFold(List<Card> hand)
+    public boolean valueOne(List<Card> hand)
     {
-        int shouldFoldLevel = 0;
-        // don't fold if there are only two, three, or four cards in the deck
-        if(hand.size() == 2 || hand.size() == 3)
-            shouldFoldLevel = 0;
-        else if(hand.size() == 4)
+        int max = 0;
+        for(int i = 2; i < hand.size(); i++)
         {
-            int thirdValue = cardNumberValue(hand.get(2).getNumber());
-            int fourthValue = cardNumberValue(hand.get(3).getNumber());
-            if(thirdValue == fourthValue)
-                shouldFoldLevel = 0;
-            else if(hand.get(2).getSuit().equals((hand.get(3).getSuit())))
-                shouldFoldLevel = 0;
-            else if(thirdValue + 1 == fourthValue || thirdValue - 1 == fourthValue)
-                shouldFoldLevel = 0;
-            else
-                shouldFoldLevel = 2;
-        }
-        else if(hand.size() == 5)
-        {
-            int thirdValue = cardNumberValue(hand.get(2).getNumber());
-            int fourthValue = cardNumberValue(hand.get(3).getNumber());
-            int fifthValue = cardNumberValue(hand.get(4).getNumber());
-            String thirdSuit = hand.get(2).getSuit();
-            String fourthSuit = hand.get(3).getSuit();
-            String fifthSuit = hand.get(4).getSuit();
-            int sortedCards[] = new int[3];
-            sortedCards[0] = thirdValue;
-            sortedCards[1] = fourthValue;
-            sortedCards[2] = fifthValue;
-            Arrays.sort(sortedCards);
-            if(thirdValue == fourthValue && fourthValue == fifthValue)
-                shouldFoldLevel = 0;
-            else if(thirdValue == fourthValue || thirdValue == fifthValue || fourthValue == fifthValue)
-                shouldFoldLevel = 1;
-            else if(thirdSuit.equals(fourthSuit) && fourthSuit.equals(fifthSuit))
-                shouldFoldLevel = 0;
-            else if(thirdSuit.equals(fourthSuit) || thirdSuit.equals(fifthSuit) || fourthSuit.equals(fifthSuit))
-                shouldFoldLevel = 1;
-            else if(sortedCards[2] - 1 == sortedCards[1] && sortedCards[1] - 1 == sortedCards[0])
-                shouldFoldLevel = 0;
-            else if(sortedCards[2] - 1 == sortedCards[1] || sortedCards[1] - 1 == sortedCards[0])
-                shouldFoldLevel = 1;
-            else shouldFoldLevel = 2;
+            if(cardNumberValue(hand.get(i).getNumber()) > max)
+                max = cardNumberValue(hand.get(i).getNumber());
         }
 
+        if(max >= 8)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean valueTwo(List<Card> hand)
+    {
+        for (int i = 2; i < hand.size(); i++)
+        {
+            int count = 1;
+            for (int j = i + 1; j < hand.size(); j++)
+            {
+                if (hand.get(i).getNumber().equals(hand.get(j).getNumber()))
+                    count++;
+            }
+
+            if(count == 2)
+                return true;
+        }
+
+        return false;
+    }
+
+    public boolean valueThree(List<Card> hand)
+    {
+        int count = 0;
+        for (int i = 2; i < hand.size(); i++)
+        {
+            for (int j = i + 1; j < hand.size(); j++)
+            {
+                if (hand.get(i).getNumber().equals(hand.get(j).getNumber()))
+                    count++;
+            }
+        }
+
+        if (count == 2)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean valueFour(List<Card> hand)
+    {
+        for (int i = 2; i < hand.size(); i++)
+        {
+            int individualCardCount = 1;
+            for (int j = i + 1; j < hand.size(); j++)
+            {
+                if (hand.get(i).getNumber().equals(hand.get(j).getNumber()))
+                    individualCardCount++;
+            }
+
+            if (individualCardCount == 3)
+                return true;
+        }
+
+        return false;
+    }
+
+    public boolean valueFive(List<Card> hand)
+    {
+        if(hand.size() == 5 || hand.size() == 6) {
+            int sortedCards[] = new int[hand.size() - 2];
+            int index = 0;
+            for (int i = 2; i < hand.size(); i++) {
+                sortedCards[index] = cardNumberValue(hand.get(i).getNumber());
+                index++;
+            }
+            Arrays.sort(sortedCards);
+
+            for (int i = 0; i < sortedCards.length - 1; i++)
+            {
+                if (sortedCards[i] == sortedCards[i + 1])
+                    return false;
+            }
+
+            if (sortedCards[sortedCards.length - 1] - sortedCards[0] <= 4)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
+    public boolean valueSix(List<Card> hand)
+    {
+        boolean isFlush = true;
+        for (int i = 2; i < hand.size() - 1; i++)
+        {
+            if(!hand.get(i).getSuit().equals(hand.get(i+1).getSuit()))
+            {
+                isFlush = false;
+                break;
+            }
+        }
+        return isFlush;
+    }
+
+    public boolean valueSeven(List<Card> hand)
+    {
+        if(valueThree(hand) || valueFour(hand))
+            return true;
+        else
+            return false;
+    }
+
+    public boolean valueEight(List<Card> hand)
+    {
+        boolean isFourOfKind = true;
+        if(hand.size() == 5)
+            isFourOfKind = false;
         else if(hand.size() == 6)
         {
-            int thirdValue = cardNumberValue(hand.get(2).getNumber());
-            int fourthValue = cardNumberValue(hand.get(3).getNumber());
-            int fifthValue = cardNumberValue(hand.get(4).getNumber());
-            int sixthValue = cardNumberValue(hand.get(5).getNumber());
-            String thirdSuit = hand.get(2).getSuit();
-            String fourthSuit = hand.get(3).getSuit();
-            String fifthSuit = hand.get(4).getSuit();
-            String sixthSuit = hand.get(5).getSuit();
-            int sortedCards[] = new int[4];
-            sortedCards[0] = thirdValue;
-            sortedCards[1] = fourthValue;
-            sortedCards[2] = fifthValue;
-            sortedCards[3] = sixthValue;
-            Arrays.sort(sortedCards);
-            if(thirdValue == fourthValue && fourthValue == fifthValue && fifthValue == sixthValue)
-                shouldFoldLevel = 0;
-            else if(thirdValue == fourthValue && fourthValue == fifthValue)
-                shouldFoldLevel = 1;
-            else if(thirdValue == fourthValue || thirdValue == fifthValue || thirdValue == sixthValue || fourthValue == fifthValue || fourthValue == sixthValue || fifthValue == sixthValue)
-                shouldFoldLevel = 1;
-            else if(thirdSuit.equals(fourthSuit) && fourthSuit.equals(fifthSuit) && fifthSuit.equals(sixthSuit))
-                shouldFoldLevel = 0;
-            else if(thirdSuit.equals(fourthSuit) || thirdSuit.equals(fifthSuit) || thirdSuit.equals(sixthSuit) || fourthSuit.equals(fifthSuit) || fourthSuit.equals(sixthSuit) || fifthSuit.equals(sixthSuit))
-                shouldFoldLevel = 1;
-            else if(sortedCards[3] - 1 == sortedCards[2] && sortedCards[2] - 1 == sortedCards[1] && sortedCards[1] - 1 == sortedCards[0])
-                shouldFoldLevel = 0;
-            else shouldFoldLevel = 2;
+            for (int i = 2; i < hand.size() - 1; i++)
+            {
+                if(!hand.get(i).getNumber().equals(hand.get(i+1).getNumber()))
+                {
+                    isFourOfKind = false;
+                    break;
+                }
+            }
         }
+        else
+            isFourOfKind = false;
 
-        return shouldFoldLevel;
+        return isFourOfKind;
+    }
+
+    public boolean valueNine(List<Card> hand)
+    {
+        if(valueFive(hand) && valueSix(hand))
+            return true;
+        else
+            return false;
+    }
+
+    public boolean valueTen(List<Card> hand)
+    {
+        if(valueSix(hand))
+        {
+            if(!valueTwo(hand))
+            {
+                int sum = 0;
+                for(int i = 2; i < hand.size(); i++)
+                {
+                    sum += cardNumberValue(hand.get(i).getNumber());
+                }
+                if(hand.size() == 5)
+                {
+                    if(sum >= 33)
+                        return true;
+                    else
+                        return false;
+                }
+
+                else if(hand.size() == 6)
+                {
+                    if(sum >= 46)
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
+    public int shouldFold(List<Card> hand)
+    {
+        int value = 0;
+
+        if(valueTen(hand))
+            value = 10;
+        else if(valueNine(hand))
+            value = 9;
+        else if(valueEight(hand))
+            value = 8;
+        else if(valueSeven(hand))
+            value = 7;
+        else if(valueSix(hand))
+            value = 6;
+        else if(valueFive(hand))
+            value = 5;
+        else if(valueFour(hand))
+            value = 4;
+        else if(valueThree(hand))
+            value = 3;
+        else if(valueTwo(hand))
+            value = 2;
+        else if(valueOne(hand))
+            value = 1;
+        else
+            return value;
+
+        return value;
+
     }
 
     public void afterFirstRound(Bot bot)
-    {
-        hand.newRound();
-        if(bot == bot1)
-            bot1.hand.add(hand.hand1.get(2));
-        else if(bot == bot2)
-            bot2.hand.add(hand.hand2.get(2));
-        else if(bot == bot3)
-            bot3.hand.add(hand.hand3.get(2));
-        else if(bot == bot4)
-            bot4.hand.add(hand.hand4.get(2));
-        else if(bot == bot5)
-            bot5.hand.add(hand.hand5.get(2));
-    }
-
-    public void afterSecondRound(Bot bot)
     {
         hand.newRound();
         if(bot == bot1)
@@ -158,7 +276,7 @@ public class GamePlay
             bot5.hand.add(hand.hand5.get(3));
     }
 
-    public void afterThirdRound(Bot bot)
+    public void afterSecondRound(Bot bot)
     {
         hand.newRound();
         if(bot == bot1)
@@ -173,33 +291,124 @@ public class GamePlay
             bot5.hand.add(hand.hand5.get(4));
     }
 
+    public void afterThirdRound(Bot bot)
+    {
+        hand.newRound();
+        if(bot == bot1)
+        {
+            int value = shouldFold(bot1.hand);
+            if(value >= 1)
+            {
+                bot1.hand.add(hand.hand1.get(5));
+            }
+
+            else
+                bot1.isFolded = true;
+        }
+        else if(bot == bot2)
+        {
+            int value = shouldFold(bot2.hand);
+            if(value >= 1)
+            {
+                bot2.hand.add(hand.hand2.get(5));
+            }
+
+            else
+                bot2.isFolded = true;
+        }
+        else if(bot == bot3)
+        {
+            int value = shouldFold(bot3.hand);
+            if(value >= 1)
+            {
+                bot3.hand.add(hand.hand3.get(5));
+            }
+
+            else
+                bot3.isFolded = true;
+        }
+        else if(bot == bot4)
+        {
+            int value = shouldFold(bot4.hand);
+            if(value >= 1)
+            {
+                bot4.hand.add(hand.hand4.get(5));
+            }
+
+            else
+                bot4.isFolded = true;
+        }
+        else if(bot == bot5)
+        {
+            int value = shouldFold(bot5.hand);
+            if(value >= 1)
+            {
+                bot5.hand.add(hand.hand5.get(5));
+            }
+
+            else
+                bot5.isFolded = true;
+        }
+    }
+
     public void afterFourthRound(Bot bot)
     {
         hand.newRound();
         if(bot == bot1)
-            bot1.hand.add(hand.hand1.get(5));
-        else if(bot == bot2)
-            bot2.hand.add(hand.hand2.get(5));
-        else if(bot == bot3)
-            bot3.hand.add(hand.hand3.get(5));
-        else if(bot == bot4)
-            bot4.hand.add(hand.hand4.get(5));
-        else if(bot == bot5)
-            bot5.hand.add(hand.hand5.get(5));
-    }
+        {
+            int value = shouldFold(bot1.hand);
+            if(value >= 4)
+            {
+                bot1.hand.add(hand.hand1.get(6));
+            }
 
-    public void afterFifthRound(Bot bot)
-    {
-        hand.newRound();
-        if(bot == bot1)
-            bot1.hand.add(hand.hand1.get(6));
+            else
+                bot1.isFolded = true;
+        }
         else if(bot == bot2)
-            bot2.hand.add(hand.hand2.get(6));
+        {
+            int value = shouldFold(bot2.hand);
+            if(value >= 4)
+            {
+                bot2.hand.add(hand.hand2.get(6));
+            }
+
+            else
+                bot2.isFolded = true;
+        }
         else if(bot == bot3)
-            bot3.hand.add(hand.hand3.get(6));
+        {
+            int value = shouldFold(bot3.hand);
+            if(value >= 4)
+            {
+                bot3.hand.add(hand.hand3.get(6));
+            }
+
+            else
+                bot3.isFolded = true;
+        }
         else if(bot == bot4)
-            bot4.hand.add(hand.hand4.get(6));
+        {
+            int value = shouldFold(bot4.hand);
+            if(value >= 4)
+            {
+                bot4.hand.add(hand.hand4.get(6));
+            }
+
+            else
+                bot4.isFolded = true;
+        }
         else if(bot == bot5)
-            bot5.hand.add(hand.hand5.get(6));
+        {
+            int value = shouldFold(bot5.hand);
+            if(value >= 4)
+            {
+                bot5.hand.add(hand.hand5.get(6));
+            }
+
+            else
+                bot5.isFolded = true;
+        }
     }
 }
+
