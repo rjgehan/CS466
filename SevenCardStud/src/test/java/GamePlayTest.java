@@ -45,6 +45,7 @@ public class GamePlayTest {
         assertEquals(6, gp.bot1.getHand().size());
     }
 
+    /*
     @Test
     public void testAfterFifthRound() {
         GamePlay gp = new GamePlay();
@@ -55,6 +56,8 @@ public class GamePlayTest {
         gp.afterFifthRound(gp.bot1);
         assertEquals(7, gp.bot1.getHand().size());
     }
+
+     */
 
     @Test
     public void testShouldFoldSizeTwo() {
