@@ -293,6 +293,7 @@ To change this template use File | Settings | File Templates.
 </div>
 <% if (loggedInUser != null) { %>
 <a href="home.jsp" class="btn-custom">Home</a> <br/>
+<a href="displayCardImages.jsp" class="btn-custom">Winning Hands</a> <br/>
 <% } %>
 
 
