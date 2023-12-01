@@ -31,10 +31,10 @@ public class Hand
         hand6 = new ArrayList<>();
         testHand = new ArrayList<>();
         testHand2 = new ArrayList<>();
-
         newDeck = new Deck();
         turn = 0;
-        for (int i = 0; i < 2; i++) {
+
+        for (int i = 0; i <= 2; i++) {
             hand1.add(newDeck.drawCard());
             hand2.add(newDeck.drawCard());
             hand3.add(newDeck.drawCard());
@@ -42,20 +42,14 @@ public class Hand
             hand5.add(newDeck.drawCard());
             hand6.add(newDeck.drawCard());
         }
+
+
+
     }
 
     public void addCard(List<Card> hand, Card card)
     {
         hand.add(card);
-    }
-
-    public void newRoundOld() {
-            hand1.add(newDeck.drawCard());
-            hand2.add(newDeck.drawCard());
-            hand3.add(newDeck.drawCard());
-            hand4.add(newDeck.drawCard());
-            hand5.add(newDeck.drawCard());
-            hand6.add(newDeck.drawCard());
     }
 
     public void playerTurnEnd() {
@@ -113,6 +107,7 @@ public class Hand
         }
     }
 
+
     public void initializeHands() {
         newDeck = new Deck();
 
@@ -123,7 +118,7 @@ public class Hand
         hand5.clear();
         hand6.clear();
 
-        for (int i = 0; i < 2; i++) { // Deal two cards to each hand as an example
+        for (int i = 0; i < 3; i++) { // Deal two cards to each hand as an example
             hand1.add(newDeck.drawCard());
             hand2.add(newDeck.drawCard());
             hand3.add(newDeck.drawCard());
@@ -132,6 +127,8 @@ public class Hand
             hand6.add(newDeck.drawCard());
         }
     }
+
+
 
     public int getSize(List<Card> hand) {
         return hand.size();

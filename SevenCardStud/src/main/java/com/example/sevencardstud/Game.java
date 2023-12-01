@@ -20,9 +20,6 @@ public class Game {
         gameHands.add(Hand.hand3);
         gameHands.add(Hand.hand4);
         gameHands.add(Hand.hand5);
-
-        //Third Street
-        playRound();
     }
 
     public Hand getGameHand() {

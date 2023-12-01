@@ -16,35 +16,21 @@ Time: 12:26 PM
 To change this template use File | Settings | File Templates.
 --%>
 <%
+    // User initialization
     User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
     if (loggedInUser == null) {
         response.sendRedirect("index.jsp");
         return;
     }
 
-
-    //Hand hands = (Hand) session.getAttribute("hands");
+    // Game initialization
     Game game = (Game) session.getAttribute("game");
-    /*if (hands == null) {
-        hands = new Hand();
-
-        // Third Street
-        hands.newRound();
-
-        session.setAttribute("hands", hands);
-    }*/
     if (game == null) {
         game = new Game();
         session.setAttribute("game", game);
     }
 
-    /*List<List<Card>> cardHands = new ArrayList<>();
-    cardHands.add(Hand.hand1);
-    cardHands.add(Hand.hand2);
-    cardHands.add(Hand.hand3);
-    cardHands.add(Hand.hand4);
-    cardHands.add(Hand.hand5);*/
-
+    // Bot initialization
     List<String> botNames = new ArrayList<>();
     botNames.add("Joe");
     botNames.add("Mike");
@@ -52,15 +38,12 @@ To change this template use File | Settings | File Templates.
     botNames.add("Len");
     botNames.add("John");
 
+    // Context initialization
     String contextPath = request.getContextPath();
 
-    /*if ("addCards".equals(request.getParameter("action"))) {
-        if (Hand.hand1.size() != 7) {
-            hands.newRound();
-            session.setAttribute("hands", hands);
-        }
-    }*/
+    // Controls
 
+    // TEST: ADD CARDS
     if ("addCards".equals(request.getParameter("action"))) {
         if (game.hands.getHand1().size() != 7) {
             game.playRound();
@@ -68,13 +51,7 @@ To change this template use File | Settings | File Templates.
         }
     }
 
-    /*if ("fold".equals(request.getParameter("action"))) {
-        if (Hand.hand1.size() != 7) {
-            hands.newRound();
-            session.setAttribute("hands", hands);
-        }
-    }*/
-
+    // FOLD
     if ("fold".equals(request.getParameter("action"))) {
         if (game.hands.getHand1().size() != 7) {
             game.playRound();
@@ -82,46 +59,23 @@ To change this template use File | Settings | File Templates.
         }
     }
 
+    // SHOW CARDS
     Boolean showCards = (Boolean) session.getAttribute("showCards");
     if (showCards == null) {
         showCards = false;
     }
-
     if ("toggleShowCards".equals(request.getParameter("action"))) {
         showCards = !showCards;
         session.setAttribute("showCards", showCards);
     }
 
-    /*if ("resetHands".equals(request.getParameter("action"))) {
-        hands = new Hand();
-        session.setAttribute("hands", hands);
-        cardHands.clear();
-        cardHands.add(Hand.hand1);
-        cardHands.add(Hand.hand2);
-        cardHands.add(Hand.hand3);
-        cardHands.add(Hand.hand4);
-        cardHands.add(Hand.hand5);
-    }*/
-
+    // RESET GAME
     if ("resetHands".equals(request.getParameter("action"))) {
         game = new Game();
         session.setAttribute("game", game);
     }
 
-    /*if ("fold".equals(request.getParameter("action"))) {
-        if (Hand.hand1.size() != 7) {
-            hands.playerTurnEnd();
-            session.setAttribute("hands", hands);
-        }
-    }*/
-
-    if ("fold".equals(request.getParameter("action"))) {
-        if (game.hands.getHand1().size() != 7) {
-            game.playRound();
-            session.setAttribute("game", game);
-        }
-    }
-
+    // RAISE
     if ("raise".equals(request.getParameter("action"))) {
         //raise functionality
     }
