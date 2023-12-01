@@ -471,7 +471,6 @@ public class GamePlay
 
     public void afterFirstRound(Bot bot)
     {
-        hand.newRound();
         if(bot == bot1)
             bot1.hand.add(hand.hand1.get(3));
         else if(bot == bot2)
@@ -486,7 +485,6 @@ public class GamePlay
 
     public void afterSecondRound(Bot bot)
     {
-        hand.newRound();
         if(bot == bot1)
             bot1.hand.add(hand.hand1.get(4));
         else if(bot == bot2)
@@ -501,7 +499,6 @@ public class GamePlay
 
     public void afterThirdRound(Bot bot)
     {
-        hand.newRound();
         if(bot == bot1)
         {
             int value = shouldFold(bot1.hand);
@@ -561,7 +558,6 @@ public class GamePlay
 
     public void afterFourthRound(Bot bot)
     {
-        hand.newRound();
         if(bot == bot1)
         {
             int value = shouldFold(bot1.hand);
@@ -576,7 +572,7 @@ public class GamePlay
             {
                 int[] missingCards = fullHouseMissingValues(bot1.hand);
                 if(fullHouseSearch(missingCards))
-                    value = 4; // MAY BE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
+                    value = 4; // MAYBE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
             }
             else if(value == 5)
             {
@@ -607,7 +603,7 @@ public class GamePlay
             {
                 int[] missingCards = fullHouseMissingValues(bot2.hand);
                 if(fullHouseSearch(missingCards))
-                    value = 4; // MAY BE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
+                    value = 4; // MAYBE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
             }
             else if(value == 5)
             {
@@ -638,7 +634,7 @@ public class GamePlay
             {
                 int[] missingCards = fullHouseMissingValues(bot3.hand);
                 if(fullHouseSearch(missingCards))
-                    value = 4; // MAY BE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
+                    value = 4; // MAYBE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
             }
             else if(value == 5)
             {
@@ -669,7 +665,7 @@ public class GamePlay
             {
                 int[] missingCards = fullHouseMissingValues(bot4.hand);
                 if(fullHouseSearch(missingCards))
-                    value = 4; // MAY BE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
+                    value = 4; // MAYBE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
             }
             else if(value == 5)
             {
@@ -700,7 +696,7 @@ public class GamePlay
             {
                 int[] missingCards = fullHouseMissingValues(bot5.hand);
                 if(fullHouseSearch(missingCards))
-                    value = 4; // MAY BE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
+                    value = 4; // MAYBE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
             }
             else if(value == 5)
             {
@@ -717,6 +713,58 @@ public class GamePlay
             else
                 bot5.isFolded = true;
         }
+    }
+
+
+
+    public static void main(String[] args)
+    {
+        GamePlay gp = new GamePlay();
+
+        hand.newRound();
+        gp.afterFirstRound(gp.bot1);
+        gp.afterFirstRound(gp.bot2);
+        gp.afterFirstRound(gp.bot3);
+        gp.afterFirstRound(gp.bot4);
+        gp.afterFirstRound(gp.bot5);
+
+
+
+        System.out.println("Bot 1 Initial");
+        for(int i = 0; i < gp.bot1.hand.size(); i++)
+            System.out.print(gp.bot1.hand.get(i).getNumber() + gp.bot1.hand.get(i).getSuit() + '\t');
+
+        System.out.println("");
+
+        System.out.println("Bot 2 Initial");
+        for(int i = 0; i < gp.bot2.hand.size(); i++)
+            System.out.print(gp.bot2.hand.get(i).getNumber() + gp.bot2.hand.get(i).getSuit() + '\t');
+
+        System.out.println("");
+
+        System.out.println("Bot 3 Initial");
+        for(int i = 0; i < gp.bot3.hand.size(); i++)
+            System.out.print(gp.bot3.hand.get(i).getNumber() + gp.bot3.hand.get(i).getSuit() + '\t');
+
+        System.out.println("");
+
+        System.out.println("Bot 4 Initial");
+        for(int i = 0; i < gp.bot4.hand.size(); i++)
+            System.out.print(gp.bot4.hand.get(i).getNumber() + gp.bot4.hand.get(i).getSuit() + '\t');
+
+        System.out.println("");
+
+        System.out.println("Bot 5 Initial");
+        for(int i = 0; i < gp.bot5.hand.size(); i++)
+            System.out.print(gp.bot5.hand.get(i).getNumber() + gp.bot5.hand.get(i).getSuit() + '\t');
+
+        System.out.println("");
+
+        System.out.println("Hand 6 Initial");
+        for(int i = 0; i < hand.hand6.size(); i++)
+            System.out.print(hand.hand6.get(i).getNumber() + hand.hand6.get(i).getSuit() + '\t');
+
+        System.out.println("");
     }
 }
 

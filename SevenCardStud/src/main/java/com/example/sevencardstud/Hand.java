@@ -30,7 +30,8 @@ public class Hand
         testHand = new ArrayList<>();
         testHand2 = new ArrayList<>();
         newDeck = new Deck();
-        for (int i = 0; i < 2; i++) {
+
+        for (int i = 0; i <= 2; i++) {
             hand1.add(newDeck.drawCard());
             hand2.add(newDeck.drawCard());
             hand3.add(newDeck.drawCard());
@@ -38,6 +39,9 @@ public class Hand
             hand5.add(newDeck.drawCard());
             hand6.add(newDeck.drawCard());
         }
+
+
+
     }
 
     public void addCard(List<Card> hand, Card card)
@@ -54,6 +58,7 @@ public class Hand
         hand6.add(newDeck.drawCard());
     }
 
+
     public void initializeHands() {
         newDeck = new Deck();
 
@@ -64,7 +69,7 @@ public class Hand
         hand5.clear();
         hand6.clear();
 
-        for (int i = 0; i < 2; i++) { // Deal two cards to each hand as an example
+        for (int i = 0; i < 3; i++) { // Deal two cards to each hand as an example
             hand1.add(newDeck.drawCard());
             hand2.add(newDeck.drawCard());
             hand3.add(newDeck.drawCard());
@@ -73,6 +78,8 @@ public class Hand
             hand6.add(newDeck.drawCard());
         }
     }
+
+
 
     public int getSize(List<Card> hand) {
         return hand.size();
