@@ -23,18 +23,27 @@ To change this template use File | Settings | File Templates.
     }
 
 
-    Hand hands = (Hand) session.getAttribute("hands");
-    if (hands == null) {
+    //Hand hands = (Hand) session.getAttribute("hands");
+    Game game = (Game) session.getAttribute("game");
+    /*if (hands == null) {
         hands = new Hand();
+
+        // Third Street
+        hands.newRound();
+
         session.setAttribute("hands", hands);
+    }*/
+    if (game == null) {
+        game = new Game();
+        session.setAttribute("game", game);
     }
 
-    List<List<Card>> cardHands = new ArrayList<>();
+    /*List<List<Card>> cardHands = new ArrayList<>();
     cardHands.add(Hand.hand1);
     cardHands.add(Hand.hand2);
     cardHands.add(Hand.hand3);
     cardHands.add(Hand.hand4);
-    cardHands.add(Hand.hand5);
+    cardHands.add(Hand.hand5);*/
 
     List<String> botNames = new ArrayList<>();
     botNames.add("Joe");
@@ -45,15 +54,32 @@ To change this template use File | Settings | File Templates.
 
     String contextPath = request.getContextPath();
 
-    if ("addCards".equals(request.getParameter("action"))) {
+    /*if ("addCards".equals(request.getParameter("action"))) {
         if (Hand.hand1.size() != 7) {
             hands.newRound();
             session.setAttribute("hands", hands);
         }
+    }*/
+
+    if ("addCards".equals(request.getParameter("action"))) {
+        if (game.hands.getHand1().size() != 7) {
+            game.playRound();
+            session.setAttribute("game", game);
+        }
     }
 
+    /*if ("fold".equals(request.getParameter("action"))) {
+        if (Hand.hand1.size() != 7) {
+            hands.newRound();
+            session.setAttribute("hands", hands);
+        }
+    }*/
+
     if ("fold".equals(request.getParameter("action"))) {
-        session.setAttribute("hands", hands);
+        if (game.hands.getHand1().size() != 7) {
+            game.playRound();
+            session.setAttribute("game", game);
+        }
     }
 
     Boolean showCards = (Boolean) session.getAttribute("showCards");
@@ -66,7 +92,7 @@ To change this template use File | Settings | File Templates.
         session.setAttribute("showCards", showCards);
     }
 
-    if ("resetHands".equals(request.getParameter("action"))) {
+    /*if ("resetHands".equals(request.getParameter("action"))) {
         hands = new Hand();
         session.setAttribute("hands", hands);
         cardHands.clear();
@@ -75,12 +101,24 @@ To change this template use File | Settings | File Templates.
         cardHands.add(Hand.hand3);
         cardHands.add(Hand.hand4);
         cardHands.add(Hand.hand5);
+    }*/
+
+    if ("resetHands".equals(request.getParameter("action"))) {
+        game = new Game();
+        session.setAttribute("game", game);
     }
 
-    if ("fold".equals(request.getParameter("action"))) {
+    /*if ("fold".equals(request.getParameter("action"))) {
         if (Hand.hand1.size() != 7) {
-            hands.newRound();
+            hands.playerTurnEnd();
             session.setAttribute("hands", hands);
+        }
+    }*/
+
+    if ("fold".equals(request.getParameter("action"))) {
+        if (game.hands.getHand1().size() != 7) {
+            game.playRound();
+            session.setAttribute("game", game);
         }
     }
 
@@ -96,29 +134,17 @@ To change this template use File | Settings | File Templates.
     var timerDuration = 1; // Duration of the timer in seconds
     var countdown; // Countdown interval
     var usersTurn = 6;
+    var button = document.getElementById("addcardsbutton");
+
+
 
     function endTurnButtonClicked() {
         // Hide the button after clicking
         document.getElementById("action-bar").style.display = "none";
         currentTurn = 0;
-        playTurn();
         nextTurn();
     }
 
-    function playTurn() {
-        // Use AJAX to call the server-side method playTurn in your GameServlet
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // Handle the response if needed
-                console.log(xhr.responseText);
-                nextTurn();
-            }
-        };
-
-        xhr.open("GET", "GameServlet?action=playTurn", true);
-        xhr.send();
-    }
 
     function betButtonClicked() {
         var betAmount = document.getElementById("betAmount").value;
@@ -212,12 +238,11 @@ To change this template use File | Settings | File Templates.
 
     // Retrieve the turn value from the request attribute
     var turnValue = <%= request.getAttribute("turn") %>;
-    document.getElementById("turnDisplay").innerText = "Turn: " + gameHand.turn;
-    document.getElementById("turnDisplay").style.color = "red";
-    document.getElementById("turnDisplay").style.fontSize = "20px";
+
 
     // Update the content of a text field or label
     document.getElementById("turnDisplay").innerText = "Turn: " + turnValue;
+
 
     document.querySelector(".bet-button").addEventListener("click", betButtonClicked);
     <%
@@ -237,7 +262,7 @@ To change this template use File | Settings | File Templates.
 
 <%
     int i = 1; // Start the counter at 1 for hand1, hand2, etc.
-    for (List<Card> curr : cardHands) {
+    for (List<Card> curr : game.gameHands) {
         int j = 1;
 
 %>
@@ -316,7 +341,7 @@ To change this template use File | Settings | File Templates.
 
 <div class="action-buttons" id="action-bar">
     <form method="post">
-        <button type="submit" name="action" value="addCards" class="add-cards-button">Add Cards</button>
+        <button type="submit" name="action" value="addCards" class="add-cards-button" id="addcardsbutton">Add Cards</button>
     </form>
     <form method="post">
         <button type="submit" name="action" value="toggleShowCards" class="show-button">Show Cards</button>

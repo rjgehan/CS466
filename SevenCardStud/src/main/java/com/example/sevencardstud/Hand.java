@@ -31,8 +31,9 @@ public class Hand
         hand6 = new ArrayList<>();
         testHand = new ArrayList<>();
         testHand2 = new ArrayList<>();
+
         newDeck = new Deck();
-        turn = 1;
+        turn = 0;
         for (int i = 0; i < 2; i++) {
             hand1.add(newDeck.drawCard());
             hand2.add(newDeck.drawCard());
@@ -48,7 +49,7 @@ public class Hand
         hand.add(card);
     }
 
-    public void newRound() {
+    public void newRoundOld() {
             hand1.add(newDeck.drawCard());
             hand2.add(newDeck.drawCard());
             hand3.add(newDeck.drawCard());
@@ -57,12 +58,58 @@ public class Hand
             hand6.add(newDeck.drawCard());
     }
 
+    public void playerTurnEnd() {
+        turn++;
+        newTurn();
+    }
+
+    public void newRound() {
+        playerTurnEnd();
+        while (turn != 0) {
+            newTurn();
+        }
+    }
+
     public void newTurn() {
         System.out.println("Turn value: " + turn);
         if (turn != 7) {
+            if (turn > 0) {
+                handAction();
+            }
             turn++;
         } else {
-            turn = 1;
+            turn = 0;
+        }
+    }
+
+    public void handAction() {
+        switch (turn) {
+            case 1:
+                hand1.add(newDeck.drawCard());
+                break;
+            case 2:
+                //BOT LOGIC INPUT
+                hand2.add(newDeck.drawCard());
+                break;
+            case 3:
+                //BOT LOGIC INPUT
+                hand3.add(newDeck.drawCard());
+                break;
+            case 4:
+                //BOT LOGIC INPUT
+                hand4.add(newDeck.drawCard());
+                break;
+            case 5:
+                //BOT LOGIC INPUT
+                hand5.add(newDeck.drawCard());
+                break;
+            case 6:
+                //BOT LOGIC INPUT
+                hand6.add(newDeck.drawCard());
+                break;
+            default:
+                //DEFAULT
+                break;
         }
     }
 
