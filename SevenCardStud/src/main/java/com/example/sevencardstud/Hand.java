@@ -30,13 +30,14 @@ public class Hand
         testHand = new ArrayList<>();
         testHand2 = new ArrayList<>();
         newDeck = new Deck();
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             hand1.add(newDeck.drawCard());
             hand2.add(newDeck.drawCard());
             hand3.add(newDeck.drawCard());
             hand4.add(newDeck.drawCard());
             hand5.add(newDeck.drawCard());
             hand6.add(newDeck.drawCard());
+
         }
     }
 

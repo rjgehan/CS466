@@ -2,11 +2,12 @@
 <html>
 <head>
     <title>Seven Card Stud Rules</title>
+    <jsp:include page="styles.jsp"></jsp:include>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 50px;
             background-image: url('images/PNG/profile.png'); /* Path to your image */
             background-size: cover; /* Cover the entire page */
             background-position: center center; /* Center the image on the page */
@@ -17,13 +18,13 @@
         /* Box to hold the text */
         .text-box {
             width: 60%;
-            max-width: 800px;
-            height: 400px; /* Set the height of the text box */
+            max-width: 2500px;
+            height: 600px; /* Set the height of the text box */
             overflow-y: auto; /* Enable vertical scrolling */
             margin: 100px auto;
             /* Adjust the top/bottom margin for positioning */
             background-color: rgba(255, 255, 255, 0.8); /* Background color with opacity */
-            padding: 20px;
+            padding-top: 50px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Adding a shadow effect */
         }
@@ -54,7 +55,10 @@
         }
     </style>
 </head>
+
 <body>
+<a href="home.jsp" class="btn-custom">Home</a> <br/>
+
 <div class="text-box">
     <h1>How to Play Seven Card Stud</h1>
 
