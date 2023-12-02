@@ -1,27 +1,30 @@
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.example.sevencardstud.dao.UserDAO" %>
 <%@ page import="com.example.sevencardstud.model.entity.User" %>
 <%@ page import="com.example.sevencardstud.Hand" %>
 <%@ page import="com.example.sevencardstud.Card" %>
 <%@ page import="com.example.sevencardstud.Game" %>
-<%--
-Created by IntelliJ IDEA.
-User: Juliana
-Date: 10/25/2023
-Time: 12:26 PM
-To change this template use File | Settings | File Templates.
---%>
+<%@ page import="java.nio.file.Paths" %>
+<%@ page import="java.nio.file.Files" %>
+<%@ page import="java.io.InputStream" %>
+<%@ page import="java.util.Scanner" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.io.BufferedReader" %>
+<%@ page import="java.io.FileReader" %>
+<%@ page import="java.io.IOException" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.io.BufferedWriter" %>
+<%@ page import="java.io.FileWriter" %>
 <%
-    // User initialization
+
     User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
     if (loggedInUser == null) {
         response.sendRedirect("index.jsp");
         return;
     }
+
 
     // Game initialization
     Game game = (Game) session.getAttribute("game");
@@ -31,12 +34,69 @@ To change this template use File | Settings | File Templates.
     }
 
     // Bot initialization
+    List<String> playerNames = (List<String>) application.getAttribute("playerNames");
+    if (playerNames == null) {
+        playerNames = new ArrayList<>();
+        application.setAttribute("playerNames", playerNames);
+    }
+
+    if (!playerNames.contains(loggedInUser.getUsername())) {
+        playerNames.add(loggedInUser.getUsername());
+    }
+
+    // Assign names to variables
+    String name1 = playerNames.size() > 0 ? playerNames.get(0) : "DefaultName";
+    String name2 = playerNames.size() > 1 ? playerNames.get(1) : "Bot: Mike";
+    String name3 = playerNames.size() > 2 ? playerNames.get(2) : "Bot: Tim";
+    String name4 = playerNames.size() > 3 ? playerNames.get(3) : "Bot: Len";
+    String name5 = playerNames.size() > 4 ? playerNames.get(4) : "Bot: John";
+    String name6 = playerNames.size() > 5 ? playerNames.get(4) : "Bot: Sean";
+
+
+
+
+    Hand hands = (Hand) session.getAttribute("hands");
+    if (hands == null) {
+        hands = new Hand();
+        session.setAttribute("hands", hands);
+    }
+
+
+    List<List<Card>> cardHands = new ArrayList<>();
+    cardHands.add(Hand.hand1);
+    cardHands.add(Hand.hand2);
+    cardHands.add(Hand.hand3);
+    cardHands.add(Hand.hand4);
+    cardHands.add(Hand.hand5);
+    cardHands.add(Hand.hand6);
+
+    cardHands.add(Hand.hand1);
+    cardHands.add(Hand.hand2);
+    cardHands.add(Hand.hand3);
+    cardHands.add(Hand.hand4);
+    cardHands.add(Hand.hand5);
+    cardHands.add(Hand.hand6);
+
+
     List<String> botNames = new ArrayList<>();
-    botNames.add("Joe");
-    botNames.add("Mike");
-    botNames.add("Tim");
-    botNames.add("Len");
-    botNames.add("John");
+    botNames.add(name1);
+    botNames.add(name2);
+    botNames.add(name3);
+    botNames.add(name4);
+    botNames.add(name5);
+    botNames.add(name6);
+    botNames.add(name1);
+    botNames.add(name2);
+    botNames.add(name3);
+    botNames.add(name4);
+    botNames.add(name5);
+    botNames.add(name6);
+
+    int myIndex = 0;
+    while (!botNames.get(myIndex).equals(loggedInUser.getUsername()))
+    {
+        myIndex++;
+    }
 
     // Context initialization
     String contextPath = request.getContextPath();
@@ -77,15 +137,6 @@ To change this template use File | Settings | File Templates.
     }
 
     //GAME EVENTS
-
-
-    List<String> playerNames = new ArrayList<>();
-    playerNames.add("peter");
-    playerNames.add("demo");
-    playerNames.add("Kelly");
-    playerNames.add("Jules");
-    playerNames.add("David");
-    playerNames.add("Binkley");
 %>
 
 
@@ -204,20 +255,76 @@ To change this template use File | Settings | File Templates.
     // Check if the triggerFlyingText attribute is set
     var triggerFlyingText = <%= request.getAttribute("triggerFlyingText") %>;
 
+
     // Call createFlyingText() if the condition is met
     if (triggerFlyingText) {
         createFlyingText();
     }
+
+    function onButtonClick() {
+        sessionStorage.setItem("buttonClicked", "true");
+    }
+
+    function refreshPage() {
+        if (!sessionStorage.getItem("buttonClicked")) {
+            setTimeout(function() {
+                location.reload();
+            }, 3000);
+        } else {
+            // Reset the flag for future refreshes
+            sessionStorage.removeItem("buttonClicked");
+        }
+    }
+
+    function preloadImages() {
+        const imagePaths = [
+            "<%= contextPath %>/images/PNG/Cards/UserIcon.png",
+            // Add paths of other images that need to be preloaded
+        ];
+
+        imagePaths.forEach(path => {
+            const img = new Image();
+            img.src = path;
+        });
+    }
+
+    window.onload = function() {
+        preloadImages();
+        refreshPage();
+    };
+
 </script>
 
 
-
-
-
-<body>
+<body onload="refreshPage()">
 <%
+    int index = 0;
+    List<Card> currHand = Hand.hand6;
+    while (!playerNames.get(index).equals(loggedInUser.getUsername())) {
+        index++;
+    }
+    if (index == 1) {
+        currHand = Hand.hand1;
+    } else if (index == 2) {
+        currHand = Hand.hand2;
+    } else if (index == 3) {
+        currHand = Hand.hand3;
+    } else if (index == 4) {
+        currHand = Hand.hand4;
+    } else if (index == 5) {
+        currHand = Hand.hand5;
+    } else if (index == 6) {
+        currHand = Hand.hand6;
+    }
     int i = 1; // Start the counter at 1 for hand1, hand2, etc.
-    for (List<Card> curr : game.gameHands) {
+
+    for (int y = 0; y!=5; y++) {
+//        if (curr.get(0) == currHand.get((0))) {
+//            curr = Hand.hand6;
+//
+//        }
+        List<Card> curr = cardHands.get(myIndex + y);
+
         int j = 1;
 
 %>
@@ -239,7 +346,15 @@ To change this template use File | Settings | File Templates.
     <!-- Will display bot info to go with the current hand, the bot number will be incremented just like the hand number -->
     <div class="bot">
         <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
-        <p class="text">Bot <%= i %>: <%= botNames.get(i - 1) %> </p> <!-- Replace 'Name' with dynamic bot names if necessary -->
+        <%
+            //            String name = "test";
+//            if(loggedInUser.getUsername().equals(botNames.get(i - 1))) {
+//                name = playerNames.get(i);
+//            } else {
+//                name = botNames.get(i - 1);
+//            }
+        %>
+        <p class="text"><%= botNames.get(i + myIndex) %> </p> <!-- Replace 'Name' with dynamic bot names if necessary -->
     </div>
 </div>
 <%
@@ -260,10 +375,10 @@ To change this template use File | Settings | File Templates.
 <!-- Will display bot 6 to go with hand 6 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
 <div class="pfp">
     <%
-    String image = loggedInUser.getSelectedImage();
-    if (image == null) {
-        image = contextPath + "/images/PNG/Roster Images/image1.png";
-    }
+        String image = loggedInUser.getSelectedImage();
+        if (image == null) {
+            image = contextPath + "/images/PNG/Roster Images/image1.png";
+        }
     %>
     <img src="<%= image %>" alt="<%= image %>">
 </div>
@@ -272,7 +387,8 @@ To change this template use File | Settings | File Templates.
     <%
         int j = 1;
         String imageName;
-        for (Card card : Hand.hand6)
+
+        for (Card card : currHand)
         {
             if (showCards || (j != 1 && j != 2)) {
                 imageName = "card" + card.getSuit() + card.getNumber() + ".png";
@@ -313,7 +429,7 @@ To change this template use File | Settings | File Templates.
         <button type="submit" name="action" value="fold" class="fold-button" id="foldButton">Fold</button>
     </form>
     <form method="post">
-        <button type="submit" name="action" value="toggleShowCards" class="show-button">Show Cards</button>
+        <button type="submit" name="action" value="toggleShowCards" class="show-button" onclick="onButtonClick()">Show Cards</button>
     </form>
     <!--<button id="testbtn" onclick="createFlyingText()">test</button>-->
     <button type="button" onclick="openBetPopup()" class="bet-button">Place Bet</button>
@@ -328,6 +444,7 @@ To change this template use File | Settings | File Templates.
 <% if (loggedInUser != null) { %>
 <a href="home.jsp" class="btn-custom">Home</a> <br/>
 <a href="displayCardImages.jsp" class="btn-custom">Winning Hands</a> <br/>
+
 <% } %>
 
 
