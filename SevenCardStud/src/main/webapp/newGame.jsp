@@ -43,14 +43,6 @@ To change this template use File | Settings | File Templates.
 
     // Controls
 
-    // TEST: ADD CARDS
-    if ("addCards".equals(request.getParameter("action"))) {
-        if (game.hands.getHand1().size() != 7) {
-            game.playRound();
-            session.setAttribute("game", game);
-        }
-    }
-
     // FOLD
     if ("fold".equals(request.getParameter("action"))) {
         if (game.hands.getHand1().size() != 7) {
@@ -76,10 +68,24 @@ To change this template use File | Settings | File Templates.
     }
 
     // RAISE
-    if ("raise".equals(request.getParameter("action"))) {
-        //raise functionality
+    if ("raiseBet".equals(request.getParameter("action"))) {
+        if (game.hands.getHand1().size() != 7) {
+            game.updateCurrentBet(2);
+            game.playRound();
+            session.setAttribute("game", game);
+        }
     }
 
+    //GAME EVENTS
+
+
+    List<String> playerNames = new ArrayList<>();
+    playerNames.add("peter");
+    playerNames.add("demo");
+    playerNames.add("Kelly");
+    playerNames.add("Jules");
+    playerNames.add("David");
+    playerNames.add("Binkley");
 %>
 
 
@@ -88,7 +94,6 @@ To change this template use File | Settings | File Templates.
         // Hide the button after clicking
         document.getElementById("action-bar").style.display = "none";
     }
-
 
     function bet() {
         var betAmount = document.getElementById("betAmount").value;
@@ -102,7 +107,6 @@ To change this template use File | Settings | File Templates.
         // Update the current bet in the session or game object
         //updateCurrentBet(betAmount);
     }
-
 
     function openBetPopup() {
         document.getElementById("betPopup").style.display = "block";
@@ -152,6 +156,9 @@ To change this template use File | Settings | File Templates.
     function addChipToContainer(chipAmount) {
         const chipContainer = document.getElementById("chipContainer");
 
+        // Remove existing chips before adding a new one
+        chipContainer.innerHTML = "";
+
         // Create a new chip element
         const chip = document.createElement("div");
         chip.classList.add("chip");
@@ -159,9 +166,6 @@ To change this template use File | Settings | File Templates.
 
         // Add the chip to the container
         chipContainer.appendChild(chip);
-
-        // Trigger the form submission
-        document.getElementById("addCardsForm").submit();
     }
 
     function betButtonClicked() {
@@ -196,7 +200,6 @@ To change this template use File | Settings | File Templates.
             document.body.removeChild(flyingText);
         }, animationDuration);
     }
-
 
     // Check if the triggerFlyingText attribute is set
     var triggerFlyingText = <%= request.getAttribute("triggerFlyingText") %>;
@@ -295,23 +298,33 @@ To change this template use File | Settings | File Templates.
 <div id="chipContainer" class="chip-container"></div>
 <div class="current-bet" id="currentBetDisplay">
     <p>Current Bet: <%= game.getCurrentBet() %></p>
+    <p>Final Result: <%= game.gameResult(game.hands.getHand6()) %></p>
 </div>
 
 <form method="post">
     <button type="submit" name="action" value="resetHands" class="show-button">New Game</button>
 </form>
 
+<%
+    if (loggedInUser.getUsername().equals(playerNames.get(game.hands.turn))) {
+%>
 <div class="action-buttons" id="action-bar">
-    <form method="post" id="addCardsForm">
-        <button type="submit" name="action" value="addCards" class="add-cards-button" id="addcardsbutton">Fold</button>
+    <form method="post" id="foldForm">
+        <button type="submit" name="action" value="fold" class="fold-button" id="foldButton">Fold</button>
     </form>
     <form method="post">
         <button type="submit" name="action" value="toggleShowCards" class="show-button">Show Cards</button>
     </form>
     <!--<button id="testbtn" onclick="createFlyingText()">test</button>-->
     <button type="button" onclick="openBetPopup()" class="bet-button">Place Bet</button>
-    <button type="button" class="raise-button">Raise</button>
+    <form method="post">
+        <button type="submit" name="action" value="raiseBet" class="raise-button">Raise</button>
+    </form>
 </div>
+<%
+    }
+%>
+
 <% if (loggedInUser != null) { %>
 <a href="home.jsp" class="btn-custom">Home</a> <br/>
 <a href="displayCardImages.jsp" class="btn-custom">Winning Hands</a> <br/>

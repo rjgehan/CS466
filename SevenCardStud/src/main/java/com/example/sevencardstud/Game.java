@@ -10,7 +10,10 @@ import java.util.*;
 public class Game {
     public Hand hands;
     public List<List<Card>> gameHands = new ArrayList<>();
+    public String result;
+    public int winner;
     private int currentBet;
+
 
     public Game() {
         hands = new Hand();
@@ -22,6 +25,8 @@ public class Game {
         gameHands.add(Hand.hand5); //5
         //gameHands.add(Hand.hand6); //0
 
+        result = "";
+        winner = -1;
         currentBet = 0;
 
         //bringIn(hands);
@@ -134,26 +139,37 @@ public class Game {
         int handValue = handAnalyzer.handValue(hand);
         switch (handValue) {
             case 10:
-                return "Royal Flush";
+                result = "Royal Flush";
+                break;
             case 9:
-                return "Straight Flush";
+                result = "Straight Flush";
+                break;
             case 8:
-                return "Four of a Kind";
+                result = "Four of a Kind";
+                break;
             case 7:
-                return "Full House";
+                result = "Full House";
+                break;
             case 6:
-                return "Flush";
+                result = "Flush";
+                break;
             case 5:
-                return "Straight";
+                result = "Straight";
+                break;
             case 4:
-                return "Three of a Kind";
+                result = "Three of a Kind";
+                break;
             case 3:
-                return "Two Pair";
+                result = "Two Pair";
+                break;
             case 2:
-                return "One Pair";
+                result = "One Pair";
+                break;
             default:
-                return "High Card";
+                result = "High Card";
+                break;
         }
+        return result;
     }
 
     public int determineWinner() {
