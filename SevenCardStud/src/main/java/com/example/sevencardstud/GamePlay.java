@@ -715,7 +715,17 @@ public class GamePlay
         }
     }
 
-
+    public void botInGame(Bot bot, int round, Hand hand)
+    {
+        if(round == 1)
+            afterFirstRound(bot);
+        else if(round == 2)
+            afterSecondRound(bot);
+        else if(round == 3)
+            afterThirdRound(bot);
+        else if(round == 4)
+            afterFourthRound(bot);
+    }
 
     public static void main(String[] args)
     {
@@ -727,7 +737,6 @@ public class GamePlay
         gp.afterFirstRound(gp.bot3);
         gp.afterFirstRound(gp.bot4);
         gp.afterFirstRound(gp.bot5);
-
 
 
         System.out.println("Bot 1 Initial");
