@@ -21,6 +21,7 @@ public class Hand
     public Deck newDeck;
 
     public int turn;
+    public int round;
 
     public Hand() {
         hand1 = new ArrayList<>();
@@ -33,6 +34,7 @@ public class Hand
         testHand2 = new ArrayList<>();
         newDeck = new Deck();
         turn = 0;
+        round = 1;
 
         for (int i = 0; i <= 2; i++) {
             hand1.add(newDeck.drawCard());
@@ -72,7 +74,14 @@ public class Hand
             }
             turn++;
         } else {
+            System.out.println("Round value: " + round);
             turn = 0;
+            if (round != 6) {
+                round++;
+            }
+            else {
+                round = 0;
+            }
         }
     }
 

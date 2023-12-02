@@ -10,21 +10,6 @@ import java.io.IOException;
 
 @WebServlet("/dealCards")
 public class GameServlet extends HttpServlet {
-   /* @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Check if the 'hands' object already exists in the session
-        if (request.getSession().getAttribute("hands") == null) {
-            Hand hands = new Hand(); // Create a new 'hands' object
-            hands.initializeHands();
-            request.getSession().setAttribute("hands", hands); // Store it in the session
-        }
-
-        // Forward to the JSP page
-        request.getRequestDispatcher("/WEB-INF/deal-cards.jsp").forward(request, response);
-
-    }*/
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -35,8 +20,15 @@ public class GameServlet extends HttpServlet {
             request.getSession().setAttribute("game", game); // Store it in the session
         }
 
-        // Forward to the JSP page
-        request.getRequestDispatcher("/WEB-INF/deal-cards.jsp").forward(request, response);
+        // Check the condition in the Hand class and set the attribute
+        Game game = (Game) request.getSession().getAttribute("game");
+        int currentRound = game.hands.round;
 
+        if (currentRound == 5) {
+            request.setAttribute("triggerFlyingText", true);
+        }
+
+        // Forward to the JSP page
+        request.getRequestDispatcher("../../../webapp/newGame.jsp").forward(request, response);
     }
 }
