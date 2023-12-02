@@ -677,19 +677,11 @@
         .image-grid img:hover {
             transform: scale(1.1);
         }
-
-    </style>
-
-    <style>
         /* Add a hover effect for the card images */
         .card-image:hover {
             border: 2px solid yellow;
             box-shadow: 0 0 5px yellow;
         }
-    </style>
-
-
-    <style>
         /* Bot layout */
         .bot-container {
             display: flex;
@@ -697,12 +689,10 @@
             align-items: center;
         }
 
-
         .bot {
             text-align: center;
             margin: 10px;
         }
-
 
         /* Size of bot image */
         .bot img {
@@ -716,10 +706,7 @@
             margin: 5px;
             font-size: 10px;
         }
-    </style>
 
-
-    <style>
         @media screen and (max-width: 768px) {
             /* Allows for containers to be put vertically */
             .hand-container {
