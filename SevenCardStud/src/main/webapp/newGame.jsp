@@ -4,6 +4,7 @@
 <%@ page import="com.example.sevencardstud.model.entity.User" %>
 <%@ page import="com.example.sevencardstud.Hand" %>
 <%@ page import="com.example.sevencardstud.Card" %>
+<%@ page import="com.example.sevencardstud.Game" %>
 <%@ page import="java.nio.file.Paths" %>
 <%@ page import="java.nio.file.Files" %>
 <%@ page import="java.io.InputStream" %>
@@ -18,6 +19,10 @@
 <%@ page import="java.io.FileWriter" %>
 
 <%
+    String result;
+    int winner;
+    int currentBet;
+
 
     User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
     if (loggedInUser == null) {
@@ -41,7 +46,7 @@
     String name3 = playerNames.size() > 2 ? playerNames.get(2) : "Bot: Tim";
     String name4 = playerNames.size() > 3 ? playerNames.get(3) : "Bot: Len";
     String name5 = playerNames.size() > 4 ? playerNames.get(4) : "Bot: John";
-    String name6 = playerNames.size() > 5 ? playerNames.get(4) : "Bot: Sean";
+    String name6 = playerNames.size() > 5 ? playerNames.get(5) : "Bot: Sean";
 
 
 
@@ -52,6 +57,11 @@
         session.setAttribute("hands", hands);
     }
 
+    Game game = (Game) session.getAttribute("game");
+    if (game == null) {
+        game = new Game();
+        session.setAttribute("game", game);
+    }
 
     List<List<Card>> cardHands = new ArrayList<>();
     cardHands.add(Hand.hand1);
@@ -91,10 +101,27 @@
 
     String contextPath = request.getContextPath();
 
+    int firstToPlay;
+    if ("startGame".equals(request.getParameter("action"))) {
+        List<List<Card>> tmpArray = new ArrayList<>();
+        for (int i = 0; i <= 5; i++) {
+            tmpArray.add(cardHands.get(i));
+        }
+        firstToPlay = game.findPlayerWithSmallestCard(tmpArray);
+    }
+
     if ("addCards".equals(request.getParameter("action"))) {
         if (Hand.hand1.size() != 7) {
             hands.newRound();
             session.setAttribute("hands", hands);
+        }
+    }
+
+    if ("fold".equals(request.getParameter("action"))) {
+        if (Hand.hand1.size() != 7) {
+            game.foldedHands.add(cardHands.get(myIndex));
+            hands.newTurn();
+            //session.setAttribute("hands", hands);
         }
     }
 
@@ -118,6 +145,7 @@
         cardHands.add(Hand.hand4);
         cardHands.add(Hand.hand5);
     }
+
 
 
 %>
@@ -364,7 +392,7 @@
 
         for (Card card : currHand)
         {
-            if (showCards || (j != 1 && j != 2 && j != 7)) {
+            if (showCards || (j != 1 && j != 2)) {
                 imageName = "card" + card.getSuit() + card.getNumber() + ".png";
             } else {
                 imageName = "cardBack_blue2.png";
@@ -383,10 +411,19 @@
         </div>
     </div>
 </div>
+<form method="post">
+    <button type="submit" name="action" value="startGame" class="start-game-button" onclick="onButtonClick()">Start Game</button>
+</form>
 
+<%
+    if (loggedInUser.getUsername().equals(playerNames.get(hands.turn))) {
+%>
 <div class="action-buttons" id="action-bar">
     <form method="post">
         <button type="submit" name="action" value="addCards" class="add-cards-button" onclick="onButtonClick()">Add Cards</button>
+    </form>
+    <form method="post">
+        <button type="submit" name="action" value="fold" class="fold-button" onclick="onButtonClick()">Fold</button>
     </form>
     <form method="post">
         <button type="submit" name="action" value="toggleShowCards" class="show-button" onclick="onButtonClick()">Show Cards</button>
@@ -402,6 +439,10 @@
         </form>
     </div>
 </div>
+<%
+    }
+%>
+
 
 <% if (loggedInUser != null) { %>
 <a href="home.jsp" class="btn-custom">Home</a> <br/>
@@ -744,6 +785,7 @@
         }
     </style>
 </head>
+
 
 
 
