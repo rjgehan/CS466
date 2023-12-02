@@ -19,7 +19,6 @@ public class Hand
 
     public static List<Card> testHand2;
     public Deck newDeck;
-
     public int turn;
     public int round;
 

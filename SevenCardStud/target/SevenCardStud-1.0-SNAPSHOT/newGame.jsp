@@ -4,18 +4,7 @@
 <%@ page import="com.example.sevencardstud.model.entity.User" %>
 <%@ page import="com.example.sevencardstud.Hand" %>
 <%@ page import="com.example.sevencardstud.Card" %>
-<<<<<<< HEAD
 <%@ page import="com.example.sevencardstud.Game" %>
-<%--
-Created by IntelliJ IDEA.
-User: Juliana
-Date: 10/25/2023
-Time: 12:26 PM
-To change this template use File | Settings | File Templates.
---%>
-<%
-    // User initialization
-=======
 <%@ page import="java.nio.file.Paths" %>
 <%@ page import="java.nio.file.Files" %>
 <%@ page import="java.io.InputStream" %>
@@ -30,24 +19,17 @@ To change this template use File | Settings | File Templates.
 <%@ page import="java.io.FileWriter" %>
 
 <%
+    String result;
+    int winner;
+    int currentBet;
 
->>>>>>> origin/main
+
     User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
     if (loggedInUser == null) {
         response.sendRedirect("index.jsp");
         return;
     }
 
-<<<<<<< HEAD
-    // Game initialization
-    Game game = (Game) session.getAttribute("game");
-    if (game == null) {
-        game = new Game();
-        session.setAttribute("game", game);
-    }
-
-    // Bot initialization
-=======
     List<String> playerNames = (List<String>) application.getAttribute("playerNames");
     if (playerNames == null) {
         playerNames = new ArrayList<>();
@@ -64,7 +46,7 @@ To change this template use File | Settings | File Templates.
     String name3 = playerNames.size() > 2 ? playerNames.get(2) : "Bot: Tim";
     String name4 = playerNames.size() > 3 ? playerNames.get(3) : "Bot: Len";
     String name5 = playerNames.size() > 4 ? playerNames.get(4) : "Bot: John";
-    String name6 = playerNames.size() > 5 ? playerNames.get(4) : "Bot: Sean";
+    String name6 = playerNames.size() > 5 ? playerNames.get(5) : "Bot: Sean";
 
 
 
@@ -75,6 +57,11 @@ To change this template use File | Settings | File Templates.
         session.setAttribute("hands", hands);
     }
 
+    Game game = (Game) session.getAttribute("game");
+    if (game == null) {
+        game = new Game();
+        session.setAttribute("game", game);
+    }
 
     List<List<Card>> cardHands = new ArrayList<>();
     cardHands.add(Hand.hand1);
@@ -92,7 +79,6 @@ To change this template use File | Settings | File Templates.
     cardHands.add(Hand.hand6);
 
 
->>>>>>> origin/main
     List<String> botNames = new ArrayList<>();
     botNames.add(name1);
     botNames.add(name2);
@@ -113,79 +99,124 @@ To change this template use File | Settings | File Templates.
         myIndex++;
     }
 
-    // Context initialization
     String contextPath = request.getContextPath();
 
-    // Controls
+    int firstToPlay;
+    if ("startGame".equals(request.getParameter("action"))) {
+        List<List<Card>> tmpArray = new ArrayList<>();
+        for (int i = 0; i <= 5; i++) {
+            tmpArray.add(cardHands.get(i));
+        }
+        firstToPlay = game.findPlayerWithSmallestCard(tmpArray);
+    }
 
-    // FOLD
-    if ("fold".equals(request.getParameter("action"))) {
-        if (game.hands.getHand1().size() != 7) {
-            game.playRound();
-            session.setAttribute("game", game);
+    if ("addCards".equals(request.getParameter("action"))) {
+        if (Hand.hand1.size() != 7) {
+            hands.newRound();
+            session.setAttribute("hands", hands);
         }
     }
 
-    // SHOW CARDS
+    if ("fold".equals(request.getParameter("action"))) {
+        if (Hand.hand1.size() != 7) {
+            game.foldedHands.add(cardHands.get(myIndex));
+            hands.newTurn();
+            //session.setAttribute("hands", hands);
+        }
+    }
+
     Boolean showCards = (Boolean) session.getAttribute("showCards");
     if (showCards == null) {
         showCards = false;
     }
+
     if ("toggleShowCards".equals(request.getParameter("action"))) {
         showCards = !showCards;
         session.setAttribute("showCards", showCards);
     }
 
-    // RESET GAME
     if ("resetHands".equals(request.getParameter("action"))) {
-        game = new Game();
-        session.setAttribute("game", game);
+        hands = new Hand();
+        session.setAttribute("hands", hands);
+        cardHands.clear();
+        cardHands.add(Hand.hand1);
+        cardHands.add(Hand.hand2);
+        cardHands.add(Hand.hand3);
+        cardHands.add(Hand.hand4);
+        cardHands.add(Hand.hand5);
     }
 
-    // RAISE
-    if ("raiseBet".equals(request.getParameter("action"))) {
-        if (game.hands.getHand1().size() != 7) {
-            game.updateCurrentBet(2);
-            game.playRound();
-            session.setAttribute("game", game);
-        }
-    }
 
-    //GAME EVENTS
-    if (game.hands.round == 5) {
-        System.out.println("Showdown!");
-    }
 
-    List<String> playerNames = new ArrayList<>();
-    playerNames.add("peter");
-    playerNames.add("demo");
-    playerNames.add("Kelly");
-    playerNames.add("Jules");
-    playerNames.add("David");
-    playerNames.add("Binkley");
 %>
 
 
 <script>
-    function foldButtonClicked() {
+    var currentTurn = 6; // Initialize the current turn to 6
+    var timerDuration = 5; // Duration of the timer in seconds
+    var countdown; // Countdown interval
+    var usersTurn = 6;
+
+    function endTurnButtonClicked() {
         // Hide the button after clicking
         document.getElementById("action-bar").style.display = "none";
+        currentTurn = 0;
+        nextTurn();
     }
 
-
-    function bet() {
+    function betButtonClicked() {
         var betAmount = document.getElementById("betAmount").value;
-        // Validate the bet amount (add validation logic if needed)
-
-        // Update the displayed current bet
-        document.getElementById("currentBetDisplay").innerText = "Current Bet: " + betAmount;
-
         // Do something with the bet amount, you can send it to the server or process it here
         console.log("Bet placed: " + betAmount);
-        // Update the current bet in the session or game object
-        //updateCurrentBet(betAmount);
     }
 
+
+    function nextTurn() {
+        clearInterval(countdown);
+        if (currentTurn < 6) {
+            currentTurn++;
+            startTimer();
+        } else {
+            document.getElementById("action-bar").style.display = "flex";
+        }
+        updateDisplay();
+    }
+
+    function startTimer() {
+        var timeLeft = timerDuration;
+
+        countdown = setInterval(function () {
+            timeLeft--;
+
+            if (timeLeft === 0) {
+                clearInterval(countdown);
+                nextTurn();
+            }
+        }, 1000);
+    }
+
+    function updateDisplay() {
+        var allHands = document.querySelectorAll(".hand-container");
+        allHands.forEach(function (hand) {
+            hand.classList.remove("highlighted");
+        });
+
+        var currentHand = document.getElementById("hand" + currentTurn);
+        currentHand.classList.add("highlighted");
+
+        var botText = document.querySelectorAll(".bot p");
+        botText.forEach(function (p) {
+            p.style.fontWeight = "normal";
+            p.style.color = "white";
+        });
+
+        var currentPlayerBot = document.querySelector(".hand" + currentTurn + " .bot p");
+        currentPlayerBot.style.fontWeight = "bold";
+        currentPlayerBot.style.color="red";
+
+        var timerDisplay = document.getElementById("timer");
+        timerDisplay.innerHTML = "";
+    }
 
     function openBetPopup() {
         document.getElementById("betPopup").style.display = "block";
@@ -205,98 +236,33 @@ To change this template use File | Settings | File Templates.
             "<%= contextPath %>/images/PNG/Chips/chipWhiteBlue.png",
             "<%= contextPath %>/images/PNG/Chips/chipBlue.png",
             "<%= contextPath %>/images/PNG/Chips/chipGreen.png",
-        ];
+            "<%= contextPath %>/images/PNG/Chips/chipWhite.png",
 
-        const amounts = ["$2", "$4", "$10", "$20", "$30", "$40", "$50"];
+        ];
 
         const imageGrid = document.querySelector(".image-grid");
         imageGrid.innerHTML = ""; // Clear previous content
 
-        imagePaths.forEach((path, index) => {
-            const container = document.createElement("div");
-            container.classList.add("grid-item");
-
+        imagePaths.forEach(path => {
             const img = document.createElement("img");
             img.src = path;
-            img.onclick = function() {
-                // Call a function to handle chip click
-                addChipToContainer(amounts[index]);
-            };
-            container.appendChild(img);
-
-            const text = document.createElement("p");
-            text.innerText = amounts[index];
-            container.appendChild(text);
-
-            imageGrid.appendChild(container);
+            imageGrid.appendChild(img);
         });
-    }
-
-    function addChipToContainer(chipAmount) {
-        const chipContainer = document.getElementById("chipContainer");
-
-        // Remove existing chips before adding a new one
-        chipContainer.innerHTML = "";
-
-        // Create a new chip element
-        const chip = document.createElement("div");
-        chip.classList.add("chip");
-        chip.innerText = chipAmount;
-
-        // Add the chip to the container
-        chipContainer.appendChild(chip);
     }
 
     function betButtonClicked() {
         openBetPopup();
     }
 
-    // Function to create and append flying text element
-    function createFlyingText() {
-        var flyingText = document.createElement("div");
-        flyingText.className = "flying-text";
-        flyingText.style.fontSize = "72px";
-        flyingText.innerText = "SHOWDOWN!";
-
-        document.body.appendChild(flyingText);
-
-        // Set up animation
-        var startPosition = window.innerWidth;
-        flyingText.style.transform = "translateX(" + startPosition + "px)";
-
-        var animationDuration = 8000; // 8 seconds
-        flyingText.animate(
-            [{ transform: "translateX(" + startPosition + "px)" }, { transform: "translateX(-100%)" }],
-            {
-                duration: animationDuration,
-                easing: "linear",
-                fill: "forwards"
-            }
-        );
-
-        // Remove the flying text element after the animation
-        setTimeout(function () {
-            document.body.removeChild(flyingText);
-        }, animationDuration);
+    document.querySelector(".bet-button").addEventListener("click", betButtonClicked);
+    <%
+    String betAmount = request.getParameter("betAmount");
+    if ("placeBet".equals(request.getParameter("action"))) {
+        // Process the bet amount
+         //update the game logic here
     }
 
 
-<<<<<<< HEAD
-    // Check if the triggerFlyingText attribute is set
-    var triggerFlyingText = <%= request.getAttribute("triggerFlyingText") %>;
-
-    // Call createFlyingText() if the condition is met
-    if (triggerFlyingText) {
-        createFlyingText();
-    }
-</script>
-
-
-
-
-
-<body>
-=======
 %>
     function onButtonClick() {
         sessionStorage.setItem("buttonClicked", "true");
@@ -334,7 +300,6 @@ To change this template use File | Settings | File Templates.
 
 
 <body onload="refreshPage()">
->>>>>>> origin/main
 <%
     int index = 0;
     List<Card> currHand = Hand.hand6;
@@ -355,9 +320,6 @@ To change this template use File | Settings | File Templates.
         currHand = Hand.hand6;
     }
     int i = 1; // Start the counter at 1 for hand1, hand2, etc.
-<<<<<<< HEAD
-    for (List<Card> curr : game.gameHands) {
-=======
     for (int y = 0; y!=5; y++) {
 //        if (curr.get(0) == currHand.get((0))) {
 //            curr = Hand.hand6;
@@ -365,7 +327,6 @@ To change this template use File | Settings | File Templates.
 //        }
         List<Card> curr = cardHands.get(myIndex + y);
 
->>>>>>> origin/main
         int j = 1;
 
 %>
@@ -450,44 +411,24 @@ To change this template use File | Settings | File Templates.
         </div>
     </div>
 </div>
-
-<!-- Container for chips -->
-<div id="chipContainer" class="chip-container"></div>
-<div class="current-bet" id="currentBetDisplay">
-    <p>Current Bet: <%= game.getCurrentBet() %></p>
-    <p>Final Result: <%= game.gameResult(game.hands.getHand6()) %></p>
-</div>
-
 <form method="post">
-    <button type="submit" name="action" value="resetHands" class="show-button">New Game</button>
+    <button type="submit" name="action" value="startGame" class="start-game-button" onclick="onButtonClick()">Start Game</button>
 </form>
 
 <%
-    if (loggedInUser.getUsername().equals(playerNames.get(game.hands.turn))) {
+    if (loggedInUser.getUsername().equals(playerNames.get(hands.turn))) {
 %>
 <div class="action-buttons" id="action-bar">
-<<<<<<< HEAD
-    <form method="post" id="foldForm">
-        <button type="submit" name="action" value="fold" class="fold-button" id="foldButton">Fold</button>
-=======
     <form method="post">
         <button type="submit" name="action" value="addCards" class="add-cards-button" onclick="onButtonClick()">Add Cards</button>
->>>>>>> origin/main
+    </form>
+    <form method="post">
+        <button type="submit" name="action" value="fold" class="fold-button" onclick="onButtonClick()">Fold</button>
     </form>
     <form method="post">
         <button type="submit" name="action" value="toggleShowCards" class="show-button" onclick="onButtonClick()">Show Cards</button>
     </form>
-    <!--<button id="testbtn" onclick="createFlyingText()">test</button>-->
-    <button type="button" onclick="openBetPopup()" class="bet-button">Place Bet</button>
     <form method="post">
-<<<<<<< HEAD
-        <button type="submit" name="action" value="raiseBet" class="raise-button">Raise</button>
-    </form>
-</div>
-<%
-    }
-%>
-=======
         <button type="submit" name="action" value="resetHands" class="show-button" onclick="onButtonClick()">Reset Hands</button>
     </form>
     <button id="endTurnButton" onclick="endTurnButtonClicked(); onButtonClick()">Fold</button>
@@ -498,11 +439,15 @@ To change this template use File | Settings | File Templates.
         </form>
     </div>
 </div>
->>>>>>> origin/main
+<%
+    }
+%>
+
 
 <% if (loggedInUser != null) { %>
 <a href="home.jsp" class="btn-custom">Home</a> <br/>
 <a href="displayCardImages.jsp" class="btn-custom">Winning Hands</a> <br/>
+
 <% } %>
 
 
@@ -778,45 +723,6 @@ To change this template use File | Settings | File Templates.
         .image-grid img:hover {
             transform: scale(1.1);
         }
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .grid-item {
-            position: relative;
-        }
-
-        .grid-item p {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        /* Style for the chip container */
-        .chip-container {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        /* Style for individual chips */
-        .chip {
-            background-color: #8a2be2; /* Purple */
-            color: white;
-            padding: 5px 10px;
-            margin-bottom: 5px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
 
     </style>
 
@@ -828,38 +734,6 @@ To change this template use File | Settings | File Templates.
         }
     </style>
 
-    <style>
-        /* Animation for flying text */
-        @keyframes flyingTextAnimation {
-            0% {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-            30% {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            70% {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            100% {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-        }
-
-        .flying-text {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: red;
-            font-size: 24px;
-            white-space: nowrap;
-            animation: flyingTextAnimation 3s ease-in-out;
-        }
-    </style>
 
     <style>
         /* Bot layout */
@@ -911,6 +785,7 @@ To change this template use File | Settings | File Templates.
         }
     </style>
 </head>
+
 
 
 

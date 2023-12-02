@@ -35,7 +35,6 @@
             width: 30%;
             height: 60vh;
             overflow-y: auto;
-            border: 1px solid #333;
             border-radius: 10px;
             padding: 20px;
             margin-top: 125px;
@@ -50,9 +49,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
-            width: 90%;
-            max-width: 500px;
+            gap: 10px;
+            max-height: calc(100% - 40px);
+            overflow-y: auto;
+            width: 100%;
         }
 
         .hand {

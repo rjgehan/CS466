@@ -9,7 +9,7 @@ import java.util.*;
 
 public class Game {
     public Hand hands;
-    public List<List<Card>> gameHands = new ArrayList<>();
+    public List<List<Card>> foldedHands;
     public String result;
     public int winner;
     private int currentBet;
@@ -18,12 +18,7 @@ public class Game {
     public Game() {
         hands = new Hand();
 
-        gameHands.add(Hand.hand1); //1
-        gameHands.add(Hand.hand2); //2
-        gameHands.add(Hand.hand3); //3
-        gameHands.add(Hand.hand4); //4
-        gameHands.add(Hand.hand5); //5
-        //gameHands.add(Hand.hand6); //0
+        foldedHands = new ArrayList<>();
 
         result = "";
         winner = -1;
@@ -59,50 +54,12 @@ public class Game {
     }
 
     // Game Logic
-    public void bringIn(Hand hands) {
-        // Find the player with the smallest third card
-        int smallestCardIndex = findPlayerWithSmallestCard();
-
-        // Set the current turn based on the player with the smallest third card
-        switch (smallestCardIndex) {
-            case 0:
-                hands.turn = 1;
-                playRound();
-                break;
-            case 1:
-                hands.turn = 2;
-                playRound();
-                break;
-            case 2:
-                hands.turn = 3;
-                playRound();
-                break;
-            case 3:
-                hands.turn = 4;
-                playRound();
-                break;
-            case 4:
-                hands.turn = 5;
-                playRound();
-                break;
-            case 5:
-                hands.turn = 6;
-                playRound();
-                break;
-            default:
-                break;
-        }
-
-        // Perform the "bring in" action for the player with the smallest third card
-        System.out.println("Player " + (smallestCardIndex + 1) + " goes first.");
-    }
-
-    private int findPlayerWithSmallestCard() {
+    public int findPlayerWithSmallestCard(List<List<Card>> cardHands) {
         int smallestCardValue = Integer.MAX_VALUE;
         int smallestCardIndex = -1;
 
-        for (int i = 0; i < gameHands.size(); i++) {
-            List<Card> hand = gameHands.get(i);
+        for (int i = 0; i < cardHands.size(); i++) {
+            List<Card> hand = cardHands.get(i);
 
             // Check if the hand has at least three cards
             if (hand.size() >= 3) {
@@ -116,7 +73,6 @@ public class Game {
                 }
             }
         }
-
         return smallestCardIndex;
     }
 
@@ -172,23 +128,24 @@ public class Game {
         return result;
     }
 
-    public int determineWinner() {
+    public int determineWinner(List<List<Card>> cardHands) {
         int winningPlayer = -1; // Initialize to an invalid value
+        for (int i = 0; i < cardHands.size(); i++) {
 
-        for (int i = 0; i < gameHands.size(); i++) {
-            List<Card> currentHand = gameHands.get(i);
+            List<Card> currentHand = cardHands.get(i);
+            if (!foldedHands.contains(currentHand) ) {
+                for (int j = i + 1; j < cardHands.size(); j++) {
+                    List<Card> otherHand = cardHands.get(j);
 
-            for (int j = i + 1; j < gameHands.size(); j++) {
-                List<Card> otherHand = gameHands.get(j);
+                    int result = hands.compareHands(currentHand, otherHand);
 
-                int result = hands.compareHands(currentHand, otherHand);
-
-                if (result == 1) {
-                    winningPlayer = i + 1; // Player index is 0-based, so add 1
-                } else if (result == 2) {
-                    winningPlayer = j + 1; // Player index is 0-based, so add 1
-                } else if (result == 0) {
-                    // Handle tie-breaking logic
+                    if (result == 1) {
+                        winningPlayer = i + 1; // Player index is 0-based, so add 1
+                    } else if (result == 2) {
+                        winningPlayer = j + 1; // Player index is 0-based, so add 1
+                    } else if (result == 0) {
+                        // Handle tie-breaking logic
+                    }
                 }
             }
         }
