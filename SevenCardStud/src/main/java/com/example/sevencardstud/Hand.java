@@ -19,6 +19,8 @@ public class Hand
 
     public static List<Card> testHand2;
     public Deck newDeck;
+    public int turn;
+    public int round;
 
     public Hand() {
         hand1 = new ArrayList<>();
@@ -30,15 +32,20 @@ public class Hand
         testHand = new ArrayList<>();
         testHand2 = new ArrayList<>();
         newDeck = new Deck();
-        for (int i = 0; i < 3; i++) {
+        turn = 0;
+        round = 1;
+
+        for (int i = 0; i <= 2; i++) {
             hand1.add(newDeck.drawCard());
             hand2.add(newDeck.drawCard());
             hand3.add(newDeck.drawCard());
             hand4.add(newDeck.drawCard());
             hand5.add(newDeck.drawCard());
             hand6.add(newDeck.drawCard());
-
         }
+
+
+
     }
 
     public void addCard(List<Card> hand, Card card)
@@ -46,14 +53,68 @@ public class Hand
         hand.add(card);
     }
 
-    public void newRound() {
-        hand1.add(newDeck.drawCard());
-        hand2.add(newDeck.drawCard());
-        hand3.add(newDeck.drawCard());
-        hand4.add(newDeck.drawCard());
-        hand5.add(newDeck.drawCard());
-        hand6.add(newDeck.drawCard());
+    public void playerTurnEnd() {
+        turn++;
+        newTurn();
     }
+
+    public void newRound() {
+        playerTurnEnd();
+        while (turn != 0) {
+            newTurn();
+        }
+    }
+
+    public void newTurn() {
+        System.out.println("Turn value: " + turn);
+        if (turn != 7) {
+            if (turn > 0) {
+                handAction();
+            }
+            turn++;
+        } else {
+            System.out.println("Round value: " + round);
+            turn = 0;
+            if (round != 6) {
+                round++;
+            }
+            else {
+                round = 0;
+            }
+        }
+    }
+
+    public void handAction() {
+        switch (turn) {
+            case 1:
+                hand1.add(newDeck.drawCard());
+                break;
+            case 2:
+                //BOT LOGIC INPUT
+                hand2.add(newDeck.drawCard());
+                break;
+            case 3:
+                //BOT LOGIC INPUT
+                hand3.add(newDeck.drawCard());
+                break;
+            case 4:
+                //BOT LOGIC INPUT
+                hand4.add(newDeck.drawCard());
+                break;
+            case 5:
+                //BOT LOGIC INPUT
+                hand5.add(newDeck.drawCard());
+                break;
+            case 6:
+                //BOT LOGIC INPUT
+                hand6.add(newDeck.drawCard());
+                break;
+            default:
+                //DEFAULT
+                break;
+        }
+    }
+
 
     public void initializeHands() {
         newDeck = new Deck();
@@ -65,7 +126,7 @@ public class Hand
         hand5.clear();
         hand6.clear();
 
-        for (int i = 0; i < 2; i++) { // Deal two cards to each hand as an example
+        for (int i = 0; i < 3; i++) { // Deal two cards to each hand as an example
             hand1.add(newDeck.drawCard());
             hand2.add(newDeck.drawCard());
             hand3.add(newDeck.drawCard());
@@ -74,6 +135,8 @@ public class Hand
             hand6.add(newDeck.drawCard());
         }
     }
+
+
 
     public int getSize(List<Card> hand) {
         return hand.size();
