@@ -159,7 +159,8 @@ public class GamePlay
 
     public boolean valueFive(List<Card> hand)
     {
-        if(hand.size() == 5 || hand.size() == 6) {
+        if(hand.size() == 5 || hand.size() == 6)
+        {
             int sortedCards[] = new int[hand.size() - 2];
             int index = 0;
             for (int i = 2; i < hand.size(); i++) {
@@ -176,7 +177,7 @@ public class GamePlay
                     Arrays.sort(sortedCards);
                 }
             }
-            else
+            else if(hand.size() == 6)
             {
                 if(aceLowFourCards(hand) && sortedCards[3] == 14)
                 {

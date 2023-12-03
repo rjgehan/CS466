@@ -8,8 +8,7 @@ import java.util.*;
 
 public class GamePlayTest {
     @Test
-    public void testCreatingGamePlay()
-    {
+    public void testCreatingGamePlay() {
         Hand hand = new Hand();
         List<Card> newHand = new ArrayList<>();
         List<List<Card>> cardHands = new ArrayList<>();
@@ -26,8 +25,7 @@ public class GamePlayTest {
     }
 
     @Test
-    public void testValueOneTrue()
-    {
+    public void testValueOneTrue() {
         Hand hand = new Hand();
         List<Card> newHand = new ArrayList<>();
         List<List<Card>> cardHands = new ArrayList<>();
@@ -1309,30 +1307,196 @@ public class GamePlayTest {
         assertEquals(0, gp.shouldFold(hand.testHand));
     }
 
-    /*
     @Test
-    public void testAfterFirstRound() {
+    public void testFoldIsTrueAfterFourthRound() {
         Hand hand = new Hand();
         List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
         List<List<Card>> cardHands = new ArrayList<>();
         Card cardOne = new Card("Hearts", "6");
         Card cardTwo = new Card("Clubs", "3");
-        Card cardThree = new Card("Diamonds", "7");
-        Card cardFour = new Card("Clubs", "6");
-        Card cardFive = new Card("Diamonds", "2");
-        Card cardSix = new Card("Diamonds", "4");
+        Card cardThree = new Card("Spades", "7");
+        Card cardFour = new Card("Hearts", "9");
+        Card cardFive = new Card("Spades", "10");
+        Card cardSix = new Card("Diamonds", "J");
         hand.addCard(hand.testHand, cardOne);
         hand.addCard(hand.testHand, cardTwo);
         hand.addCard(hand.testHand, cardThree);
         hand.addCard(hand.testHand, cardFour);
         hand.addCard(hand.testHand, cardFive);
         hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Diamonds", "6");
+        Card cardTwoSecond = new Card("Hearts", "3");
+        Card cardThreeSecond = new Card("Clubs", "8");
+        Card cardFourSecond = new Card("Hearts", "8");
+        Card cardFiveSecond = new Card("Diamonds", "8");
+        Card cardSixSecond = new Card("Spades", "8");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        gp.afterFourthRound();
+        assertTrue(gp.bot.isFolded);
+    }
+
+
+    @Test
+    public void testFoldIsFalseAfterFourthRound() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Spades", "7");
+        Card cardFour = new Card("Hearts", "9");
+        Card cardFive = new Card("Spades", "10");
+        Card cardSix = new Card("Diamonds", "J");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Hearts", "6");
+        Card cardTwoSecond = new Card("Clubs", "3");
+        Card cardThreeSecond = new Card("Spades", "8");
+        Card cardFourSecond = new Card("Clubs", "8");
+        Card cardFiveSecond = new Card("Diamonds", "10");
+        Card cardSixSecond = new Card("Hearts", "8");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        gp.afterFourthRound();
+        assertFalse(gp.bot.isFolded);
+    }
+
+    @Test
+    public void testFoldIsFalseAfterFourthRoundTwo() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Spades", "7");
+        Card cardFour = new Card("Hearts", "9");
+        Card cardFive = new Card("Spades", "10");
+        Card cardSix = new Card("Diamonds", "J");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Hearts", "6");
+        Card cardTwoSecond = new Card("Clubs", "3");
+        Card cardThreeSecond = new Card("Spades", "8");
+        Card cardFourSecond = new Card("Clubs", "K");
+        Card cardFiveSecond = new Card("Diamonds", "10");
+        Card cardSixSecond = new Card("Hearts", "2");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        gp.afterFourthRound();
+        assertFalse(gp.bot.isFolded);
+    }
+
+
+    @Test
+    public void testFoldIsFalseAfterThirdRound() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Spades", "8");
+        Card cardFour = new Card("Hearts", "2");
+        Card cardFive = new Card("Spades", "10");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
         newHand.addAll(hand.testHand);
         cardHands.add(newHand);
         GamePlay gp = new GamePlay(cardHands, newHand);
-        gp.afterFirstRound(hand.testHand);
-        assertEquals(6, gp.botHand.size());
+        gp.afterThirdRound();
+        assertFalse(gp.bot.isFolded);
     }
 
-     */
+    @Test
+    public void testFoldIsFalseAfterThirdRoundTwo() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Spades", "8");
+        Card cardFour = new Card("Hearts", "2");
+        Card cardFive = new Card("Spades", "2");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        gp.afterThirdRound();
+        assertFalse(gp.bot.isFolded);
+    }
+
+    @Test
+    public void testFoldIsTrueAfterThirdRound() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Spades", "2");
+        Card cardFour = new Card("Hearts", "7");
+        Card cardFive = new Card("Spades", "5");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        gp.afterThirdRound();
+        assertTrue(gp.bot.isFolded);
+    }
+
+
+
 }
+
+
