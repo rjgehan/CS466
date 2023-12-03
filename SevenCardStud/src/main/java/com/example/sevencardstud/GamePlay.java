@@ -3,33 +3,16 @@ package com.example.sevencardstud;
 import java.util.*;
 public class GamePlay
 {
-    public static Bot bot1;
-    public static Bot bot2;
-    public static Bot bot3;
-    public static Bot bot4;
-    public static Bot bot5;
-    public static Hand hand;
+    public Bot bot;
+    public List<List<Card>> allCardHands;
+    public List<Card> botHand;
 
-    public GamePlay()
+    public GamePlay(List<List<Card>> cardHands, List<Card> hand)
     {
-        List<Card> bot1Hand = new ArrayList<>();
-        List<Card> bot2Hand = new ArrayList<>();
-        List<Card> bot3Hand = new ArrayList<>();
-        List<Card> bot4Hand = new ArrayList<>();
-        List<Card> bot5Hand = new ArrayList<>();
+        this.allCardHands = cardHands;
+        this.botHand = hand;
 
-        bot1 = new Bot("Bot 1", bot1Hand);
-        bot2 = new Bot("Bot 2", bot2Hand);
-        bot3 = new Bot("Bot 3", bot3Hand);
-        bot4 = new Bot("Bot 4", bot4Hand);
-        bot5 = new Bot("Bot 5", bot5Hand);
-
-        hand = new Hand();
-        bot1Hand.addAll(hand.hand1);
-        bot2Hand.addAll(hand.hand2);
-        bot3Hand.addAll(hand.hand3);
-        bot4Hand.addAll(hand.hand4);
-        bot5Hand.addAll(hand.hand5);
+        bot = new Bot("Bot", botHand, allCardHands);
     }
 
     public int cardNumberValue(String number)
@@ -265,14 +248,12 @@ public class GamePlay
         }
         Arrays.sort(sortedCards);
 
-        if(sortedCards[6] - sortedCards[5] != 1)
-            return (sortedCards[6] - 1);
-        else if(sortedCards[5] - sortedCards[4] != 1)
-            return (sortedCards[5] - 1);
-        else if(sortedCards[4] - sortedCards[3] != 1)
-            return (sortedCards[4] - 1);
-        else if(sortedCards[3] - sortedCards[2] != 1)
+        if(sortedCards[3] - sortedCards[2] != 1)
             return (sortedCards[3] - 1);
+        else if(sortedCards[2] - sortedCards[1] != 1)
+            return (sortedCards[2] - 1);
+        else if(sortedCards[1] - sortedCards[0] != 1)
+            return (sortedCards[1] - 1);
         else // IF ZERO IS RETURNED THAT MEANS THE STRAIGHT CAN BE A HIGH OR LOW
             return 0;
     }
@@ -308,30 +289,15 @@ public class GamePlay
         }
     }
 
-    public boolean searchRoyalandStraightFlush(int value, String suit)
+    public boolean searchRoyalandStraightFlush(List<List<Card>> cardHands, int value, String suit)
     {
         boolean cardFound = false;
-       // List<Card> handArray[] = new List<Card>[6];
-       // handArray = {bot1.hand, bot2.hand, bot3.hand, bot4.hand, bot5.hand};
 
-        for(int i = 1; i <= 6; i++)
+        for(int i = 0; i < 6; i++)
         {
-            List<Card> currentHand = null;
-            if(i == 1)
-                currentHand = bot1.hand;
-            else if(i == 2)
-                currentHand = bot2.hand;
-            else if(i == 3)
-                currentHand = bot3.hand;
-            else if(i == 4)
-                currentHand = bot4.hand;
-            else if(i == 5)
-                currentHand = bot5.hand;
-            else if(i == 6)
-                currentHand = hand.hand6;
             for(int j = 2; j <= 5; i++)
             {
-                if(cardNumberValue(currentHand.get(j).getNumber()) == value && currentHand.get(j).getSuit().equals(suit))
+                if(cardNumberValue(cardHands.get(i).get(j).getNumber()) == value && cardHands.get(i).get(j).getSuit().equals(suit))
                 {
                     cardFound = true;
                     break;
@@ -341,27 +307,14 @@ public class GamePlay
         return cardFound;
     }
 
-    public boolean straightSearch(int value)
+    public boolean straightSearch(List<List<Card>> cardHands, int value)
     {
         int count = 0;
-        for(int i = 1; i <= 6; i++)
+        for(int i = 0; i < 6; i++)
         {
-            List<Card> currentHand = null;
-            if(i == 1)
-                currentHand = bot1.hand;
-            else if(i == 2)
-                currentHand = bot2.hand;
-            else if(i == 3)
-                currentHand = bot3.hand;
-            else if(i == 4)
-                currentHand = bot4.hand;
-            else if(i == 5)
-                currentHand = bot5.hand;
-            else if(i == 6)
-                currentHand = hand.hand6;
             for(int j = 2; j <= 5; i++)
             {
-                if(cardNumberValue(currentHand.get(j).getNumber()) == value)
+                if(cardNumberValue(cardHands.get(i).get(j).getNumber()) == value)
                 {
                     count++;
                 }
@@ -373,29 +326,16 @@ public class GamePlay
             return false;
     }
 
-    public boolean fullHouseSearch(int[] valueArray)
+    public boolean fullHouseSearch(List<List<Card>> cardHands, int[] valueArray)
     {
         boolean isFound = false;
 
         if (valueArray.length == 1) {
             int value = valueArray[0];
             int count = 0;
-            for (int i = 1; i <= 6; i++) {
-                List<Card> currentHand = null;
-                if (i == 1)
-                    currentHand = bot1.hand;
-                else if (i == 2)
-                    currentHand = bot2.hand;
-                else if (i == 3)
-                    currentHand = bot3.hand;
-                else if (i == 4)
-                    currentHand = bot4.hand;
-                else if (i == 5)
-                    currentHand = bot5.hand;
-                else if (i == 6)
-                    currentHand = hand.hand6;
+            for (int i = 0; i < 6; i++) {
                 for (int j = 2; j <= 5; i++) {
-                    if (cardNumberValue(currentHand.get(j).getNumber()) == value) {
+                    if (cardNumberValue(cardHands.get(i).get(j).getNumber()) == value) {
                         count++;
                     }
                 }
@@ -409,26 +349,13 @@ public class GamePlay
             int valueTwo = valueArray[1];
             int countOne = 0;
             int countTwo = 0;
-            for (int i = 1; i <= 6; i++)
+            for (int i = 0; i < 6; i++)
             {
-                List<Card> currentHand = null;
-                if (i == 1)
-                    currentHand = bot1.hand;
-                else if (i == 2)
-                    currentHand = bot2.hand;
-                else if (i == 3)
-                    currentHand = bot3.hand;
-                else if (i == 4)
-                    currentHand = bot4.hand;
-                else if (i == 5)
-                    currentHand = bot5.hand;
-                else if (i == 6)
-                    currentHand = hand.hand6;
                 for (int j = 2; j <= 5; i++)
                 {
-                    if (cardNumberValue(currentHand.get(j).getNumber()) == valueOne)
+                    if (cardNumberValue(cardHands.get(i).get(j).getNumber()) == valueOne)
                         countOne++;
-                    else if (cardNumberValue(currentHand.get(j).getNumber()) == valueTwo)
+                    else if (cardNumberValue(cardHands.get(i).get(j).getNumber()) == valueTwo)
                         countTwo++;
                 }
             }
@@ -469,264 +396,79 @@ public class GamePlay
 
     }
 
-    public void afterFirstRound(Bot bot)
+    public void afterFirstRound(List<Card> hand)
     {
-        if(bot == bot1)
-            bot1.hand.add(hand.hand1.get(3));
-        else if(bot == bot2)
-            bot2.hand.add(hand.hand2.get(3));
-        else if(bot == bot3)
-            bot3.hand.add(hand.hand3.get(3));
-        else if(bot == bot4)
-            bot4.hand.add(hand.hand4.get(3));
-        else if(bot == bot5)
-            bot5.hand.add(hand.hand5.get(3));
+        bot.hand.add(hand.get(3));
     }
 
-    public void afterSecondRound(Bot bot)
+    public void afterSecondRound(List<Card> hand)
     {
-        if(bot == bot1)
-            bot1.hand.add(hand.hand1.get(4));
-        else if(bot == bot2)
-            bot2.hand.add(hand.hand2.get(4));
-        else if(bot == bot3)
-            bot3.hand.add(hand.hand3.get(4));
-        else if(bot == bot4)
-            bot4.hand.add(hand.hand4.get(4));
-        else if(bot == bot5)
-            bot5.hand.add(hand.hand5.get(4));
+        bot.hand.add(hand.get(4));
     }
 
-    public void afterThirdRound(Bot bot)
+    public void afterThirdRound(List<Card> hand)
     {
-        if(bot == bot1)
+        int value = shouldFold(bot.hand);
+        if(value >= 1)
         {
-            int value = shouldFold(bot1.hand);
-            if(value >= 1)
-            {
-                bot1.hand.add(hand.hand1.get(5));
-            }
-
-            else
-                bot1.isFolded = true;
+            bot.hand.add(hand.get(5));
         }
-        else if(bot == bot2)
-        {
-            int value = shouldFold(bot2.hand);
-            if(value >= 1)
-            {
-                bot2.hand.add(hand.hand2.get(5));
-            }
 
-            else
-                bot2.isFolded = true;
-        }
-        else if(bot == bot3)
-        {
-            int value = shouldFold(bot3.hand);
-            if(value >= 1)
-            {
-                bot3.hand.add(hand.hand3.get(5));
-            }
+        else
+            bot.isFolded = true;
 
-            else
-                bot3.isFolded = true;
-        }
-        else if(bot == bot4)
-        {
-            int value = shouldFold(bot4.hand);
-            if(value >= 1)
-            {
-                bot4.hand.add(hand.hand4.get(5));
-            }
-
-            else
-                bot4.isFolded = true;
-        }
-        else if(bot == bot5)
-        {
-            int value = shouldFold(bot5.hand);
-            if(value >= 1)
-            {
-                bot5.hand.add(hand.hand5.get(5));
-            }
-
-            else
-                bot5.isFolded = true;
-        }
     }
 
-    public void afterFourthRound(Bot bot)
+    public void afterFourthRound(List<Card> hand)
     {
-        if(bot == bot1)
+        int value = shouldFold(bot.hand);
+        if(value == 10 || value == 9)
         {
-            int value = shouldFold(bot1.hand);
-            if(value == 10 || value == 9)
+            int missingCard = straightMissingValue(bot.hand);
+            String suit = bot.hand.get(2).getSuit();
+            if(value == 9 && missingCard == 0)
             {
-                int missingCard = straightMissingValue(bot1.hand);
-                String suit = bot1.hand.get(2).getSuit();
-                if(searchRoyalandStraightFlush(missingCard, suit))
+                if(searchRoyalandStraightFlush(bot.cardHands,cardNumberValue(bot.hand.get(2).getNumber()) - 1, suit) && searchRoyalandStraightFlush(bot.cardHands, cardNumberValue(bot.hand.get(2).getNumber()) + 1, suit))
                     value = 6;
             }
-            else if(value == 7)
-            {
-                int[] missingCards = fullHouseMissingValues(bot1.hand);
-                if(fullHouseSearch(missingCards))
-                    value = 4; // MAYBE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
-            }
-            else if(value == 5)
-            {
-                int missingCard = straightMissingValue(bot1.hand);
-                if(straightSearch(missingCard))
-                    value = 1;
-            }
-
-            if(value >= 4)
-            {
-                bot1.hand.add(hand.hand1.get(6));
-            }
-
-            else
-                bot1.isFolded = true;
+            else if(searchRoyalandStraightFlush(bot.cardHands, missingCard, suit))
+                value = 6;
         }
-        else if(bot == bot2)
+        else if(value == 7)
         {
-            int value = shouldFold(bot2.hand);
-            if(value == 10 || value == 9)
-            {
-                int missingCard = straightMissingValue(bot2.hand);
-                String suit = bot2.hand.get(2).getSuit();
-                if(searchRoyalandStraightFlush(missingCard, suit))
-                    value = 6;
-            }
-            else if(value == 7)
-            {
-                int[] missingCards = fullHouseMissingValues(bot2.hand);
-                if(fullHouseSearch(missingCards))
-                    value = 4; // MAYBE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
-            }
-            else if(value == 5)
-            {
-                int missingCard = straightMissingValue(bot2.hand);
-                if(straightSearch(missingCard))
-                    value = 1;
-            }
-
-            if(value >= 4)
-            {
-                bot2.hand.add(hand.hand2.get(6));
-            }
-
-            else
-                bot2.isFolded = true;
+            int[] missingCards = fullHouseMissingValues(bot.hand);
+            if(fullHouseSearch(bot.cardHands, missingCards))
+                value = 4; // MAYBE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
         }
-        else if(bot == bot3)
+        else if(value == 5)
         {
-            int value = shouldFold(bot3.hand);
-            if(value == 10 || value == 9)
-            {
-                int missingCard = straightMissingValue(bot3.hand);
-                String suit = bot3.hand.get(2).getSuit();
-                if(searchRoyalandStraightFlush(missingCard, suit))
-                    value = 6;
-            }
-            else if(value == 7)
-            {
-                int[] missingCards = fullHouseMissingValues(bot3.hand);
-                if(fullHouseSearch(missingCards))
-                    value = 4; // MAYBE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
-            }
-            else if(value == 5)
-            {
-                int missingCard = straightMissingValue(bot3.hand);
-                if(straightSearch(missingCard))
-                    value = 1;
-            }
-
-            if(value >= 4)
-            {
-                bot3.hand.add(hand.hand3.get(6));
-            }
-
-            else
-                bot3.isFolded = true;
+            int missingCard = straightMissingValue(bot.hand);
+            if(straightSearch(bot.cardHands, missingCard))
+                value = 1;
         }
-        else if(bot == bot4)
+
+        if(value >= 4)
         {
-            int value = shouldFold(bot4.hand);
-            if(value == 10 || value == 9)
-            {
-                int missingCard = straightMissingValue(bot4.hand);
-                String suit = bot4.hand.get(2).getSuit();
-                if(searchRoyalandStraightFlush(missingCard, suit))
-                    value = 6;
-            }
-            else if(value == 7)
-            {
-                int[] missingCards = fullHouseMissingValues(bot4.hand);
-                if(fullHouseSearch(missingCards))
-                    value = 4; // MAYBE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
-            }
-            else if(value == 5)
-            {
-                int missingCard = straightMissingValue(bot4.hand);
-                if(straightSearch(missingCard))
-                    value = 1;
-            }
-
-            if(value >= 4)
-            {
-                bot4.hand.add(hand.hand4.get(6));
-            }
-
-            else
-                bot4.isFolded = true;
+            bot.hand.add(hand.get(6));
         }
-        else if(bot == bot5)
-        {
-            int value = shouldFold(bot5.hand);
-            if(value == 10 || value == 9)
-            {
-                int missingCard = straightMissingValue(bot5.hand);
-                String suit = bot5.hand.get(2).getSuit();
-                if(searchRoyalandStraightFlush(missingCard, suit))
-                    value = 6;
-            }
-            else if(value == 7)
-            {
-                int[] missingCards = fullHouseMissingValues(bot5.hand);
-                if(fullHouseSearch(missingCards))
-                    value = 4; // MAYBE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
-            }
-            else if(value == 5)
-            {
-                int missingCard = straightMissingValue(bot5.hand);
-                if(straightSearch(missingCard))
-                    value = 1;
-            }
 
-            if(value >= 4)
-            {
-                bot5.hand.add(hand.hand5.get(6));
-            }
-
-            else
-                bot5.isFolded = true;
-        }
+        else
+            bot.isFolded = true;
     }
 
-    public void botInGame(Bot bot, int round, Hand hand)
+    public void botInGame(int round, List<Card> hand)
     {
         if(round == 1)
-            afterFirstRound(bot);
+            afterFirstRound(hand);
         else if(round == 2)
-            afterSecondRound(bot);
+            afterSecondRound(hand);
         else if(round == 3)
-            afterThirdRound(bot);
+            afterThirdRound(hand);
         else if(round == 4)
-            afterFourthRound(bot);
+            afterFourthRound(hand);
     }
 
+    /*
     public static void main(String[] args)
     {
         GamePlay gp = new GamePlay();
@@ -775,5 +517,7 @@ public class GamePlay
 
         System.out.println("");
     }
+
+     */
 }
 
