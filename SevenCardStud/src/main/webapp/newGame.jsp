@@ -51,17 +51,19 @@
 
 
 
-    Hand hands = (Hand) session.getAttribute("hands");
-    if (hands == null) {
+    Game game = (Game) application.getAttribute("game");
+    Hand hands = (Hand) application.getAttribute("hands");
+
+    if (game == null || hands == null) {
+        game = new Game();
         hands = new Hand();
-        session.setAttribute("hands", hands);
+        application.setAttribute("game", game);
+        application.setAttribute("hands", hands);
     }
 
-    Game game = (Game) session.getAttribute("game");
-    if (game == null) {
-        game = new Game();
-        session.setAttribute("game", game);
-    }
+    int currTurn = hands.turn;
+    application.setAttribute("curTurn", currTurn);
+
 
     List<List<Card>> cardHands = new ArrayList<>();
     cardHands.add(Hand.hand1);
@@ -118,11 +120,15 @@
     }
 
     if ("fold".equals(request.getParameter("action"))) {
-        if (Hand.hand1.size() != 7) {
-            game.foldedHands.add(cardHands.get(myIndex));
-            hands.newTurn();
-            session.setAttribute("hands", hands);
+        if (currTurn == 5)
+        {
+            currTurn = 0;
+        } else {
+            currTurn++;
+
         }
+        hands.turn = currTurn; // Update in the Hand object
+        application.setAttribute("hands", hands);
     }
 
     Boolean showCards = (Boolean) session.getAttribute("showCards");
@@ -170,13 +176,13 @@
         console.log("Bet placed: " + betAmount);
     }
 
+
     function nextTurn() {
         clearInterval(countdown);
         if (currentTurn < 6) {
             currentTurn++;
             startTimer();
         } else {
-            currentTurn = 1; // Reset to the first player after the last player's turn
             document.getElementById("action-bar").style.display = "flex";
         }
         updateDisplay();
@@ -212,7 +218,7 @@
 
         var currentPlayerBot = document.querySelector(".hand" + currentTurn + " .bot p");
         currentPlayerBot.style.fontWeight = "bold";
-        currentPlayerBot.style.color = "red";
+        currentPlayerBot.style.color="red";
 
         var timerDisplay = document.getElementById("timer");
         timerDisplay.innerHTML = "";
@@ -237,6 +243,7 @@
             "<%= contextPath %>/images/PNG/Chips/chipBlue.png",
             "<%= contextPath %>/images/PNG/Chips/chipGreen.png",
             "<%= contextPath %>/images/PNG/Chips/chipWhite.png",
+
         ];
 
         const imageGrid = document.querySelector(".image-grid");
@@ -254,20 +261,31 @@
     }
 
     document.querySelector(".bet-button").addEventListener("click", betButtonClicked);
+    <%
+    String betAmount = request.getParameter("betAmount");
+    if ("placeBet".equals(request.getParameter("action"))) {
+        // Process the bet amount
+         //update the game logic here
+    }
 
+
+%>
     function onButtonClick() {
         sessionStorage.setItem("buttonClicked", "true");
     }
 
     function refreshPage() {
         if (!sessionStorage.getItem("buttonClicked")) {
-            setTimeout(function () {
+            setTimeout(function() {
                 location.reload();
             }, 3000);
         } else {
             // Reset the flag for future refreshes
             sessionStorage.removeItem("buttonClicked");
         }
+        <%
+
+        %>
     }
 
     function preloadImages() {
@@ -282,13 +300,12 @@
         });
     }
 
-    window.onload = function () {
+    window.onload = function() {
         preloadImages();
         refreshPage();
     };
 
 </script>
-
 
 
 <body onload="refreshPage()">
@@ -405,11 +422,16 @@
 </div>
 <form method="post">
     <button type="submit" name="action" value="startGame" class="start-game-button" onclick="onButtonClick()">Start Game</button>
+    <%=loggedInUser.getUsername()%>
+    <%=playerNames.get(hands.turn)%>
+    <%=hands.turn%>
+    <%=currTurn%>
+    <%=application.getAttribute("currTurn")%>
+
 </form>
 
 <%
-    if (loggedInUser.getUsername().equals(playerNames.get(hands.turn))) {
-        if (game.foldedHands.contains(cardHands.get(hands.turn)))
+    if (loggedInUser.getUsername().equals(playerNames.get(currTurn))) {
 %>
 <div class="action-buttons" id="action-bar">
     <form method="post">
@@ -433,10 +455,6 @@
     </div>
 </div>
 <%
-    }
-    else {
-        hands.handAction();
-        //hands.newTurn();
     }
 %>
 
