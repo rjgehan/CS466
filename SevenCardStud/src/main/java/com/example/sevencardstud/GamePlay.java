@@ -159,7 +159,8 @@ public class GamePlay
 
     public boolean valueFive(List<Card> hand)
     {
-        if(hand.size() == 5 || hand.size() == 6) {
+        if(hand.size() == 5 || hand.size() == 6)
+        {
             int sortedCards[] = new int[hand.size() - 2];
             int index = 0;
             for (int i = 2; i < hand.size(); i++) {
@@ -176,7 +177,7 @@ public class GamePlay
                     Arrays.sort(sortedCards);
                 }
             }
-            else
+            else if(hand.size() == 6)
             {
                 if(aceLowFourCards(hand) && sortedCards[3] == 14)
                 {
@@ -480,12 +481,20 @@ public class GamePlay
 
     }
 
+    public void betting(int foldValue)
+    {
+        if(foldValue > 8)
+            bot.bettingAction = 1;
+    }
+
     public void afterThirdRound()
     {
         int value = shouldFold(botHand);
 
         if(value < 1)
             bot.isFolded = true;
+        else
+            betting(value);
     }
 
     public void afterFourthRound()
@@ -568,6 +577,8 @@ public class GamePlay
 
         if(value < 4)
             bot.isFolded = true;
+        else
+            betting(value);
     }
 
     public void botInGame(int round)

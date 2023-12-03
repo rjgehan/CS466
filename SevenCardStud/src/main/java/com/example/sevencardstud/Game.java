@@ -8,6 +8,9 @@ import java.util.Set;
 
 public class Game {
     public Hand hands;
+
+    public boolean show;
+
     public List<List<Card>> foldedHands;
     public List<String> finalResults;
     //public List<Integer> currentBets;
@@ -31,6 +34,7 @@ public class Game {
         maxBet = 0;
         ante = 1;
         numPlayers = 0;
+        show = false;
         playerIds = new HashSet<>(); // Initialize the set
 
 

@@ -135,7 +135,6 @@
     players.add(p5);
     players.add(p6);
 
-
     List<String> pictures = new ArrayList<>();
     pictures.add(img1);
     pictures.add(img2);
@@ -249,6 +248,7 @@
         hands.round++; hands.newTurn();
         session.setAttribute("game", game);
         response.sendRedirect("newGame.jsp");
+        session.setAttribute("game", game);
     }
 
     if ("bet2".equals(request.getParameter("action"))) {
@@ -281,6 +281,14 @@
             hands.newRound();
             session.setAttribute("game", game);
         }
+    }
+
+    if ("toggle".equals(request.getParameter("action"))) {
+        game = (Game) application.getAttribute("game");
+        game.show = true;
+        game.hands.turn = smallest + 1;
+        application.setAttribute("game", game);
+        response.sendRedirect("newGame.jsp");
     }
 
 %>
@@ -471,6 +479,43 @@
 
 <body onload="refreshPage()">
 <%
+    if (!game.show)
+    {
+        %><div><%
+        if ( myIndex == 0) {
+
+            %>    <div class="host">
+                        Playing With: <%
+                        for (String player : playerNames) {
+                            %> <%=player%><%
+                        }
+
+%><%
+
+            %><form method="post">
+            <button type="submit" name="action" value="toggle" class="toggle-button">Start Game</button>
+            </form></div><%
+        } else {%>
+    <div class="waiting">
+    Waiting on Host <div class="spinner-border" role="status">
+        <span class="sr-only"></span>
+        </div>
+        <br>
+        Playing With: <%
+        for (String player : playerNames) {
+    %> <br><%=player%><%
+        }
+
+    %>
+    </div>
+    <%}%>
+    </div>
+        </div>
+        <%
+    } else {
+%>
+<div>
+<%
     if ("Bot:".equals(botNames.get(hands.turn).split(" ")[0])) {
         //hands.newTurn();
         game.botBrain(cardHands, cardHands.get(hands.turn));
@@ -585,7 +630,6 @@
 </form>
 
 <form method="post">
-    <button type="submit" name="action" value="startGame" class="start-game-button" onclick="onButtonClick()">Start Game</button>
     <%
         game = (Game) application.getAttribute("game");
 
@@ -661,8 +705,10 @@
 
 <% } %>
 
+    <%}%>
 
 
+</div>
 </body>
 
 
@@ -679,6 +725,36 @@
             background-repeat: no-repeat; /* Do not repeat the image */
             background-attachment: fixed; /* Optional: Fix the background image during scroll */
         }
+        .waiting {
+            position: fixed; /* Use fixed positioning */
+            top: 50%; /* Position halfway down the screen */
+            left: 50%; /* Position halfway across the screen */
+            transform: translate(-50%, -50%); /* Adjust the position to truly center the element */
+            font-size: 24px; /* Increase font size for visibility */
+            color: #333; /* Set a color */
+            font-weight: bold; /* Make the font bold */
+            text-align: center; /* Ensure the text is centered */
+            background-color: rgba(255, 255, 255, 0.8); /* Optional: Add a semi-transparent background */
+            padding: 20px; /* Add some padding around the text */
+            border-radius: 10px; /* Optional: Add rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for depth */
+        }
+
+        .host {
+            position: fixed; /* Use fixed positioning */
+            top: 50%; /* Position halfway down the screen */
+            left: 50%; /* Position halfway across the screen */
+            transform: translate(-50%, -50%); /* Adjust the position to truly center the element */
+            font-size: 24px; /* Increase font size for visibility */
+            color: #333; /* Set a color */
+            font-weight: bold; /* Make the font bold */
+            text-align: center; /* Ensure the text is centered */
+            background-color: rgba(255, 255, 255, 0.8); /* Optional: Add a semi-transparent background */
+            padding: 20px; /* Add some padding around the text */
+            border-radius: 10px; /* Optional: Add rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for depth */
+        }
+
         .hand-container {
             position: absolute;
             top: 0;
