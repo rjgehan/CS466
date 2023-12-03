@@ -625,7 +625,7 @@ public class GamePlayTest {
     }
 
     @Test
-    public void testMissingStraightValue() {
+    public void testMissingStraightValueInMiddle() {
         Hand hand = new Hand();
         List<Card> newHand = new ArrayList<>();
         List<List<Card>> cardHands = new ArrayList<>();
@@ -647,4 +647,619 @@ public class GamePlayTest {
         assertEquals(12, gp.straightMissingValue(hand.testHand));
     }
 
+    @Test
+    public void testMissingStraightValueOnEnd() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "8");
+        Card cardFour = new Card("Diamonds", "10");
+        Card cardFive = new Card("Spades", "7");
+        Card cardSix = new Card("Diamonds", "9");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        assertEquals(0, gp.straightMissingValue(hand.testHand));
+    }
+
+    @Test
+    public void testMissingStraightValueAceLow() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "4");
+        Card cardFour = new Card("Diamonds", "5");
+        Card cardFive = new Card("Spades", "A");
+        Card cardSix = new Card("Diamonds", "3");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        assertEquals(2, gp.straightMissingValue(hand.testHand));
+    }
+
+    @Test
+    public void testMissingFullHouseValueThreeOfLowerCard() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "5");
+        Card cardFour = new Card("Diamonds", "5");
+        Card cardFive = new Card("Spades", "9");
+        Card cardSix = new Card("Diamonds", "5");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        int[] expectedArray = {9};
+        assertArrayEquals(expectedArray, gp.fullHouseMissingValues(hand.testHand));
+    }
+
+    @Test
+    public void testMissingFullHouseValueThreeOfHigherCard() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "Q");
+        Card cardFour = new Card("Diamonds", "4");
+        Card cardFive = new Card("Spades", "Q");
+        Card cardSix = new Card("Diamonds", "Q");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        int[] expectedArray = {4};
+        assertArrayEquals(expectedArray, gp.fullHouseMissingValues(hand.testHand));
+    }
+
+    @Test
+    public void testMissingFullHouseValueTwoPair() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "Q");
+        Card cardFour = new Card("Diamonds", "7");
+        Card cardFive = new Card("Spades", "7");
+        Card cardSix = new Card("Diamonds", "Q");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        int[] expectedArray = {7, 12};
+        assertArrayEquals(expectedArray, gp.fullHouseMissingValues(hand.testHand));
+    }
+
+    @Test
+    public void testSearchRoyalFlushFound() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "Q");
+        Card cardFour = new Card("Diamonds", "10");
+        Card cardFive = new Card("Spades", "A");
+        Card cardSix = new Card("Diamonds", "K");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Diamonds", "6");
+        Card cardTwoSecond = new Card("Hearts", "3");
+        Card cardThreeSecond = new Card("Diamonds", "J");
+        Card cardFourSecond = new Card("Clubs", "2");
+        Card cardFiveSecond = new Card("Hearts", "7");
+        Card cardSixSecond = new Card("Hearts", "K");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        assertTrue(gp.searchRoyalandStraightFlush(cardHands, 11, "Diamonds"));
+    }
+
+    @Test
+    public void testSearchRoyalFlushNotFound() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "Q");
+        Card cardFour = new Card("Diamonds", "10");
+        Card cardFive = new Card("Spades", "A");
+        Card cardSix = new Card("Diamonds", "K");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Diamonds", "6");
+        Card cardTwoSecond = new Card("Hearts", "3");
+        Card cardThreeSecond = new Card("Clubs", "J");
+        Card cardFourSecond = new Card("Clubs", "2");
+        Card cardFiveSecond = new Card("Hearts", "7");
+        Card cardSixSecond = new Card("Hearts", "K");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        assertFalse(gp.searchRoyalandStraightFlush(cardHands, 11, "Diamonds"));
+    }
+
+    @Test
+    public void testSearchStraightFlushFoundInMiddle() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Clubs", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Hearts", "5");
+        Card cardFour = new Card("Hearts", "7");
+        Card cardFive = new Card("Hearts", "9");
+        Card cardSix = new Card("Hearts", "8");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Diamonds", "6");
+        Card cardTwoSecond = new Card("Hearts", "3");
+        Card cardThreeSecond = new Card("Diamonds", "J");
+        Card cardFourSecond = new Card("Clubs", "2");
+        Card cardFiveSecond = new Card("Hearts", "6");
+        Card cardSixSecond = new Card("Hearts", "K");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        assertTrue(gp.searchRoyalandStraightFlush(cardHands, 6, "Hearts"));
+    }
+
+    @Test
+    public void testSearchStraightFlushFoundOnEndAceLow() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Clubs", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Hearts", "5");
+        Card cardFour = new Card("Hearts", "3");
+        Card cardFive = new Card("Hearts", "4");
+        Card cardSix = new Card("Hearts", "2");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Diamonds", "6");
+        Card cardTwoSecond = new Card("Spades", "3");
+        Card cardThreeSecond = new Card("Diamonds", "J");
+        Card cardFourSecond = new Card("Clubs", "2");
+        Card cardFiveSecond = new Card("Hearts", "A");
+        Card cardSixSecond = new Card("Hearts", "K");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        assertTrue(gp.searchRoyalandStraightFlush(cardHands, 14, "Hearts"));
+    }
+
+    @Test
+    public void testSearchStraightFlushFoundOnEndHigh() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Clubs", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Hearts", "5");
+        Card cardFour = new Card("Hearts", "3");
+        Card cardFive = new Card("Hearts", "4");
+        Card cardSix = new Card("Hearts", "2");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Diamonds", "6");
+        Card cardTwoSecond = new Card("Spades", "3");
+        Card cardThreeSecond = new Card("Diamonds", "J");
+        Card cardFourSecond = new Card("Clubs", "2");
+        Card cardFiveSecond = new Card("Hearts", "6");
+        Card cardSixSecond = new Card("Hearts", "K");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        assertTrue(gp.searchRoyalandStraightFlush(cardHands, 6, "Hearts"));
+    }
+
+    @Test
+    public void testSearchStraightFlushNotFound() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Clubs", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Hearts", "5");
+        Card cardFour = new Card("Hearts", "3");
+        Card cardFive = new Card("Hearts", "4");
+        Card cardSix = new Card("Hearts", "2");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Hearts", "6");
+        Card cardTwoSecond = new Card("Spades", "3");
+        Card cardThreeSecond = new Card("Diamonds", "J");
+        Card cardFourSecond = new Card("Clubs", "2");
+        Card cardFiveSecond = new Card("Hearts", "7");
+        Card cardSixSecond = new Card("Hearts", "K");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        assertFalse(gp.searchRoyalandStraightFlush(cardHands, 6, "Hearts"));
+    }
+
+    @Test
+    public void testSearchStraightFound() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Clubs", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Hearts", "5");
+        Card cardFour = new Card("Diamonds", "6");
+        Card cardFive = new Card("Hearts", "4");
+        Card cardSix = new Card("Clubs", "8");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Hearts", "6");
+        Card cardTwoSecond = new Card("Spades", "3");
+        Card cardThreeSecond = new Card("Diamonds", "7");
+        Card cardFourSecond = new Card("Clubs", "7");
+        Card cardFiveSecond = new Card("Hearts", "7");
+        Card cardSixSecond = new Card("Spades", "7");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        assertTrue(gp.straightSearch(cardHands, 7));
+    }
+
+    @Test
+    public void testSearchStraightFoundAceLow() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Clubs", "6");
+        Card cardTwo = new Card("Hearts", "3");
+        Card cardThree = new Card("Hearts", "5");
+        Card cardFour = new Card("Diamonds", "2");
+        Card cardFive = new Card("Hearts", "4");
+        Card cardSix = new Card("Clubs", "3");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Hearts", "6");
+        Card cardTwoSecond = new Card("Spades", "3");
+        Card cardThreeSecond = new Card("Diamonds", "A");
+        Card cardFourSecond = new Card("Clubs", "A");
+        Card cardFiveSecond = new Card("Hearts", "A");
+        Card cardSixSecond = new Card("Spades", "A");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        assertTrue(gp.straightSearch(cardHands, 14));
+    }
+
+    @Test
+    public void testSearchStraightNotFound() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Clubs", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Hearts", "5");
+        Card cardFour = new Card("Diamonds", "6");
+        Card cardFive = new Card("Hearts", "4");
+        Card cardSix = new Card("Clubs", "8");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Hearts", "6");
+        Card cardTwoSecond = new Card("Spades", "3");
+        Card cardThreeSecond = new Card("Diamonds", "7");
+        Card cardFourSecond = new Card("Clubs", "7");
+        Card cardFiveSecond = new Card("Hearts", "8");
+        Card cardSixSecond = new Card("Spades", "7");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        assertFalse(gp.straightSearch(cardHands, 7));
+    }
+
+    @Test
+    public void testFullHouseFoundThreeOfKind() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Hearts", "Q");
+        Card cardFour = new Card("Diamonds", "10");
+        Card cardFive = new Card("Spades", "Q");
+        Card cardSix = new Card("Diamonds", "Q");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Diamonds", "6");
+        Card cardTwoSecond = new Card("Hearts", "3");
+        Card cardThreeSecond = new Card("Clubs", "10");
+        Card cardFourSecond = new Card("Clubs", "2");
+        Card cardFiveSecond = new Card("Spades", "10");
+        Card cardSixSecond = new Card("Hearts", "10");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        int[] expectedArray = {10};
+        assertTrue(gp.fullHouseSearch(cardHands, expectedArray));
+    }
+
+    @Test
+    public void testFullHouseFoundTwoPair() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Spades", "Q");
+        Card cardFour = new Card("Diamonds", "10");
+        Card cardFive = new Card("Spades", "10");
+        Card cardSix = new Card("Diamonds", "Q");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Diamonds", "6");
+        Card cardTwoSecond = new Card("Hearts", "3");
+        Card cardThreeSecond = new Card("Clubs", "10");
+        Card cardFourSecond = new Card("Clubs", "Q");
+        Card cardFiveSecond = new Card("Hearts", "10");
+        Card cardSixSecond = new Card("Hearts", "Q");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        int[] expectedArray = {10, 12};
+        assertTrue(gp.fullHouseSearch(cardHands, expectedArray));
+    }
+
+    @Test
+    public void testFullHouseSearchFalseThreeOfKind() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Spades", "Q");
+        Card cardFour = new Card("Hearts", "Q");
+        Card cardFive = new Card("Spades", "10");
+        Card cardSix = new Card("Diamonds", "Q");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Diamonds", "6");
+        Card cardTwoSecond = new Card("Hearts", "3");
+        Card cardThreeSecond = new Card("Clubs", "A");
+        Card cardFourSecond = new Card("Clubs", "Q");
+        Card cardFiveSecond = new Card("Hearts", "7");
+        Card cardSixSecond = new Card("Hearts", "Q");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        int[] expectedArray = {10};
+        assertFalse(gp.fullHouseSearch(cardHands, expectedArray));
+    }
+
+    @Test
+    public void testFullHouseSearchFalseTwoPair() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Spades", "Q");
+        Card cardFour = new Card("Hearts", "10");
+        Card cardFive = new Card("Spades", "10");
+        Card cardSix = new Card("Diamonds", "Q");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Diamonds", "6");
+        Card cardTwoSecond = new Card("Hearts", "3");
+        Card cardThreeSecond = new Card("Clubs", "10");
+        Card cardFourSecond = new Card("Clubs", "Q");
+        Card cardFiveSecond = new Card("Diamonds", "7");
+        Card cardSixSecond = new Card("Hearts", "Q");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        int[] expectedArray = {10, 12};
+        assertFalse(gp.fullHouseSearch(cardHands, expectedArray));
+    }
 }
