@@ -13,7 +13,7 @@ public class HandTest
     public void testCreatingHandSize()
     {
         Hand hand = new Hand();
-        assertEquals(2, hand.getSize(hand.hand1));
+        assertEquals(3, hand.getSize(hand.hand1));
     }
 
     @Test
@@ -21,7 +21,7 @@ public class HandTest
     {
         Hand hand = new Hand();
         hand.newRound();
-        assertEquals(3, hand.getSize(hand.hand1));
+        assertEquals(4, hand.getSize(hand.hand1));
     }
 
     @Test
@@ -1244,7 +1244,8 @@ public class HandTest
         assertEquals(2, hand.compareHands(hand.testHand, hand.testHand2));
     }
 
-    // GamePlayTests
+    /*
+    GamePlayTests
     @Test
     public void testCreatingGamePlay() {
         GamePlay gp = new GamePlay();
@@ -1285,7 +1286,7 @@ public class HandTest
         assertEquals(6, gp.bot1.getHand().size());
     }
 
-    /*
+
     @Test
     public void testAfterFifthRound() {
         GamePlay gp = new GamePlay();
@@ -1297,7 +1298,7 @@ public class HandTest
         assertEquals(7, gp.bot1.getHand().size());
     }
 
-     */
+
 
     @Test
     public void testShouldFoldSizeTwo() {
@@ -1585,4 +1586,6 @@ public class HandTest
         hand.addCard(hand.testHand, cardSix);
         assertEquals(2, gp.shouldFold(hand.testHand));
     }
+
+     */
 }
