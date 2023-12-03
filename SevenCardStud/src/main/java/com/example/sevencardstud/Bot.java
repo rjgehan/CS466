@@ -10,7 +10,7 @@ public class Bot
     public int wins;
 
     public boolean isFolded;
-    public boolean raise;
+    public int bettingAction;
 
     public Bot(String name, List<Card> hand, List<List<Card>> cardHands)
     {
@@ -20,7 +20,7 @@ public class Bot
         this.botMoney = 50;
         this.wins = 0;
         this.isFolded = false;
-        this.raise = false;
+        this.bettingAction = 0;
     }
 
     public String getBotName()
@@ -53,9 +53,9 @@ public class Bot
         return isFolded;
     }
 
-    public boolean getRaise()
+    public int getBettingAction()
     {
-        return raise;
+        return bettingAction;
     }
 }
 
