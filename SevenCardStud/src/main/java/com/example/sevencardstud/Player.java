@@ -11,15 +11,12 @@ public class Player {
     public boolean isFolded;
     public String gameResult;
 
-    public String username;
-
     public static List<Card> currentHand;
 
-    public Player(String givenUsername, List<Card> givenHand) {
+    public Player(List<Card> givenHand) {
         betAmount = 0;
         isFolded = false;
         gameResult = "";
-        username = givenUsername;
         currentHand = givenHand;
     }
 }
