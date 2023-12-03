@@ -480,58 +480,43 @@ public class GamePlay
 
     }
 
-    public void afterFirstRound(List<Card> hand)
+    public void afterThirdRound()
     {
-        bot.hand.add(hand.get(3));
-    }
+        int value = shouldFold(botHand);
 
-    public void afterSecondRound(List<Card> hand)
-    {
-        bot.hand.add(hand.get(4));
-    }
-
-    public void afterThirdRound(List<Card> hand)
-    {
-        int value = shouldFold(bot.hand);
-        if(value >= 1)
-        {
-            bot.hand.add(hand.get(5));
-        }
-
-        else
+        if(value < 1)
             bot.isFolded = true;
-
     }
 
-    public void afterFourthRound(List<Card> hand)
+    public void afterFourthRound()
     {
-        int value = shouldFold(bot.hand);
+        int value = shouldFold(botHand);
         if(value == 10)
         {
-            int missingCard = straightMissingValue(bot.hand);
-            String suit = bot.hand.get(2).getSuit();
-            if(searchRoyalandStraightFlush(bot.cardHands, missingCard, suit))
+            int missingCard = straightMissingValue(botHand);
+            String suit = botHand.get(2).getSuit();
+            if(searchRoyalandStraightFlush(allCardHands, missingCard, suit))
                 value = 6;
         }
         else if(value == 9)
         {
-            int missingCard = straightMissingValue(bot.hand);
-            String suit = bot.hand.get(2).getSuit();
+            int missingCard = straightMissingValue(botHand);
+            String suit = botHand.get(2).getSuit();
             if(missingCard == 0)
             {
                 int missingCardLow = 0;
                 int missingCardHigh = 0;
-                if(aceLowFourCards(hand))
+                if(aceLowFourCards(botHand))
                 {
                     missingCardLow = 14;
                     missingCardHigh = 6;
                 }
                 else
                 {
-                    int sortedCards[] = new int[hand.size() - 2];
+                    int sortedCards[] = new int[botHand.size() - 2];
                     int index = 0;
-                    for (int i = 2; i < hand.size(); i++) {
-                        sortedCards[index] = cardNumberValue(hand.get(i).getNumber());
+                    for (int i = 2; i < botHand.size(); i++) {
+                        sortedCards[index] = cardNumberValue(botHand.get(i).getNumber());
                         index++;
                     }
                     Arrays.sort(sortedCards);
@@ -540,33 +525,33 @@ public class GamePlay
                     missingCardHigh = sortedCards[3] + 1;
                 }
 
-                if(searchRoyalandStraightFlush(bot.cardHands,missingCardLow, suit) && searchRoyalandStraightFlush(bot.cardHands, missingCardHigh, suit))
+                if(searchRoyalandStraightFlush(allCardHands,missingCardLow, suit) && searchRoyalandStraightFlush(allCardHands, missingCardHigh, suit))
                     value = 6;
             }
-            else if(searchRoyalandStraightFlush(bot.cardHands, missingCard, suit))
+            else if(searchRoyalandStraightFlush(allCardHands, missingCard, suit))
                 value = 6;
         }
         else if(value == 7)
         {
-            int[] missingCards = fullHouseMissingValues(bot.hand);
-            if(fullHouseSearch(bot.cardHands, missingCards))
+            int[] missingCards = fullHouseMissingValues(botHand);
+            if(fullHouseSearch(allCardHands, missingCards))
                 value = 4; // MAYBE A TWO PAIR OR THREE OF A KIND BUT DON'T KNOW
         }
         else if(value == 5)
         {
-            int missingCard = straightMissingValue(bot.hand);
+            int missingCard = straightMissingValue(botHand);
             if(missingCard == 0)
             {
                 int missingCardLow = 0;
                 int missingCardHigh = 0;
-                if (aceLowFourCards(hand)) {
+                if (aceLowFourCards(botHand)) {
                     missingCardLow = 14;
                     missingCardHigh = 6;
                 } else {
-                    int sortedCards[] = new int[hand.size() - 2];
+                    int sortedCards[] = new int[botHand.size() - 2];
                     int index = 0;
-                    for (int i = 2; i < hand.size(); i++) {
-                        sortedCards[index] = cardNumberValue(hand.get(i).getNumber());
+                    for (int i = 2; i < botHand.size(); i++) {
+                        sortedCards[index] = cardNumberValue(botHand.get(i).getNumber());
                         index++;
                     }
                     Arrays.sort(sortedCards);
@@ -574,39 +559,73 @@ public class GamePlay
                     missingCardLow = sortedCards[0] - 1;
                     missingCardHigh = sortedCards[3] + 1;
                 }
-                if (straightSearch(bot.cardHands, missingCardLow) && straightSearch(bot.cardHands, missingCardHigh))
+                if (straightSearch(allCardHands, missingCardLow) && straightSearch(allCardHands, missingCardHigh))
                     value = 1;
             }
-            else if(straightSearch(bot.cardHands, missingCard))
+            else if(straightSearch(allCardHands, missingCard))
                 value = 1;
         }
 
-        if(value >= 4)
-        {
-            bot.hand.add(hand.get(6));
-        }
-
-        else
+        if(value < 4)
             bot.isFolded = true;
     }
 
-    public void botInGame(int round, List<Card> hand)
+    public void botInGame(int round)
     {
-        if(round == 1)
-            afterFirstRound(hand);
-        else if(round == 2)
-            afterSecondRound(hand);
-        else if(round == 3)
-            afterThirdRound(hand);
+        if(round == 3)
+            afterThirdRound();
         else if(round == 4)
-            afterFourthRound(hand);
+            afterFourthRound();
     }
 
-    /*
+
     public static void main(String[] args)
     {
-        GamePlay gp = new GamePlay();
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "Q");
+        Card cardFour = new Card("Diamonds", "10");
+        Card cardFive = new Card("Spades", "A");
+        Card cardSix = new Card("Diamonds", "K");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        Card cardOneSecond = new Card("Diamonds", "6");
+        Card cardTwoSecond = new Card("Hearts", "3");
+        Card cardThreeSecond = new Card("Diamonds", "J");
+        Card cardFourSecond = new Card("Clubs", "2");
+        Card cardFiveSecond = new Card("Hearts", "7");
+        Card cardSixSecond = new Card("Hearts", "K");
+        hand.addCard(hand.testHand2, cardOneSecond);
+        hand.addCard(hand.testHand2, cardTwoSecond);
+        hand.addCard(hand.testHand2, cardThreeSecond);
+        hand.addCard(hand.testHand2, cardFourSecond);
+        hand.addCard(hand.testHand2, cardFiveSecond);
+        hand.addCard(hand.testHand2, cardSixSecond);
+        newHand.addAll(hand.testHand);
+        secondHand.addAll(hand.testHand2);
+        cardHands.add(newHand);
+        cardHands.add(secondHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
 
+        String valueHolding = "";
+        gp.botInGame(1);
+        gp.botInGame(2);
+        if(gp.bot.isFolded)
+            valueHolding = "True";
+        else if(!gp.bot.isFolded)
+            valueHolding = "False";
+
+        System.out.println(valueHolding);
+
+        /*
         hand.newRound();
         gp.afterFirstRound(gp.bot1);
         gp.afterFirstRound(gp.bot2);
@@ -650,8 +669,10 @@ public class GamePlay
             System.out.print(hand.hand6.get(i).getNumber() + hand.hand6.get(i).getSuit() + '\t');
 
         System.out.println("");
+
+         */
     }
 
-     */
+
 }
 
