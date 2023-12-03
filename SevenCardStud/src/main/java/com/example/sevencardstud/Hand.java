@@ -15,7 +15,7 @@ public class Hand
     public static List<Card> hand4;
     public static List<Card> hand5;
     public static List<Card> hand6;
-    public static List<Card> testHand;
+    public List<Card> testHand;
 
     public static List<Card> testHand2;
     public Deck newDeck;

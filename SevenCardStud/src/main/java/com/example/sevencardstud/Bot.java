@@ -5,15 +5,17 @@ public class Bot
 {
     public String botName;
     public List<Card> hand;
+    public List<List<Card>> cardHands;
     public int botMoney;
     public int wins;
 
     public boolean isFolded;
 
-    public Bot(String name, List<Card> hand)
+    public Bot(String name, List<Card> hand, List<List<Card>> cardHands)
     {
         this.botName = name;
         this.hand = hand;
+        this.cardHands = cardHands;
         this.botMoney = 50;
         this.wins = 0;
         this.isFolded = false;
