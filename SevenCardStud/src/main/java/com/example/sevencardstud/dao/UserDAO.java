@@ -65,6 +65,65 @@ public class UserDAO extends GenericDAO<User> {
         }
     }
 
+    public void addAmountToBalance(String username, double amount)
+    {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            User user = findUserByLogin(username);
+
+            if(user != null) {
+                double currentBalance = user.getBalance();
+                user.setBalance(currentBalance + amount);
+                em.merge(user);
+            }
+        }
+        catch(Exception ex) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Failed to add amount to user's balance.", ex);
+        }
+        finally
+        {
+            em.close();
+        }
+    }
+
+    public void subtractAmountFromBalance(String username, double amount)
+    {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            User user = findUserByLogin(username);
+
+            if(user != null) {
+                double currentBalance = user.getBalance();
+                if(currentBalance >= amount) {
+                    user.setBalance(currentBalance - amount);
+                    em.merge(user);
+                }
+                else {
+                    throw new RuntimeException("Too few current funds to subtract desired amount.");
+                }
+            }
+
+            em.getTransaction().commit();
+        }
+
+        catch(Exception ex) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw new RuntimeException("Failed to subtract amount from user's balance.", ex);
+        }
+
+        finally
+        {
+            em.close();
+        }
+    }
+
     public void setBalanceToZero(String username) {
         EntityManager em = getEntityManager();
         try {

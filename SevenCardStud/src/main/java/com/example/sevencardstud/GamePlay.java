@@ -30,6 +30,64 @@ public class GamePlay
             return Integer.parseInt(number);
     }
 
+    public boolean aceLowThreeCards(List<Card> hand)
+    {
+        boolean aceLow = false;
+        int sortedCards[] = new int[hand.size() - 2];
+        int index = 0;
+        for (int i = 2; i < hand.size(); i++) {
+            sortedCards[index] = cardNumberValue(hand.get(i).getNumber());
+            index++;
+        }
+        Arrays.sort(sortedCards);
+
+        int count = 0;
+        for(int i = 0; i < 3; i++)
+        {
+            int currentValue = sortedCards[i];
+            if(currentValue == 2 || currentValue == 3 || currentValue == 4 || currentValue == 5)
+            {
+                count++;
+            }
+        }
+
+        if(sortedCards[2] == 14 && count == 2)
+            aceLow = true;
+        else if(count == 3)
+            aceLow = true;
+
+        return aceLow;
+    }
+
+    public boolean aceLowFourCards(List<Card> hand)
+    {
+        boolean aceLow = false;
+        int sortedCards[] = new int[hand.size() - 2];
+        int index = 0;
+        for (int i = 2; i < hand.size(); i++) {
+            sortedCards[index] = cardNumberValue(hand.get(i).getNumber());
+            index++;
+        }
+        Arrays.sort(sortedCards);
+
+        int count = 0;
+        for(int i = 0; i < 4; i++)
+        {
+            int currentValue = sortedCards[i];
+            if(currentValue == 2 || currentValue == 3 || currentValue == 4 || currentValue == 5)
+            {
+                count++;
+            }
+        }
+
+        if(sortedCards[3] == 14 && count == 3)
+            aceLow = true;
+        else if(count == 4)
+            aceLow = true;
+
+        return aceLow;
+    }
+
     public boolean valueOne(List<Card> hand)
     {
         int max = 0;
@@ -109,6 +167,23 @@ public class GamePlay
                 index++;
             }
             Arrays.sort(sortedCards);
+
+            if(hand.size() == 5 && sortedCards[2] == 14)
+            {
+                if(aceLowThreeCards(hand))
+                {
+                    sortedCards[2] = 1;
+                    Arrays.sort(sortedCards);
+                }
+            }
+            else
+            {
+                if(aceLowFourCards(hand) && sortedCards[3] == 14)
+                {
+                    sortedCards[3] = 1;
+                    Arrays.sort(sortedCards);
+                }
+            }
 
             for (int i = 0; i < sortedCards.length - 1; i++)
             {
@@ -247,6 +322,12 @@ public class GamePlay
             index++;
         }
         Arrays.sort(sortedCards);
+
+        if(aceLowFourCards(hand) && sortedCards[3] == 14)
+        {
+            sortedCards[3] = 1;
+            Arrays.sort(sortedCards);
+        }
 
         if(sortedCards[3] - sortedCards[2] != 1)
             return (sortedCards[3] - 1);
@@ -422,13 +503,41 @@ public class GamePlay
     public void afterFourthRound(List<Card> hand)
     {
         int value = shouldFold(bot.hand);
-        if(value == 10 || value == 9)
+        if(value == 10)
         {
             int missingCard = straightMissingValue(bot.hand);
             String suit = bot.hand.get(2).getSuit();
-            if(value == 9 && missingCard == 0)
+            if(searchRoyalandStraightFlush(bot.cardHands, missingCard, suit))
+                value = 6;
+        }
+        else if(value == 9)
+        {
+            int missingCard = straightMissingValue(bot.hand);
+            String suit = bot.hand.get(2).getSuit();
+            if(missingCard == 0)
             {
-                if(searchRoyalandStraightFlush(bot.cardHands,cardNumberValue(bot.hand.get(2).getNumber()) - 1, suit) && searchRoyalandStraightFlush(bot.cardHands, cardNumberValue(bot.hand.get(2).getNumber()) + 1, suit))
+                int missingCardLow = 0;
+                int missingCardHigh = 0;
+                if(aceLowFourCards(hand))
+                {
+                    missingCardLow = 14;
+                    missingCardHigh = 6;
+                }
+                else
+                {
+                    int sortedCards[] = new int[hand.size() - 2];
+                    int index = 0;
+                    for (int i = 2; i < hand.size(); i++) {
+                        sortedCards[index] = cardNumberValue(hand.get(i).getNumber());
+                        index++;
+                    }
+                    Arrays.sort(sortedCards);
+
+                    missingCardLow = sortedCards[0] - 1;
+                    missingCardHigh = sortedCards[3] + 1;
+                }
+
+                if(searchRoyalandStraightFlush(bot.cardHands,missingCardLow, suit) && searchRoyalandStraightFlush(bot.cardHands, missingCardHigh, suit))
                     value = 6;
             }
             else if(searchRoyalandStraightFlush(bot.cardHands, missingCard, suit))
@@ -443,7 +552,29 @@ public class GamePlay
         else if(value == 5)
         {
             int missingCard = straightMissingValue(bot.hand);
-            if(straightSearch(bot.cardHands, missingCard))
+            if(missingCard == 0)
+            {
+                int missingCardLow = 0;
+                int missingCardHigh = 0;
+                if (aceLowFourCards(hand)) {
+                    missingCardLow = 14;
+                    missingCardHigh = 6;
+                } else {
+                    int sortedCards[] = new int[hand.size() - 2];
+                    int index = 0;
+                    for (int i = 2; i < hand.size(); i++) {
+                        sortedCards[index] = cardNumberValue(hand.get(i).getNumber());
+                        index++;
+                    }
+                    Arrays.sort(sortedCards);
+
+                    missingCardLow = sortedCards[0] - 1;
+                    missingCardHigh = sortedCards[3] + 1;
+                }
+                if (straightSearch(bot.cardHands, missingCardLow) && straightSearch(bot.cardHands, missingCardHigh))
+                    value = 1;
+            }
+            else if(straightSearch(bot.cardHands, missingCard))
                 value = 1;
         }
 
