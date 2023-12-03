@@ -37,6 +37,10 @@ public class Game {
 
     }
 
+    public void botBrain(List<List<Card>> cardHands, List<Card> currentHand) {
+        GamePlay bot = new GamePlay(cardHands, currentHand);
+
+    }
 
     public void play() {
         if (hands.turn != 7) {
