@@ -52,15 +52,21 @@
 
 
     Game game = (Game) application.getAttribute("game");
-    Hand hands = (Hand) application.getAttribute("hands");
 
-    if (game == null || hands == null) {
+    if (game == null) {
         game = new Game();
-        hands = new Hand();
         application.setAttribute("game", game);
-        application.setAttribute("hands", hands);
     }
 
+    game = (Game) application.getAttribute("game");
+
+    if (loggedInUser != null && game.isNewPlayer(loggedInUser.getUsername())) {
+        game.addPlayer(loggedInUser.getUsername());
+        application.setAttribute("game", game);
+    }
+
+
+    Hand hands = game.hands;
     int currTurn = hands.turn;
     application.setAttribute("curTurn", currTurn);
 
@@ -120,12 +126,11 @@
     }
 
     if ("fold".equals(request.getParameter("action"))) {
-        if (currTurn == 5)
+        if (currTurn == game.numPlayers -1)
         {
             currTurn = 0;
         } else {
             currTurn++;
-
         }
         hands.turn = currTurn; // Update in the Hand object
         application.setAttribute("hands", hands);
@@ -310,6 +315,17 @@
 
 <body onload="refreshPage()">
 <%
+    if ("Bot:".equals(playerNames.get(currTurn).split(" ")[0])) {
+        if (currTurn == game.numPlayers -1)
+        {
+            currTurn = 0;
+        } else {
+            currTurn++;
+        }
+        hands.turn = currTurn; // Update in the Hand object
+        application.setAttribute("hands", hands);
+    }
+
     int index = 0;
     List<Card> currHand = Hand.hand6;
     while (!playerNames.get(index).equals(loggedInUser.getUsername())) {
@@ -330,10 +346,6 @@
     }
     int i = 1; // Start the counter at 1 for hand1, hand2, etc.
     for (int y = 0; y!=5; y++) {
-//        if (curr.get(0) == currHand.get((0))) {
-//            curr = Hand.hand6;
-//
-//        }
         List<Card> curr = cardHands.get(myIndex + y);
 
         int j = 1;
@@ -427,6 +439,7 @@
     <%=hands.turn%>
     <%=currTurn%>
     <%=application.getAttribute("currTurn")%>
+    <%=game.numPlayers%>
 
 </form>
 
@@ -455,6 +468,8 @@
     </div>
 </div>
 <%
+    } else {
+        //if (currTurn)
     }
 %>
 

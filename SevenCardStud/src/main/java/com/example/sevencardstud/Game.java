@@ -1,11 +1,9 @@
 package com.example.sevencardstud;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.*;
+import java.util.Set;
 
 public class Game {
     public Hand hands;
@@ -13,6 +11,10 @@ public class Game {
     public String result;
     public int winner;
     private int currentBet;
+
+    public int numPlayers;
+
+    private Set<String> playerIds;
 
 
     public Game() {
@@ -23,6 +25,8 @@ public class Game {
         result = "";
         winner = -1;
         currentBet = 0;
+        numPlayers = 0;
+        playerIds = new HashSet<>(); // Initialize the set
 
         //bringIn(hands);
 
@@ -150,6 +154,18 @@ public class Game {
             }
         }
         return winningPlayer;
+    }
+
+    public boolean isNewPlayer(String playerId) {
+        return !playerIds.contains(playerId);
+    }
+
+    // Method to add a new player
+    public void addPlayer(String playerId) {
+        if (isNewPlayer(playerId)) {
+            playerIds.add(playerId);
+            numPlayers++;
+        }
     }
 }
 
