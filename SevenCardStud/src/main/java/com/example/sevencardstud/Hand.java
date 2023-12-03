@@ -59,6 +59,14 @@ public class Hand
     }
 
     public void newRound() {
+        hand1.add(newDeck.drawCard());
+        hand2.add(newDeck.drawCard());
+        hand3.add(newDeck.drawCard());
+        hand4.add(newDeck.drawCard());
+        hand5.add(newDeck.drawCard());
+        hand6.add(newDeck.drawCard());
+    }
+    public void newRoundOld() {
         playerTurnEnd();
         while (turn != 0) {
             newTurn();

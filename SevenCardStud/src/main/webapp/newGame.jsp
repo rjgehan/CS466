@@ -19,11 +19,6 @@
 <%@ page import="java.io.FileWriter" %>
 
 <%
-    String result;
-    int winner;
-    int currentBet;
-
-
     User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
     if (loggedInUser == null) {
         response.sendRedirect("index.jsp");
@@ -112,13 +107,6 @@
         firstToPlay = game.findPlayerWithSmallestCard(tmpArray);
     }
 
-    if ("addCards".equals(request.getParameter("action"))) {
-        if (Hand.hand1.size() != 7) {
-            hands.newRound();
-            session.setAttribute("hands", hands);
-        }
-    }
-
     if ("fold".equals(request.getParameter("action"))) {
         if (currTurn == 5)
         {
@@ -152,85 +140,67 @@
         cardHands.add(Hand.hand5);
     }
 
+    // RAISE
+    if ("raiseBet".equals(request.getParameter("action"))) {
+        if (hands.getHand1().size() != 7) {
+            game.updateCurrentBet(2);
+            hands.newRound();
+            session.setAttribute("game", game);
+        }
+    }
 
+    if ("bet2".equals(request.getParameter("action"))) {
+        if (hands.getHand1().size() != 7) {
+            game.updateCurrentBet(2);
+            hands.newRound();
+            session.setAttribute("game", game);
+        }
+    }
+
+    if ("bet4".equals(request.getParameter("action"))) {
+        if (hands.getHand1().size() != 7) {
+            game.updateCurrentBet(4);
+            hands.newRound();
+            session.setAttribute("game", game);
+        }
+    }
+
+    if ("bet10".equals(request.getParameter("action"))) {
+        if (hands.getHand1().size() != 7) {
+            game.updateCurrentBet(10);
+            hands.newRound();
+            session.setAttribute("game", game);
+        }
+    }
+
+    if ("bet20".equals(request.getParameter("action"))) {
+        if (hands.getHand1().size() != 7) {
+            game.updateCurrentBet(20);
+            hands.newRound();
+            session.setAttribute("game", game);
+        }
+    }
 
 %>
 
 
 <script>
-    var currentTurn = 6; // Initialize the current turn to 6
-    var timerDuration = 5; // Duration of the timer in seconds
-    var countdown; // Countdown interval
-    var usersTurn = 6;
-
-    function endTurnButtonClicked() {
+    function foldButtonClicked() {
         // Hide the button after clicking
         document.getElementById("action-bar").style.display = "none";
-        currentTurn = 0;
-        nextTurn();
     }
 
-    function betButtonClicked() {
+    function bet() {
         var betAmount = document.getElementById("betAmount").value;
+        // Validate the bet amount (add validation logic if needed)
+
+        // Update the displayed current bet
+        document.getElementById("currentBetDisplay").innerText = "Current Bet: " + betAmount;
+
         // Do something with the bet amount, you can send it to the server or process it here
         console.log("Bet placed: " + betAmount);
-    }
-
-
-    function nextTurn() {
-        clearInterval(countdown);
-        if (currentTurn < 6) {
-            currentTurn++;
-            startTimer();
-        } else {
-            document.getElementById("action-bar").style.display = "flex";
-        }
-        updateDisplay();
-    }
-
-    function startTimer() {
-        var timeLeft = timerDuration;
-
-        countdown = setInterval(function () {
-            timeLeft--;
-
-            if (timeLeft === 0) {
-                clearInterval(countdown);
-                nextTurn();
-            }
-        }, 1000);
-    }
-
-    function updateDisplay() {
-        var allHands = document.querySelectorAll(".hand-container");
-        allHands.forEach(function (hand) {
-            hand.classList.remove("highlighted");
-        });
-
-        var currentHand = document.getElementById("hand" + currentTurn);
-        currentHand.classList.add("highlighted");
-
-        var botText = document.querySelectorAll(".bot p");
-        botText.forEach(function (p) {
-            p.style.fontWeight = "normal";
-            p.style.color = "white";
-        });
-
-        var currentPlayerBot = document.querySelector(".hand" + currentTurn + " .bot p");
-        currentPlayerBot.style.fontWeight = "bold";
-        currentPlayerBot.style.color="red";
-
-        var timerDisplay = document.getElementById("timer");
-        timerDisplay.innerHTML = "";
-    }
-
-    function openBetPopup() {
-        document.getElementById("betPopup").style.display = "block";
-        populateImageGrid(); // Function to populate the image grid
-    }
-
-    function closeBetPopup() {
-        document.getElementById("betPopup").style.display = "none";
+        // Update the current bet in the session or game object
+        //updateCurrentBet(betAmount);
     }
 
     function populateImageGrid() {
@@ -242,34 +212,119 @@
             "<%= contextPath %>/images/PNG/Chips/chipWhiteBlue.png",
             "<%= contextPath %>/images/PNG/Chips/chipBlue.png",
             "<%= contextPath %>/images/PNG/Chips/chipGreen.png",
-            "<%= contextPath %>/images/PNG/Chips/chipWhite.png",
-
         ];
+
+        const amounts = ["$2", "$4", "$10", "$20", "$30", "$40", "$50"];
 
         const imageGrid = document.querySelector(".image-grid");
         imageGrid.innerHTML = ""; // Clear previous content
 
-        imagePaths.forEach(path => {
+        imagePaths.forEach((path, index) => {
+            const container = document.createElement("div");
+            container.classList.add("grid-item");
+
             const img = document.createElement("img");
             img.src = path;
-            imageGrid.appendChild(img);
+            img.onclick = function() {
+                // Call a function to handle chip click
+                addChipToContainer(amounts[index]);
+            };
+            container.appendChild(img);
+
+            const text = document.createElement("p");
+            text.innerText = amounts[index];
+            container.appendChild(text);
+
+            imageGrid.appendChild(container);
         });
     }
 
-    function betButtonClicked() {
-        openBetPopup();
+    function addChipToContainer(chipAmount) {
+        const chipContainer = document.getElementById("chipContainer");
+
+        // Remove existing chips before adding a new one
+        chipContainer.innerHTML = "";
+
+        // Create a new chip element
+        const chip = document.createElement("div");
+        chip.classList.add("chip");
+        chip.innerText = chipAmount;
+
+        // Add the chip to the container
+        chipContainer.appendChild(chip);
     }
 
-    document.querySelector(".bet-button").addEventListener("click", betButtonClicked);
-    <%
-    String betAmount = request.getParameter("betAmount");
-    if ("placeBet".equals(request.getParameter("action"))) {
-        // Process the bet amount
-         //update the game logic here
+
+    // Function to create and append flying text element
+    function createFlyingText() {
+        var flyingText = document.createElement("div");
+        flyingText.className = "flying-text";
+        flyingText.style.fontSize = "72px";
+        flyingText.innerText = "SHOWDOWN!";
+
+        document.body.appendChild(flyingText);
+
+        // Set up animation
+        var startPosition = window.innerWidth;
+        flyingText.style.transform = "translateX(" + startPosition + "px)";
+
+        var animationDuration = 8000; // 8 seconds
+        flyingText.animate(
+            [{ transform: "translateX(" + startPosition + "px)" }, { transform: "translateX(-100%)" }],
+            {
+                duration: animationDuration,
+                easing: "linear",
+                fill: "forwards"
+            }
+        );
+
+        // Remove the flying text element after the animation
+        setTimeout(function () {
+            document.body.removeChild(flyingText);
+        }, animationDuration);
     }
 
+    // Check if the triggerFlyingText attribute is set
+    var triggerFlyingText = <%= request.getAttribute("triggerFlyingText") %>;
 
-%>
+
+    // Call createFlyingText() if the condition is met
+    if (triggerFlyingText) {
+        createFlyingText();
+    }
+
+    function onButtonClick() {
+        sessionStorage.setItem("buttonClicked", "true");
+    }
+
+    function refreshPage() {
+        if (!sessionStorage.getItem("buttonClicked")) {
+            setTimeout(function() {
+                location.reload();
+            }, 3000);
+        } else {
+            // Reset the flag for future refreshes
+            sessionStorage.removeItem("buttonClicked");
+        }
+    }
+
+    function preloadImages() {
+        const imagePaths = [
+            "<%= contextPath %>/images/PNG/Cards/UserIcon.png",
+            // Add paths of other images that need to be preloaded
+        ];
+
+        imagePaths.forEach(path => {
+            const img = new Image();
+            img.src = path;
+        });
+    }
+
+    window.onload = function() {
+        preloadImages();
+        refreshPage();
+    };
+
     function onButtonClick() {
         sessionStorage.setItem("buttonClicked", "true");
     }
@@ -413,13 +468,11 @@
     %>
 </div>
 
-<div id="betPopup" class="bet-popup">
-    <div class="bet-popup-content">
-        <span class="close" onclick="closeBetPopup()">&times;</span>
-        <div class="image-grid">
-        </div>
-    </div>
-</div>
+
+<form method="post">
+    <button type="submit" name="action" value="resetHands" class="show-button" onclick="onButtonClick()">New Game</button>
+</form>
+
 <form method="post">
     <button type="submit" name="action" value="startGame" class="start-game-button" onclick="onButtonClick()">Start Game</button>
     <%=loggedInUser.getUsername()%>
@@ -429,30 +482,43 @@
     <%=application.getAttribute("currTurn")%>
 
 </form>
-
 <%
     if (loggedInUser.getUsername().equals(playerNames.get(currTurn))) {
 %>
 <div class="action-buttons" id="action-bar">
-    <form method="post">
-        <button type="submit" name="action" value="addCards" class="add-cards-button" onclick="onButtonClick()">Add Cards</button>
-    </form>
-    <form method="post">
+    <form method="post"> <!-- FOLD BUTTON -->
         <button type="submit" name="action" value="fold" class="fold-button" onclick="onButtonClick()">Fold</button>
     </form>
-    <form method="post">
+    <!-- <form method="post">  SHOW HANDS (Test)
         <button type="submit" name="action" value="toggleShowCards" class="show-button" onclick="onButtonClick()">Show Cards</button>
-    </form>
+    </form> -->
+    <button type="button" class="bet-button">Place Bet</button>
     <form method="post">
-        <button type="submit" name="action" value="resetHands" class="show-button" onclick="onButtonClick()">Reset Hands</button>
+        <button type="submit" name="action" value="raiseBet" class="raise-button">Raise</button>
     </form>
-    <button id="endTurnButton" onclick="endTurnButtonClicked(); onButtonClick()">Fold</button>
-    <div class="bet-container">
-        <form method="post">
-            <input type="number" id="betAmount" name="betAmount" placeholder="Enter bet amount" required>
-            <button type="submit" name="action" value="placeBet" class="bet-button" onclick="onButtonClick()">Bet</button>
+    <div class="betChips">
+        <form method="post" class="bet-two">
+            <button type="submit" name="action" value="bet2">
+                <img src="${pageContext.request.contextPath}/images/PNG/Chips/chipBlackWhite.png" alt="$2">
+            </button>
+        </form>
+        <form method="post" class="bet-four">
+            <button type="submit" name="action" value="bet4">
+                <img src="${pageContext.request.contextPath}/images/PNG/Chips/chipGreenWhite.png" alt="$4">
+            </button>
+        </form>
+        <form method="post" class="bet-ten">
+            <button type="submit" name="action" value="bet10">
+                <img src="${pageContext.request.contextPath}/images/PNG/Chips/chipRedWhite.png" alt="$10">
+            </button>
+        </form>
+        <form method="post" class="bet-twenty">
+            <button type="submit" name="action" value="bet20">
+                <img src="${pageContext.request.contextPath}/images/PNG/Chips/chipBlueWhite.png" alt="$20">
+            </button>
         </form>
     </div>
+
 </div>
 <%
     }
@@ -666,17 +732,20 @@
         }
 
         .action-buttons button,
-        .action-buttons .bet-button {
+        .action-buttons .bet-button{
             background-color: #8a2be2; /* Purple */
             color: white;
-            padding: 10px 20px;
+            margin: 5px;
+            padding: 15px 30px;
             border: none;
             border-radius: 5px;
+            font-size: 16px;
             cursor: pointer;
         }
 
+
         .action-buttons input[type="number"] {
-            padding: 5px;
+            padding: 10px;
             border-radius: 5px;
             border: 1px solid #8a2be2; /* Purple */
         }
@@ -687,10 +756,10 @@
         }
 
         .action-buttons .bet-button {
-            background-color: #8a2be2; /* Purple */
+            background-color: #007bff; /* Purple */
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 15px 50px;
             border-radius: 5px;
             cursor: pointer;
         }
@@ -721,6 +790,65 @@
 
         .bet-popup-content .close:hover {
             color: #6a1fcb;
+        }
+
+        .betChips {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px; /* Add margin for spacing */
+        }
+
+        .betChips form {
+            margin: 5px; /* Adjust margin for spacing between buttons */
+        }
+
+        .betChips button {
+            background: transparent;
+            border: none;
+            padding: 10px; /* Adjust the padding for the button size */
+            cursor: pointer;
+            position: relative;
+        }
+
+        .betChips button:hover::after {
+            position: absolute;
+            top: -20px; /* Adjust the position of the label */
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 90, 0.8); /* Background color of the label */
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            pointer-events: none; /* Allow interaction with the button, not the label */
+        }
+
+        .betChips .bet-two button:hover::after {
+            content: "$2"; /* Display label when hovered over for the first chip */
+        }
+
+        .betChips .bet-four button:hover::after {
+            content: "$4"; /* Display label when hovered over for the second chip */
+        }
+
+        .betChips .bet-ten button:hover::after {
+            content: "$10"; /* Display label when hovered over for the second chip */
+        }
+
+        .betChips .bet-twenty button:hover::after {
+            content: "$20"; /* Display label when hovered over for the second chip */
+        }
+
+        .betChips img {
+            width: 50px; /* Adjust the size of the chip image */
+            height: auto;
+            transition: transform 0.3s, filter 0.3s; /* Add transition for the glow effect */
+        }
+
+        .betChips img:hover {
+            transform: scale(1.1); /* Add a scale effect on hover */
+            filter: brightness(1.5); /* Adjust brightness on hover for a glowing effect */
         }
 
         .image-grid {
