@@ -112,7 +112,10 @@
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c70d941ba1af1d7d744adc4821f28b82e9724596
     if ("addCards".equals(request.getParameter("action"))) {
         if (Hand.hand1.size() != 7) {
             hands.newRound();
@@ -121,7 +124,10 @@
         response.sendRedirect("newGame.jsp");
     }
 
+<<<<<<< HEAD
 >>>>>>> origin/main
+=======
+>>>>>>> c70d941ba1af1d7d744adc4821f28b82e9724596
     if ("fold".equals(request.getParameter("action"))) {
         hands.newTurn();
         application.setAttribute("hands", hands);
