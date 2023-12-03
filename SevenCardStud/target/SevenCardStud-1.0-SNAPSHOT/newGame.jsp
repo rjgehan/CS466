@@ -47,17 +47,22 @@
 
 
     Game game = (Game) application.getAttribute("game");
-    Hand hands = (Hand) application.getAttribute("hands");
 
-    if (game == null || hands == null) {
+    if (game == null) {
         game = new Game();
-        hands = new Hand();
         application.setAttribute("game", game);
-        application.setAttribute("hands", hands);
     }
 
-    int currTurn = hands.turn;
-    application.setAttribute("curTurn", currTurn);
+    game = (Game) application.getAttribute("game");
+
+    if (loggedInUser != null && game.isNewPlayer(loggedInUser.getUsername())) {
+        game.addPlayer(loggedInUser.getUsername());
+        application.setAttribute("game", game);
+    }
+
+
+    Hand hands = game.hands;
+
 
 
     List<List<Card>> cardHands = new ArrayList<>();
@@ -67,14 +72,12 @@
     cardHands.add(Hand.hand4);
     cardHands.add(Hand.hand5);
     cardHands.add(Hand.hand6);
-
     cardHands.add(Hand.hand1);
     cardHands.add(Hand.hand2);
     cardHands.add(Hand.hand3);
     cardHands.add(Hand.hand4);
     cardHands.add(Hand.hand5);
     cardHands.add(Hand.hand6);
-
 
     List<String> botNames = new ArrayList<>();
     botNames.add(name1);
@@ -105,18 +108,24 @@
             tmpArray.add(cardHands.get(i));
         }
         firstToPlay = game.findPlayerWithSmallestCard(tmpArray);
+        response.sendRedirect("newGame.jsp");
     }
 
-    if ("fold".equals(request.getParameter("action"))) {
-        if (currTurn == 5)
-        {
-            currTurn = 0;
-        } else {
-            currTurn++;
-
+<<<<<<< HEAD
+=======
+    if ("addCards".equals(request.getParameter("action"))) {
+        if (Hand.hand1.size() != 7) {
+            hands.newRound();
+            session.setAttribute("hands", hands);
         }
-        hands.turn = currTurn; // Update in the Hand object
+        response.sendRedirect("newGame.jsp");
+    }
+
+>>>>>>> origin/main
+    if ("fold".equals(request.getParameter("action"))) {
+        hands.newTurn();
         application.setAttribute("hands", hands);
+        response.sendRedirect("newGame.jsp");
     }
 
     Boolean showCards = (Boolean) session.getAttribute("showCards");
@@ -127,6 +136,7 @@
     if ("toggleShowCards".equals(request.getParameter("action"))) {
         showCards = !showCards;
         session.setAttribute("showCards", showCards);
+        response.sendRedirect("newGame.jsp");
     }
 
     if ("resetHands".equals(request.getParameter("action"))) {
@@ -138,6 +148,7 @@
         cardHands.add(Hand.hand3);
         cardHands.add(Hand.hand4);
         cardHands.add(Hand.hand5);
+        response.sendRedirect("newGame.jsp");
     }
 
     // RAISE
@@ -330,14 +341,18 @@
     }
 
     function refreshPage() {
-        if (!sessionStorage.getItem("buttonClicked")) {
-            setTimeout(function() {
-                location.reload();
-            }, 3000);
-        } else {
-            // Reset the flag for future refreshes
-            sessionStorage.removeItem("buttonClicked");
-        }
+        // if (!sessionStorage.getItem("buttonClicked")) {
+        //     setTimeout(function() {
+        //         location.reload();
+        //     }, 3000);
+        // } else {
+        //     // Reset the flag for future refreshes
+        //     sessionStorage.removeItem("buttonClicked");
+        // }
+
+        setTimeout(function() {
+                    location.reload();
+                }, 3000);
         <%
 
         %>
@@ -365,6 +380,11 @@
 
 <body onload="refreshPage()">
 <%
+    if ("Bot:".equals(botNames.get(hands.turn).split(" ")[0])) {
+        hands.newTurn();
+        application.setAttribute("hands", hands);
+    }
+
     int index = 0;
     List<Card> currHand = Hand.hand6;
     while (!playerNames.get(index).equals(loggedInUser.getUsername())) {
@@ -385,10 +405,6 @@
     }
     int i = 1; // Start the counter at 1 for hand1, hand2, etc.
     for (int y = 0; y!=5; y++) {
-//        if (curr.get(0) == currHand.get((0))) {
-//            curr = Hand.hand6;
-//
-//        }
         List<Card> curr = cardHands.get(myIndex + y);
 
         int j = 1;
@@ -475,15 +491,19 @@
 
 <form method="post">
     <button type="submit" name="action" value="startGame" class="start-game-button" onclick="onButtonClick()">Start Game</button>
+    <%
+        game = (Game) application.getAttribute("game");
+
+    %>
     <%=loggedInUser.getUsername()%>
-    <%=playerNames.get(hands.turn)%>
-    <%=hands.turn%>
-    <%=currTurn%>
+    <%=botNames.get(game.hands.turn)%>
+    <%=game.hands.turn%>
     <%=application.getAttribute("currTurn")%>
+    <%=game.numPlayers%>
 
 </form>
 <%
-    if (loggedInUser.getUsername().equals(playerNames.get(currTurn))) {
+    if (loggedInUser.getUsername().equals(botNames.get(hands.turn))) {
 %>
 <div class="action-buttons" id="action-bar">
     <form method="post"> <!-- FOLD BUTTON -->
@@ -521,6 +541,8 @@
 
 </div>
 <%
+    } else {
+        //if (currTurn)
     }
 %>
 
