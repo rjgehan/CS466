@@ -480,12 +480,20 @@ public class GamePlay
 
     }
 
+    public void betting(int foldValue)
+    {
+        if(foldValue > 8)
+            bot.bettingAction = 1;
+    }
+
     public void afterThirdRound()
     {
         int value = shouldFold(botHand);
 
         if(value < 1)
             bot.isFolded = true;
+        else
+            betting(value);
     }
 
     public void afterFourthRound()
@@ -568,6 +576,8 @@ public class GamePlay
 
         if(value < 4)
             bot.isFolded = true;
+        else
+            betting(value);
     }
 
     public void botInGame(int round)
