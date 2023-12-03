@@ -48,6 +48,6 @@ public class Card
         else
             valueTwo = Integer.parseInt(secondCard.getNumber());
 
-        return Integer.compare(valueOne, valueTwo);
+        return Integer.compare(valueOne, valueTwo); // equal 0, v1 < v2 negative, v1 > v2 positive
     }
 }

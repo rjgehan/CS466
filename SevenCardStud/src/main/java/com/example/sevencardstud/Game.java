@@ -1,5 +1,6 @@
 package com.example.sevencardstud;
 
+import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,29 +10,54 @@ public class Game {
     public Hand hands;
     public List<List<Card>> foldedHands;
     public List<String> finalResults;
+    //public List<Integer> currentBets;
     public String result;
-    public int winner;
-    private int currentBet;
-
+    //public int winner;
+    private int currentPot;
+    public final int ante;
     public int numPlayers;
 
     private Set<String> playerIds;
-
 
     public Game() {
         hands = new Hand();
 
         foldedHands = new ArrayList<>();
         finalResults = new ArrayList<>();
+        //currentBets = new ArrayList<>();
         result = "";
-        winner = -1;
-        currentBet = 0;
+        currentPot = 0;
+        ante = 1;
         numPlayers = 0;
         playerIds = new HashSet<>(); // Initialize the set
+
 
         //bringIn(hands);
 
 
+    }
+
+
+    public void play() {
+        if (hands.turn != 7) {
+            if (hands.turn > 0) {
+                hands.handAction();
+            }
+            hands.turn++;
+        } else {
+            hands.turn = 0;
+            //IF ()
+            // If 6 rounds haven't passed.
+            if (hands.round != 6) {
+                // All players went; increment round and start new round.
+                hands.round++;
+                hands.newRound();
+            }
+            else {
+                // Reset round; game over.
+                hands.round = 0;
+            }
+        }
     }
 
     public Hand getGameHand() {
@@ -46,16 +72,16 @@ public class Game {
         hands.newTurn();
     }
 
-    public int getCurrentBet() {
-        return currentBet;
+    public int getCurrentPot() {
+        return currentPot;
     }
 
-    public void setCurrentBet(int currentBet) {
-        this.currentBet = currentBet;
+    public void setCurrentPot(int currentPot) {
+        this.currentPot = currentPot;
     }
 
-    public void updateCurrentBet(int update) {
-        this.currentBet += update;
+    public void updateCurrentPot(int update) {
+        this.currentPot += update;
     }
 
     // Game Logic
@@ -133,6 +159,26 @@ public class Game {
         return result;
     }
 
+    public int bringIn(List<List<Card>> cardHands) {
+        int lowestCard = -1;
+        for (int i = 0; i < cardHands.size(); i++) {
+
+            List<Card> currentHand = cardHands.get(i);
+            List<Card> nextHand = cardHands.get(i+1);
+            if (currentHand.get(2).compare(nextHand.get(2)) < 0) {
+                lowestCard = i;
+            }
+            else if (currentHand.get(2).compare(nextHand.get(2)) > 0) {
+                lowestCard = i+1;
+            }
+            else { //Tie
+                lowestCard = i;
+            }
+        }
+
+        return lowestCard;
+    }
+
     public int determineWinner(List<List<Card>> cardHands) {
         int winningPlayer = -1; // Initialize to an invalid value
         for (int i = 0; i < cardHands.size(); i++) {
@@ -161,7 +207,7 @@ public class Game {
     private int handleTie(List<List<Card>> currentHand, List<List<Card>> otherHand) {
         return -1;
     }
-  
+
     public boolean isNewPlayer(String playerId) {
         return !playerIds.contains(playerId);
     }

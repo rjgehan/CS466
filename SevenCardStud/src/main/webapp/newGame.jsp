@@ -5,6 +5,7 @@
 <%@ page import="com.example.sevencardstud.Hand" %>
 <%@ page import="com.example.sevencardstud.Card" %>
 <%@ page import="com.example.sevencardstud.Game" %>
+<%@ page import="com.example.sevencardstud.Player" %>
 <%@ page import="java.nio.file.Paths" %>
 <%@ page import="java.nio.file.Files" %>
 <%@ page import="java.io.InputStream" %>
@@ -119,6 +120,21 @@
     botNames.add(name5);
     botNames.add(name6);
 
+    Player p1 = new Player(playerNames.get(0), Hand.hand1);
+    Player p2 = new Player(playerNames.get(1), Hand.hand2);
+    Player p3 = new Player(playerNames.get(2), Hand.hand3);
+    Player p4 = new Player(playerNames.get(3), Hand.hand4);
+    Player p5 = new Player(playerNames.get(4), Hand.hand5);
+    Player p6 = new Player(playerNames.get(5), Hand.hand6);
+
+    List<Player> players = new ArrayList<>();
+    players.add(p1);
+    players.add(p2);
+    players.add(p3);
+    players.add(p4);
+    players.add(p5);
+    players.add(p6);
+
 
     List<String> pictures = new ArrayList<>();
     pictures.add(img1);
@@ -133,7 +149,6 @@
     pictures.add(img4);
     pictures.add(img5);
     pictures.add(img6);
-
 
     int myIndex = 0;
     while (!botNames.get(myIndex).equals(loggedInUser.getUsername()))
@@ -185,18 +200,33 @@
         response.sendRedirect("newGame.jsp");
     }
 
-    // RAISE
     if ("raiseBet".equals(request.getParameter("action"))) {
         if (hands.getHand1().size() != 7) {
-            game.updateCurrentBet(2);
+            //game.updateCurrentBet(2);
             hands.newRound();
             session.setAttribute("game", game);
         }
     }
 
+    if ("call".equals(request.getParameter("action"))) {
+        if (game.getCurrentPot() == 0) {
+            hands.newTurn();
+        }
+        else if (game.getCurrentPot() > 0) {
+            if (myIndex == 0) {
+                //game.updateCurrentPot();
+            }
+            /*else if (game.currentBets.get(myIndex) ==)
+                game.updateCurrentPot(game.getCurrentPot());
+                hands.newTurn();
+            }*/
+        }
+        session.setAttribute("game", game);
+    }
+
     if ("bet2".equals(request.getParameter("action"))) {
         if (hands.getHand1().size() != 7) {
-            game.updateCurrentBet(2);
+            //game.updateCurrentBet(2);
             hands.newRound();
             session.setAttribute("game", game);
         }
@@ -204,7 +234,7 @@
 
     if ("bet4".equals(request.getParameter("action"))) {
         if (hands.getHand1().size() != 7) {
-            game.updateCurrentBet(4);
+            //game.updateCurrentBet(4);
             hands.newRound();
             session.setAttribute("game", game);
         }
@@ -212,7 +242,7 @@
 
     if ("bet10".equals(request.getParameter("action"))) {
         if (hands.getHand1().size() != 7) {
-            game.updateCurrentBet(10);
+           // game.updateCurrentBet(10);
             hands.newRound();
             session.setAttribute("game", game);
         }
@@ -220,7 +250,7 @@
 
     if ("bet20".equals(request.getParameter("action"))) {
         if (hands.getHand1().size() != 7) {
-            game.updateCurrentBet(20);
+            //game.updateCurrentBet(20);
             hands.newRound();
             session.setAttribute("game", game);
         }
@@ -546,7 +576,9 @@
     <!-- <form method="post">  SHOW HANDS (Test)
         <button type="submit" name="action" value="toggleShowCards" class="show-button" onclick="onButtonClick()">Show Cards</button>
     </form> -->
-    <button type="button" class="bet-button">Place Bet</button>
+    <form method="post">
+        <button type="submit" name="action" value="call" class="call-button">Call</button>
+    </form>
     <form method="post">
         <button type="submit" name="action" value="raiseBet" class="raise-button">Raise</button>
     </form>
