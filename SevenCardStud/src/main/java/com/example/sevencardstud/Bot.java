@@ -10,6 +10,7 @@ public class Bot
     public int wins;
 
     public boolean isFolded;
+    public boolean raise;
 
     public Bot(String name, List<Card> hand, List<List<Card>> cardHands)
     {
@@ -19,6 +20,7 @@ public class Bot
         this.botMoney = 50;
         this.wins = 0;
         this.isFolded = false;
+        this.raise = false;
     }
 
     public String getBotName()
@@ -46,6 +48,14 @@ public class Bot
         wins++;
     }
 
-    public boolean getIsFolded(){return isFolded;}
+    public boolean getIsFolded()
+    {
+        return isFolded;
+    }
+
+    public boolean getRaise()
+    {
+        return raise;
+    }
 }
 

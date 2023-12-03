@@ -22,7 +22,7 @@ public class GamePlayTest {
         newHand.addAll(hand.testHand);
         cardHands.add(newHand);
         GamePlay gp = new GamePlay(cardHands, newHand);
-        assertEquals(3, gp.bot.getHand().size());
+        assertEquals(3, gp.botHand.size());
     }
 
     @Test
@@ -1262,4 +1262,77 @@ public class GamePlayTest {
         int[] expectedArray = {10, 12};
         assertFalse(gp.fullHouseSearch(cardHands, expectedArray));
     }
+
+    @Test
+    public void testShouldFoldPotentialStraight() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "7");
+        Card cardFour = new Card("Clubs", "6");
+        Card cardFive = new Card("Diamonds", "9");
+        Card cardSix = new Card("Diamonds", "8");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        assertEquals(5, gp.shouldFold(hand.testHand));
+    }
+
+    @Test
+    public void testShouldFoldNothing() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "7");
+        Card cardFour = new Card("Clubs", "6");
+        Card cardFive = new Card("Diamonds", "2");
+        Card cardSix = new Card("Diamonds", "4");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        assertEquals(0, gp.shouldFold(hand.testHand));
+    }
+
+    /*
+    @Test
+    public void testAfterFirstRound() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "7");
+        Card cardFour = new Card("Clubs", "6");
+        Card cardFive = new Card("Diamonds", "2");
+        Card cardSix = new Card("Diamonds", "4");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        hand.addCard(hand.testHand, cardSix);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        gp.afterFirstRound(hand.testHand);
+        assertEquals(6, gp.botHand.size());
+    }
+
+     */
 }
