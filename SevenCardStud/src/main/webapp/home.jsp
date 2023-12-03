@@ -141,6 +141,8 @@
     <a href="index.jsp" class="btn-custom">Account</a> <br/>
     <a href="leaderboard.jsp" class="btn-custom">Leaderboard</a> <br/>
     <a href="profilePicture.jsp" class="btn-custom">Edit Profile</a> <br/>
+    <a href="directionsPage.jsp" class="btn-custom">Game Rules</a> <br/>
+
   </div>
 </div>
 

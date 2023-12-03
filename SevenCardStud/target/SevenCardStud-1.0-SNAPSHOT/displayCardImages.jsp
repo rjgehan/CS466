@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Poker Hands</title>
+    <jsp:include page="styles.jsp"></jsp:include>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -168,6 +170,8 @@
             <img src="${pageContext.request.contextPath}/images/PNG/Cards/cardSpadesK.png" alt="High Card">
         </div>
     </div>
+    <a href="newGame.jsp" class="btn-custom">Game</a> <br/>
+
 </div>
 </body>
 </html>
