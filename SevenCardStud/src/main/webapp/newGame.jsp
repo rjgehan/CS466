@@ -27,13 +27,22 @@
     }
 
     List<String> playerNames = (List<String>) application.getAttribute("playerNames");
+    List<String> playerPics = (List<String>) application.getAttribute("playerPics");
+
     if (playerNames == null) {
         playerNames = new ArrayList<>();
         application.setAttribute("playerNames", playerNames);
+        playerPics = new ArrayList<>();
+        application.setAttribute("playerPics", playerPics);
     }
 
     if (!playerNames.contains(loggedInUser.getUsername())) {
         playerNames.add(loggedInUser.getUsername());
+        if (loggedInUser.getSelectedImage() != null) {
+            playerPics.add(loggedInUser.getSelectedImage());
+        } else {
+            playerPics.add("/SevenCardStud-1.0-SNAPSHOT/images/PNG/Roster Images/image1.png");
+        }
     }
 
     // Assign names to variables
@@ -43,6 +52,13 @@
     String name4 = playerNames.size() > 3 ? playerNames.get(3) : "Bot: Len";
     String name5 = playerNames.size() > 4 ? playerNames.get(4) : "Bot: John";
     String name6 = playerNames.size() > 5 ? playerNames.get(5) : "Bot: Sean";
+
+    String img1 = playerPics.size() > 0 ? playerPics.get(0) : "/SevenCardStud-1.0-SNAPSHOT/images/PNG/Cards/UserIcon.png";
+    String img2 = playerPics.size() > 1 ? playerPics.get(1) : "/SevenCardStud-1.0-SNAPSHOT/images/PNG/Cards/UserIcon.png";
+    String img3 = playerPics.size() > 2 ? playerPics.get(2) : "/SevenCardStud-1.0-SNAPSHOT/images/PNG/Cards/UserIcon.png";
+    String img4 = playerPics.size() > 3 ? playerPics.get(3) : "/SevenCardStud-1.0-SNAPSHOT/images/PNG/Cards/UserIcon.png";
+    String img5 = playerPics.size() > 4 ? playerPics.get(4) : "/SevenCardStud-1.0-SNAPSHOT/images/PNG/Cards/UserIcon.png";
+    String img6 = playerPics.size() > 5 ? playerPics.get(5) : "/SevenCardStud-1.0-SNAPSHOT/images/PNG/Cards/UserIcon.png";
 
 
 
@@ -80,6 +96,16 @@
     cardHands.add(Hand.hand5);
     cardHands.add(Hand.hand6);
 
+    int smallest;
+    List<List<Card>> tmpArr = new ArrayList<>();
+    for (int i = 0; i <= 5; i++) {
+        tmpArr.add(cardHands.get(i));
+    }
+    smallest = game.findPlayerWithSmallestCard(cardHands);
+
+
+
+
     List<String> botNames = new ArrayList<>();
     botNames.add(name1);
     botNames.add(name2);
@@ -109,6 +135,21 @@
     players.add(p5);
     players.add(p6);
 
+
+    List<String> pictures = new ArrayList<>();
+    pictures.add(img1);
+    pictures.add(img2);
+    pictures.add(img3);
+    pictures.add(img4);
+    pictures.add(img5);
+    pictures.add(img6);
+    pictures.add(img1);
+    pictures.add(img2);
+    pictures.add(img3);
+    pictures.add(img4);
+    pictures.add(img5);
+    pictures.add(img6);
+
     int myIndex = 0;
     while (!botNames.get(myIndex).equals(loggedInUser.getUsername()))
     {
@@ -117,13 +158,8 @@
 
     String contextPath = request.getContextPath();
 
-    int firstToPlay;
     if ("startGame".equals(request.getParameter("action"))) {
-        List<List<Card>> tmpArray = new ArrayList<>();
-        for (int i = 0; i <= 5; i++) {
-            tmpArray.add(cardHands.get(i));
-        }
-        firstToPlay = game.findPlayerWithSmallestCard(tmpArray);
+        game.hands.turn = smallest + 1;
         response.sendRedirect("newGame.jsp");
     }
 
@@ -436,6 +472,9 @@
         List<Card> curr = cardHands.get(myIndex + y);
 
         int j = 1;
+        String myImage = "test";
+        myImage = pictures.get(i + myIndex);
+
 
 %>
 <div class="hand<%= i %>" id="hand<%= i %>">
@@ -455,7 +494,7 @@
     %>
     <!-- Will display bot info to go with the current hand, the bot number will be incremented just like the hand number -->
     <div class="bot">
-        <img src="<%= contextPath %>/images/PNG/Cards/UserIcon.png" alt="UserIcon">
+        <img src="<%= myImage %>" alt="UserIcon">
         <%
             //            String name = "test";
 //            if(loggedInUser.getUsername().equals(botNames.get(i - 1))) {
@@ -523,11 +562,8 @@
         game = (Game) application.getAttribute("game");
 
     %>
-    <%=loggedInUser.getUsername()%>
-    <%=botNames.get(game.hands.turn)%>
-    <%=game.hands.turn%>
-    <%=application.getAttribute("currTurn")%>
-    <%=game.numPlayers%>
+    <%="Current Turn: " + botNames.get(game.hands.turn)%>
+    <%="| Number of Players: " + game.numPlayers%>
 
 </form>
 <%
