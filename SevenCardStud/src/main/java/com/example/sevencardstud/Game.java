@@ -17,6 +17,7 @@ public class Game {
     public String result;
     //public int winner;
     private int currentPot;
+    public int maxBet;
     public final int ante;
     public int numPlayers;
 
@@ -30,6 +31,7 @@ public class Game {
         //currentBets = new ArrayList<>();
         result = "";
         currentPot = 0;
+        maxBet = 0;
         ante = 1;
         numPlayers = 0;
         show = false;
@@ -41,6 +43,14 @@ public class Game {
 
     }
 
+    public void botBrain(List<List<Card>> cardHands, List<Card> currentHand) {
+        GamePlay bot = new GamePlay(cardHands, currentHand);
+        bot.botInGame(hands.round);
+        if (bot.bot.isFolded) {
+            foldedHands.add(currentHand);
+        }
+        hands.newTurn();
+    }
 
     public void play() {
         if (hands.turn != 7) {
