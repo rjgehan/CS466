@@ -84,6 +84,9 @@ public class Hand
         }
     }
 
+    //public void botAction(int turn) {
+
+    //}
     public void handAction() {
         switch (turn) {
             case 1:

@@ -121,7 +121,7 @@
         if (Hand.hand1.size() != 7) {
             game.foldedHands.add(cardHands.get(myIndex));
             hands.newTurn();
-            //session.setAttribute("hands", hands);
+            session.setAttribute("hands", hands);
         }
     }
 
@@ -170,13 +170,13 @@
         console.log("Bet placed: " + betAmount);
     }
 
-
     function nextTurn() {
         clearInterval(countdown);
         if (currentTurn < 6) {
             currentTurn++;
             startTimer();
         } else {
+            currentTurn = 1; // Reset to the first player after the last player's turn
             document.getElementById("action-bar").style.display = "flex";
         }
         updateDisplay();
@@ -212,7 +212,7 @@
 
         var currentPlayerBot = document.querySelector(".hand" + currentTurn + " .bot p");
         currentPlayerBot.style.fontWeight = "bold";
-        currentPlayerBot.style.color="red";
+        currentPlayerBot.style.color = "red";
 
         var timerDisplay = document.getElementById("timer");
         timerDisplay.innerHTML = "";
@@ -237,7 +237,6 @@
             "<%= contextPath %>/images/PNG/Chips/chipBlue.png",
             "<%= contextPath %>/images/PNG/Chips/chipGreen.png",
             "<%= contextPath %>/images/PNG/Chips/chipWhite.png",
-
         ];
 
         const imageGrid = document.querySelector(".image-grid");
@@ -255,22 +254,14 @@
     }
 
     document.querySelector(".bet-button").addEventListener("click", betButtonClicked);
-    <%
-    String betAmount = request.getParameter("betAmount");
-    if ("placeBet".equals(request.getParameter("action"))) {
-        // Process the bet amount
-         //update the game logic here
-    }
 
-
-%>
     function onButtonClick() {
         sessionStorage.setItem("buttonClicked", "true");
     }
 
     function refreshPage() {
         if (!sessionStorage.getItem("buttonClicked")) {
-            setTimeout(function() {
+            setTimeout(function () {
                 location.reload();
             }, 3000);
         } else {
@@ -291,12 +282,13 @@
         });
     }
 
-    window.onload = function() {
+    window.onload = function () {
         preloadImages();
         refreshPage();
     };
 
 </script>
+
 
 
 <body onload="refreshPage()">
@@ -417,6 +409,7 @@
 
 <%
     if (loggedInUser.getUsername().equals(playerNames.get(hands.turn))) {
+        if (game.foldedHands.contains(cardHands.get(hands.turn)))
 %>
 <div class="action-buttons" id="action-bar">
     <form method="post">
@@ -440,6 +433,10 @@
     </div>
 </div>
 <%
+    }
+    else {
+        hands.handAction();
+        //hands.newTurn();
     }
 %>
 
