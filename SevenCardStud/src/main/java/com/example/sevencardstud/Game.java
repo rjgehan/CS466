@@ -8,6 +8,7 @@ import java.util.Set;
 public class Game {
     public Hand hands;
     public List<List<Card>> foldedHands;
+    public List<String> finalResults;
     public String result;
     public int winner;
     private int currentBet;
@@ -21,7 +22,7 @@ public class Game {
         hands = new Hand();
 
         foldedHands = new ArrayList<>();
-
+        finalResults = new ArrayList<>();
         result = "";
         winner = -1;
         currentBet = 0;
@@ -99,34 +100,34 @@ public class Game {
         int handValue = handAnalyzer.handValue(hand);
         switch (handValue) {
             case 10:
-                result = "Royal Flush";
+                finalResults.add("Royal Flush");
                 break;
             case 9:
-                result = "Straight Flush";
+                finalResults.add("Straight Flush");
                 break;
             case 8:
-                result = "Four of a Kind";
+                finalResults.add("Four of a Kind");
                 break;
             case 7:
-                result = "Full House";
+                finalResults.add("Full House");
                 break;
             case 6:
-                result = "Flush";
+                finalResults.add("Flush");
                 break;
             case 5:
-                result = "Straight";
+                finalResults.add("Straight");
                 break;
             case 4:
-                result = "Three of a Kind";
+                finalResults.add("Three of a Kind");
                 break;
             case 3:
-                result = "Two Pair";
+                finalResults.add("Two Pair");
                 break;
             case 2:
-                result = "One Pair";
+                finalResults.add("One Pair");
                 break;
             default:
-                result = "High Card";
+                finalResults.add("High Card");
                 break;
         }
         return result;
@@ -149,6 +150,7 @@ public class Game {
                         winningPlayer = j + 1; // Player index is 0-based, so add 1
                     } else if (result == 0) {
                         // Handle tie-breaking logic
+                        //handleTie(currentHand, otherHand);
                     }
                 }
             }
@@ -156,6 +158,10 @@ public class Game {
         return winningPlayer;
     }
 
+    private int handleTie(List<List<Card>> currentHand, List<List<Card>> otherHand) {
+        return -1;
+    }
+  
     public boolean isNewPlayer(String playerId) {
         return !playerIds.contains(playerId);
     }
