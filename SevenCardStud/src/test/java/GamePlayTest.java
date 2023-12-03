@@ -1495,8 +1495,144 @@ public class GamePlayTest {
         assertTrue(gp.bot.isFolded);
     }
 
+    @Test
+    public void testBettingCallRoundThree() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Spades", "2");
+        Card cardFour = new Card("Hearts", "7");
+        Card cardFive = new Card("Spades", "5");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        gp.afterThirdRound();
+        assertEquals(0, gp.bot.getBettingAction());
+    }
 
+    @Test
+    public void testBettingRaiseRoundThree() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "10");
+        Card cardFour = new Card("Diamonds", "J");
+        Card cardFive = new Card("Diamonds", "Q");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        gp.afterThirdRound();
+        assertEquals(1, gp.bot.getBettingAction());
+    }
 
+    @Test
+    public void testBettingRaiseRoundThreeTwo() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "5");
+        Card cardFour = new Card("Diamonds", "6");
+        Card cardFive = new Card("Diamonds", "7");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        gp.afterThirdRound();
+        assertEquals(1, gp.bot.getBettingAction());
+    }
+
+    @Test
+    public void testBettingCallRoundFour() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Spades", "2");
+        Card cardFour = new Card("Hearts", "7");
+        Card cardFive = new Card("Spades", "5");
+        Card cardSix = new Card("Diamonds", "4");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        gp.afterThirdRound();
+        assertEquals(0, gp.bot.getBettingAction());
+    }
+
+    @Test
+    public void testBettingRaiseRoundFour() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "10");
+        Card cardFour = new Card("Diamonds", "J");
+        Card cardFive = new Card("Diamonds", "Q");
+        Card cardSix = new Card("Diamonds", "K");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        gp.afterThirdRound();
+        assertEquals(1, gp.bot.getBettingAction());
+    }
+
+    @Test
+    public void testBettingRaiseRoundFourTwo() {
+        Hand hand = new Hand();
+        List<Card> newHand = new ArrayList<>();
+        List<Card> secondHand = new ArrayList<>();
+        List<List<Card>> cardHands = new ArrayList<>();
+        Card cardOne = new Card("Hearts", "6");
+        Card cardTwo = new Card("Clubs", "3");
+        Card cardThree = new Card("Diamonds", "5");
+        Card cardFour = new Card("Diamonds", "6");
+        Card cardFive = new Card("Diamonds", "7");
+        Card cardSix = new Card("Diamonds", "8");
+        hand.addCard(hand.testHand, cardOne);
+        hand.addCard(hand.testHand, cardTwo);
+        hand.addCard(hand.testHand, cardThree);
+        hand.addCard(hand.testHand, cardFour);
+        hand.addCard(hand.testHand, cardFive);
+        newHand.addAll(hand.testHand);
+        cardHands.add(newHand);
+        GamePlay gp = new GamePlay(cardHands, newHand);
+        gp.afterThirdRound();
+        assertEquals(1, gp.bot.getBettingAction());
+    }
 }
-
-

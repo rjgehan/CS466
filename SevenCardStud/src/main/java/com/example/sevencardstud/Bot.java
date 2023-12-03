@@ -57,5 +57,6 @@ public class Bot
     {
         return bettingAction;
     }
+    // 0 means call and 1 means raise
 }
 
