@@ -349,23 +349,23 @@ public class GamePlay
         }
         Arrays.sort(sortedCards);
 
-        if(sortedCards[2] == sortedCards[4])
+        if(sortedCards[1] == sortedCards[3])
         {
             int fullHouseValues[] = new int[1];
-            fullHouseValues[0] = sortedCards[5];
+            fullHouseValues[0] = sortedCards[0];
             return fullHouseValues;
         }
-        else if(sortedCards[3] == sortedCards[5])
+        else if(sortedCards[0] == sortedCards[2])
         {
             int fullHouseValues[] = new int[1];
-            fullHouseValues[0] = sortedCards[2];
+            fullHouseValues[0] = sortedCards[3];
             return fullHouseValues;
         }
         else
         {
             int fullHouseValues[] = new int[2];
-            fullHouseValues[0] = sortedCards[2];
-            fullHouseValues[1] = sortedCards[4];
+            fullHouseValues[0] = sortedCards[0];
+            fullHouseValues[1] = sortedCards[2];
             return fullHouseValues;
         }
     }
@@ -374,9 +374,9 @@ public class GamePlay
     {
         boolean cardFound = false;
 
-        for(int i = 0; i < 6; i++)
+        for(int i = 0; i < cardHands.size(); i++)
         {
-            for(int j = 2; j <= 5; i++)
+            for(int j = 2; j < cardHands.get(i).size(); j++)
             {
                 if(cardNumberValue(cardHands.get(i).get(j).getNumber()) == value && cardHands.get(i).get(j).getSuit().equals(suit))
                 {
@@ -391,9 +391,9 @@ public class GamePlay
     public boolean straightSearch(List<List<Card>> cardHands, int value)
     {
         int count = 0;
-        for(int i = 0; i < 6; i++)
+        for(int i = 0; i < cardHands.size(); i++)
         {
-            for(int j = 2; j <= 5; i++)
+            for(int j = 2; j < cardHands.get(i).size(); j++)
             {
                 if(cardNumberValue(cardHands.get(i).get(j).getNumber()) == value)
                 {
@@ -414,14 +414,17 @@ public class GamePlay
         if (valueArray.length == 1) {
             int value = valueArray[0];
             int count = 0;
-            for (int i = 0; i < 6; i++) {
-                for (int j = 2; j <= 5; i++) {
-                    if (cardNumberValue(cardHands.get(i).get(j).getNumber()) == value) {
+            for (int i = 0; i < cardHands.size(); i++)
+            {
+                for (int j = 2; j < cardHands.get(i).size(); j++)
+                {
+                    if (cardNumberValue(cardHands.get(i).get(j).getNumber()) == value)
+                    {
                         count++;
                     }
                 }
             }
-            if (count == 3)
+            if (count == 4)
                 isFound = true;
         }
         else if (valueArray.length == 2)
@@ -430,9 +433,9 @@ public class GamePlay
             int valueTwo = valueArray[1];
             int countOne = 0;
             int countTwo = 0;
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < cardHands.size(); i++)
             {
-                for (int j = 2; j <= 5; i++)
+                for (int j = 2; j < cardHands.get(i).size(); j++)
                 {
                     if (cardNumberValue(cardHands.get(i).get(j).getNumber()) == valueOne)
                         countOne++;
@@ -440,7 +443,7 @@ public class GamePlay
                         countTwo++;
                 }
             }
-            if (countOne == 2 && countTwo == 2)
+            if (countOne == 4 && countTwo == 4)
                 isFound = true;
         }
         return isFound;
