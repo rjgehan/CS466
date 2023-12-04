@@ -42,8 +42,24 @@
             font-weight: bold;
         }
 
+        .betting-header {
+            font-weight: bold;
+        }
+
+        .description-indent {
+            padding-left: 40px; /* Adjust this value to change the indentation size */
+        }
+
+        .bet-options {
+            list-style-type: none;
+            padding-left: 20px;
+        }
         .rule-steps {
             margin-left: 20px;
+        }
+
+        .betting-rules {
+            margin-left: 20px
         }
 
         .card-indent {
@@ -53,6 +69,7 @@
         .description-indent {
             padding-left: 40px; /* Adjust this value to change the indentation size */
         }
+
     </style>
 </head>
 
@@ -68,26 +85,6 @@
             <p class="rule-steps">
                 1. Ante Up: Each player antes a small amount into the pot before the game begins.<br>
                 2. Deal Cards: Every player is dealt two cards face down (hole cards) and one card face up (door card).
-            </p>
-        </div>
-
-        <div class="rule">
-            <p class="rule-header">Betting Rounds:</p>
-            <p class="rule-steps">
-                1. Third Street: The player with the lowest-ranking face-up card initiates the betting with the "bring-in" bet (half the lower betting limit). Play moves clockwise, with options to call, raise, or fold.<br>
-                2. Fourth Street: Each player gets another face-up card. The player with the highest-ranking face-up cards starts the betting. Betting limit increases.<br>
-                3. Fifth Street: Players receive another face-up card. Betting continues.<br>
-                4. Sixth Street: Another face-up card is dealt to each player, followed by more betting.<br>
-                5. Seventh Street (or the River): Each player receives a final card face down. The last round of betting occurs.
-            </p>
-        </div>
-
-        <!-- Add more rule sections for Showdown, Hand Rankings, and Tips -->
-
-        <div class="rule">
-            <p class="rule-header">Showdown:</p>
-            <p class="rule-steps">
-                The Showdown: Remaining players reveal their hole cards. The best 5-card poker hand wins the pot.
             </p>
         </div>
 
@@ -179,8 +176,93 @@
                 <p class="description-indent">
             - A hand that contains no matching cards, the highest card in the hand.
             </p>
+        </div>
 
+        <div class="betting">
+            <p class="betting-header">Betting:</p>
+            <div class="betting-rules">
+                <p>All players will pay the ante amount of 1 automatically upon starting the game.</p>
 
+                <p>Round 1:<br>
+                    <span class="description-indent">
+                First Better
+                <ul class="bet-options">
+                    <li>     - Can either check (bet nothing), call (bet 2), raise (bet 4), or fold</li>
+                </ul>
+            </span>
+                    <span class="description-indent">
+                Following Betters
+                <ul class="bet-options">
+                    <br><li>     - Can either check (only if current bet amount is 0), call (match previous bet), raise (increase current bet by 2), or fold</li>
+                    <li>     - Bet continues until everyone either folds or matches highest bet.</li>
+                </ul>
+            </span>
+                </p>
+
+                <p>Round 2:<br>
+                    <span class="description-indent">
+                First Better
+                <ul class="bet-options">
+                    <li>     - Can either check (bet nothing), call (bet 2), raise (bet 4), or fold</li>
+                </ul>
+            </span>
+                    <span class="description-indent">
+                Following Betters
+                <ul class="bet-options">
+                    <br><li>     - Can either check (only if current bet amount is 0), call (match previous bet), raise (increase current bet by 2), or fold</li>
+                    <li>     - Bet continues until everyone either folds or matches highest bet.</li>
+                </ul>
+            </span>
+                </p>
+
+                <p>Round 3:<br>
+                    <span class="description-indent">
+                First Better
+                <ul class="bet-options">
+                    <li>     - Can either check (bet nothing), call (bet 4), raise (bet 8), or fold</li>
+                </ul>
+            </span>
+                    <span class="description-indent">
+                Following Betters
+                <ul class="bet-options">
+                   <br><li>     - Can either check (only if current bet amount is 0), call (match previous bet), raise (increase current bet by 4), or fold</li>
+                    <li>     - Bet continues until everyone either folds or matches highest bet.</li>
+                </ul>
+            </span>
+                </p>
+
+                <p>Round 4:<br>
+                    <span class="description-indent">
+                First Better
+                <ul class="bet-options">
+                    <li>     - Can either check (bet nothing), call (bet 4), raise (bet 8), or fold</li>
+                </ul>
+            </span>
+                    <span class="description-indent">
+                Following Betters
+                <ul class="bet-options">
+                    <br><li>     - Can either check (only if current bet amount is 0), call (match previous bet), raise (increase current bet by 4), or fold</li>
+                    <li>     - Bet continues until everyone either folds or matches highest bet.</li>
+                </ul>
+            </span>
+                </p>
+
+                <p>Round 5:<br>
+                    <span class="description-indent">
+                First Better
+                <ul class="bet-options">
+                    <li>     - Can either check (bet nothing), call (bet 4), raise (bet 8), or fold</li>
+                </ul>
+            </span>
+                    <span class="description-indent">
+                Following Betters
+                <ul class="bet-options">
+                    <br><li>     - Can either check (only if current bet amount is 0), call (match previous bet), raise (increase current bet by 4), or fold</li>
+                    <li>     - Bet continues until everyone either folds or matches highest bet.</li>
+                </ul>
+            </span>
+                </p>
+            </div>
         </div>
 
 
