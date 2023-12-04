@@ -51,11 +51,12 @@ public class Game {
 
     }
 
-    public int botBrain(List<List<Card>> cardHands, List<Card> currentHand) {
+    public int botBrain(List<List<Card>> cardHands, List<Card> currentHand, String name) {
         GamePlay bot = new GamePlay(cardHands, currentHand);
         bot.botInGame(hands.round);
         if (bot.bot.isFolded) {
             foldedHands.add(currentHand);
+            foldedNames.add(name);
         }
         return bot.bot.bettingAction;
     }

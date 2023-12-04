@@ -534,25 +534,28 @@
 <div>
 <%
     if ("Bot:".equals(botNames.get(game.hands.turn).split(" ")[0])) {
-        if (game.hands.round == 0) {
-            game.bringInCalled = true;
-            game.maxBet = 1;
-            int currentAmount = game.hands.bets.get(myIndex);
-            game.hands.bets.set(myIndex,currentAmount + 1);
-            game.updateCurrentPot(1);
-            game.hands.round++;
+        if (game.foldedNames.contains(botNames.get(game.hands.turn))) {
             game.hands.newTurn();
-        }
-        else {
-            int botAction = game.botBrain(cardHands, cardHands.get(game.hands.turn));
-            if (botAction == 0) {
-                //CALL
-                game.botCall(game.hands.bets, myIndex);
-            }
-            else if (botAction == 1) {
-                //RAISE
-                game.botRaise(game.hands.bets, myIndex);
 
+        } else {
+            if (game.hands.round == 0) {
+                game.bringInCalled = true;
+                game.maxBet = 1;
+                int currentAmount = game.hands.bets.get(myIndex);
+                game.hands.bets.set(myIndex, currentAmount + 1);
+                game.updateCurrentPot(1);
+                game.hands.round++;
+                game.hands.newTurn();
+            } else {
+                int botAction = game.botBrain(cardHands, cardHands.get(game.hands.turn), botNames.get(game.hands.turn));
+                if (botAction == 0) {
+                    //CALL
+                    game.botCall(game.hands.bets, myIndex);
+                } else if (botAction == 1) {
+                    //RAISE
+                    game.botRaise(game.hands.bets, myIndex);
+
+                }
             }
         }
         //session.setAttribute("game", game);
@@ -615,10 +618,14 @@
 
 
 <!-- Will display hand 6 cards -->
-<div class="user">
-    <!-- Get logged in user username -->
-    <h2><%= loggedInUser.getUsername() %></h2>
-</div>
+    <div class="user">
+        <h2>
+            <span style="float: left;"><%= loggedInUser.getUsername() %></span>
+            <span style="float: right;">Turn: <%= botNames.get(game.hands.turn) %> | Round: <%=game.hands.round%> | Pot: <%=game.getCurrentPot()%> | Bet: <%=game.hands.bets.get(myIndex)%></span>
+            <div style="clear: both;"></div>
+        </h2>
+    </div>
+
 
 <%
     boolean isFolded = game.foldedNames.contains(loggedInUser.getUsername());
@@ -661,7 +668,9 @@
 
 
 <form method="post">
-    <button type="submit" name="action" value="resetHands" class="show-button" onclick="onButtonClick()">New Game</button>
+    <button type="submit" name="action" value="resetHands" class="btn-custom" onclick="onButtonClick()">New Game</button>
+    <a href="home.jsp" class="btn-custom">Home</a>
+    <a href="displayCardImages.jsp" class="btn-custom">Winning Hands</a>
 </form>
 
 <form method="post">
@@ -669,17 +678,7 @@
         game = (Game) application.getAttribute("game");
 
 
-    %><div class="info">
-    <%="Current Turn: " + game.hands.turn%>
-    <%="Current Round: " + game.hands.round%>
-    <%="| Number of Players: " + game.numPlayers%>
-    <%="| Number of Folded: " + game.foldedHands.size()%>
-    <%="| Maxbet: " + game.maxBet%>
-    <%="| Current Bet: " + game.hands.bets.get(myIndex)%>
-    <%="| Current Pot: " + game.getCurrentPot()%>
-    <br>
-    <%=game.foldedNames%>
-</div>
+    %>
 
 </form>
 <%
@@ -737,6 +736,13 @@
         </form>
     <% }%>
 </div>
+    <div class="info">
+        <%="Current Turn: " + game.hands.turn%>
+        <%="Current Round: " + game.hands.round%>
+        <%="| Number of Folded: " + game.foldedHands.size()%>
+        <%="| Maxbet: " + game.maxBet%>
+        <%=game.foldedNames%>
+    </div>
 <%
     } else {
         //if (currTurn)
@@ -745,8 +751,7 @@
 
 
 <% if (loggedInUser != null) { %>
-<a href="home.jsp" class="btn-custom">Home</a> <br/>
-<a href="displayCardImages.jsp" class="btn-custom">Winning Hands</a> <br/>
+
 
 <% } %>
 
@@ -1013,6 +1018,7 @@
             color: white;
             justify-content: center;
             margin-left: 48%;
+            padding-right: 25px;
         }
 
         .pfp {
