@@ -16,10 +16,9 @@ public class Game {
     public List<String> foldedNames;
 
     public List<String> finalResults;
-    //public List<Integer> currentBets;
     public String result;
     //public int winner;
-    private int currentPot;
+    public int currentPot;
     public int maxBet;
     public final int ante;
     public int numPlayers;
@@ -34,7 +33,6 @@ public class Game {
 
         foldedHands = new ArrayList<>();
         finalResults = new ArrayList<>();
-        //currentBets = new ArrayList<>();
         result = "";
         currentPot = 6;
         maxBet = 0;
