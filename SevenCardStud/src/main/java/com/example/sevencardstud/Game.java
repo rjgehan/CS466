@@ -23,6 +23,8 @@ public class Game {
     public int maxBet;
     public final int ante;
     public int numPlayers;
+    public boolean completeCalled;
+    public boolean bringInCalled;
 
     private Set<String> playerIds;
 
@@ -34,10 +36,12 @@ public class Game {
         finalResults = new ArrayList<>();
         //currentBets = new ArrayList<>();
         result = "";
-        currentPot = 0;
+        currentPot = 6;
         maxBet = 0;
         ante = 1;
         numPlayers = 0;
+        completeCalled = false;
+        bringInCalled = false;
         show = false;
         playerIds = new HashSet<>(); // Initialize the set
 
@@ -47,20 +51,102 @@ public class Game {
 
     }
 
-    public void botBrain(List<List<Card>> cardHands, List<Card> currentHand) {
+    public int botBrain(List<List<Card>> cardHands, List<Card> currentHand) {
         GamePlay bot = new GamePlay(cardHands, currentHand);
         bot.botInGame(hands.round);
         if (bot.bot.isFolded) {
             foldedHands.add(currentHand);
+        }
+        return bot.bot.bettingAction;
+    }
+
+    public void botCall(List<Integer> bets, int myIndex) {
+        if (hands.round == 1) {
+            if (bringInCalled) {
+                if (maxBet == 0) {
+                    maxBet = 1;
+                }
+                int amount = maxBet - bets.get(myIndex);
+                int currentAmount = bets.get(myIndex);
+                bets.set(myIndex,currentAmount + amount);
+                updateCurrentPot(amount);
+            }
+            else if (completeCalled) {
+                if (maxBet == 0) {
+                    maxBet = 2;
+                }
+                int amount = maxBet - bets.get(myIndex);
+                int currentAmount = bets.get(myIndex);
+                bets.set(myIndex,currentAmount + amount);
+                updateCurrentPot(amount);
+            }
+        }
+        else if (hands.round == 2) {
+            if (maxBet == 0) {
+                maxBet = 2;
+            }
+            int amount = maxBet - bets.get(myIndex);
+            int currentAmount = bets.get(myIndex);
+            bets.set(myIndex,currentAmount + amount);
+            updateCurrentPot(amount);
+        }
+        else if (hands.round > 2) {
+            if (maxBet == 0) {
+                maxBet = 4;
+            }
+            int amount = maxBet - bets.get(myIndex);
+            int currentAmount = bets.get(myIndex);
+            bets.set(myIndex,currentAmount + amount);
+            updateCurrentPot(amount);
+        }
+        hands.newTurn();
+    }
+
+    public void botRaise(List<Integer> bets, int myIndex){
+        if (hands.round == 1) {
+            if (bringInCalled) {
+                if (maxBet == 1) {
+                    maxBet = 0;
+                }
+                int amount = maxBet + 2;
+                int currentAmount = bets.get(myIndex);
+                bets.set(myIndex,currentAmount + amount);
+                maxBet = amount;
+                updateCurrentPot(amount);
+            }
+            else if (completeCalled) {
+                int amount = maxBet + 2;
+                int currentAmount = bets.get(myIndex);
+                bets.set(myIndex,currentAmount + amount);
+                maxBet = amount;
+                updateCurrentPot(amount);
+            }
+        }
+        else if (hands.round == 2) {
+            if (maxBet == 0) {
+                maxBet = 2;
+            }
+            int amount = maxBet + 2;
+            int currentAmount = bets.get(myIndex);
+            bets.set(myIndex,currentAmount + amount);
+            maxBet = amount;
+            updateCurrentPot(amount);
+        }
+        else if (hands.round > 2) {
+            if (maxBet == 0) {
+                maxBet = 4;
+            }
+            int amount = maxBet + 4;
+            int currentAmount = bets.get(myIndex);
+            bets.set(myIndex,currentAmount + amount);
+            maxBet = amount;
+            updateCurrentPot(amount);
         }
         hands.newTurn();
     }
 
     public void play() {
         if (hands.turn != 7) {
-            if (hands.turn > 0) {
-                hands.handAction();
-            }
             hands.turn++;
         } else {
             hands.turn = 0;

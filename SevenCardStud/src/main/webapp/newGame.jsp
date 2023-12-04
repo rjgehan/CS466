@@ -120,20 +120,6 @@
     botNames.add(name5);
     botNames.add(name6);
 
-    Player p1 = new Player(Hand.hand1);
-    Player p2 = new Player(Hand.hand2);
-    Player p3 = new Player(Hand.hand3);
-    Player p4 = new Player(Hand.hand4);
-    Player p5 = new Player(Hand.hand5);
-    Player p6 = new Player(Hand.hand6);
-
-    List<Player> players = new ArrayList<>();
-    players.add(p1);
-    players.add(p2);
-    players.add(p3);
-    players.add(p4);
-    players.add(p5);
-    players.add(p6);
 
     List<String> pictures = new ArrayList<>();
     pictures.add(img1);
@@ -157,21 +143,15 @@
 
     String contextPath = request.getContextPath();
 
+
     if ("startGame".equals(request.getParameter("action"))) {
         game.hands.turn = smallest + 1;
-        hands.round = 0;
-        response.sendRedirect("newGame.jsp");
-    }
-
-    if ("addCards".equals(request.getParameter("action"))) {
-        if (Hand.hand1.size() != 7) {
-            //hands.newRound();
-            session.setAttribute("hands", hands);
-        }
+        game.hands.round = 0;
         response.sendRedirect("newGame.jsp");
     }
 
     if ("fold".equals(request.getParameter("action"))) {
+        game.hands.newTurn();
         game = (Game) application.getAttribute("game");
 
         game.fold(cardHands.get(myIndex), loggedInUser.getUsername());
@@ -204,86 +184,122 @@
     }
 
     if ("raiseBet".equals(request.getParameter("action"))) {
-        if (game.getCurrentPot() == 0) {
-            game.updateCurrentPot(2);
-            game.maxBet = 2;
-            hands.newTurn();
+        game = (Game) application.getAttribute("game");
+
+        if (game.hands.round == 1) {
+            if (game.bringInCalled) {
+                if (game.maxBet == 1) {
+                    game.maxBet = 0;
+                }
+                int amount = game.maxBet + 2;
+                int currentAmount = game.hands.bets.get(myIndex);
+                game.hands.bets.set(myIndex,currentAmount + amount);
+                game.maxBet = amount;
+                game.updateCurrentPot(amount);
+            }
+            else if (game.completeCalled) {
+                int amount = game.maxBet + 2;
+                int currentAmount = game.hands.bets.get(myIndex);
+                game.hands.bets.set(myIndex,currentAmount + amount);
+                game.maxBet = amount;
+                game.updateCurrentPot(amount);
+            }
         }
-        else if (game.getCurrentPot() > 0) {
-            game.updateCurrentPot(2);
-            game.maxBet = game.getCurrentPot();
-            players.get(myIndex).betAmount = game.getCurrentPot();
-            hands.newTurn();
+        else if (game.hands.round == 2) {
+            if (game.maxBet == 0) {
+                game.maxBet = 2;
+            }
+            int amount = game.maxBet + 2;
+            int currentAmount = game.hands.bets.get(myIndex);
+            game.hands.bets.set(myIndex,currentAmount + amount);
+            game.maxBet = amount;
+            game.updateCurrentPot(amount);
         }
+        else if (game.hands.round > 2) {
+            if (game.maxBet == 0) {
+                game.maxBet = 4;
+            }
+            int amount = game.maxBet + 4;
+            int currentAmount = game.hands.bets.get(myIndex);
+            game.hands.bets.set(myIndex,currentAmount + amount);
+            game.maxBet = amount;
+            game.updateCurrentPot(amount);
+        }
+        game.hands.newTurn();
         session.setAttribute("game", game);
         response.sendRedirect("newGame.jsp");
     }
 
     if ("call".equals(request.getParameter("action"))) {
-        if (hands.round == 1) {
-            game.updateCurrentPot(1);
-        }
-        else if (hands.round > 1) {
-            if (myIndex == 0) {
-                players.get(myIndex).betAmount = players.get(5).betAmount;
-                game.updateCurrentPot(players.get(myIndex).betAmount);
-            }
-             else {
-                 // Get last person's bet.
-                players.get(myIndex).betAmount = players.get(myIndex-1).betAmount;
+        game = (Game) application.getAttribute("game");
 
-                // Adds same bet to the pot.
-                game.updateCurrentPot(players.get(myIndex).betAmount);
+        if (game.hands.round == 1) {
+            if (game.bringInCalled) {
+                if (game.maxBet == 0) {
+                    game.maxBet = 1;
+                }
+                int amount = game.maxBet - game.hands.bets.get(myIndex);
+                int currentAmount = game.hands.bets.get(myIndex);
+                game.hands.bets.set(myIndex,currentAmount + amount);
+                game.updateCurrentPot(amount);
+            }
+            else if (game.completeCalled) {
+                if (game.maxBet == 0) {
+                    game.maxBet = 2;
+                }
+                int amount = game.maxBet - game.hands.bets.get(myIndex);
+                int currentAmount = game.hands.bets.get(myIndex);
+                game.hands.bets.set(myIndex,currentAmount + amount);
+                game.updateCurrentPot(amount);
             }
         }
-        hands.newTurn();
+        else if (game.hands.round == 2) {
+            if (game.maxBet == 0) {
+                game.maxBet = 2;
+            }
+            int amount = game.maxBet - game.hands.bets.get(myIndex);
+            int currentAmount = game.hands.bets.get(myIndex);
+            game.hands.bets.set(myIndex,currentAmount + amount);
+            game.updateCurrentPot(amount);
+        }
+        else if (game.hands.round > 2) {
+            if (game.maxBet == 0) {
+                game.maxBet = 4;
+            }
+            int amount = game.maxBet - game.hands.bets.get(myIndex);
+            int currentAmount = game.hands.bets.get(myIndex);
+            game.hands.bets.set(myIndex,currentAmount + amount);
+            game.updateCurrentPot(amount);
+        }
+        game.hands.newTurn();
         session.setAttribute("game", game);
         response.sendRedirect("newGame.jsp");
     }
+
     if ("bringIn".equals(request.getParameter("action"))) {
-        hands.round++;
-        hands.newTurn();
+        game = (Game) application.getAttribute("game");
+        game.bringInCalled = true;
+        game.maxBet = 1;
+        int currentAmount = game.hands.bets.get(myIndex);
+        game.hands.bets.set(myIndex,currentAmount + 1);
+        game.updateCurrentPot(1);
+        game.hands.round++;
+        game.hands.newTurn();
         session.setAttribute("game", game);
         response.sendRedirect("newGame.jsp");
     }
 
     if ("complete".equals(request.getParameter("action"))) {
-        hands.round++; hands.newTurn();
+        game = (Game) application.getAttribute("game");
+        game.completeCalled = true;
+        game.maxBet = 2;
+        int currentAmount = game.hands.bets.get(myIndex);
+        game.hands.bets.set(myIndex,currentAmount + 2);
+        game.hands.round++;
+        game.updateCurrentPot(2);
+        game.hands.newTurn();
         session.setAttribute("game", game);
         response.sendRedirect("newGame.jsp");
-        session.setAttribute("game", game);
-    }
-
-    if ("bet2".equals(request.getParameter("action"))) {
-        if (hands.getHand1().size() != 7) {
-            //game.updateCurrentBet(2);
-            hands.newRound();
-            session.setAttribute("game", game);
-        }
-    }
-
-    if ("bet4".equals(request.getParameter("action"))) {
-        if (hands.getHand1().size() != 7) {
-            //game.updateCurrentBet(4);
-            hands.newRound();
-            session.setAttribute("game", game);
-        }
-    }
-
-    if ("bet10".equals(request.getParameter("action"))) {
-        if (hands.getHand1().size() != 7) {
-           // game.updateCurrentBet(10);
-            hands.newRound();
-            session.setAttribute("game", game);
-        }
-    }
-
-    if ("bet20".equals(request.getParameter("action"))) {
-        if (hands.getHand1().size() != 7) {
-            //game.updateCurrentBet(20);
-            hands.newRound();
-            session.setAttribute("game", game);
-        }
     }
 
     if ("toggle".equals(request.getParameter("action"))) {
@@ -517,10 +533,32 @@
 %>
 <div>
 <%
-    if ("Bot:".equals(botNames.get(hands.turn).split(" ")[0])) {
-        //hands.newTurn();
-        game.botBrain(cardHands, cardHands.get(hands.turn));
-        application.setAttribute("hands", hands);
+    if ("Bot:".equals(botNames.get(game.hands.turn).split(" ")[0])) {
+        if (game.hands.round == 0) {
+            game.bringInCalled = true;
+            game.maxBet = 1;
+            int currentAmount = game.hands.bets.get(myIndex);
+            game.hands.bets.set(myIndex,currentAmount + 1);
+            game.updateCurrentPot(1);
+            game.hands.round++;
+            game.hands.newTurn();
+        }
+        else {
+            int botAction = game.botBrain(cardHands, cardHands.get(game.hands.turn));
+            if (botAction == 0) {
+                //CALL
+                game.botCall(game.hands.bets, myIndex);
+            }
+            else if (botAction == 1) {
+                //RAISE
+                game.botRaise(game.hands.bets, myIndex);
+
+            }
+        }
+        //session.setAttribute("game", game);
+        //application.setAttribute("hands", hands);
+        //application.setAttribute("game", game);
+        //response.sendRedirect("newGame.jsp");
     }
 
     int index = 0;
@@ -609,7 +647,7 @@
 
         for (Card card : currHand)
         {
-            if (showCards || (j != 1 && j != 2)) {
+            if (showCards || (j != 1 && j != 2 && j != 7)) {
                 imageName = "card" + card.getSuit() + card.getNumber() + ".png";
             } else {
                 imageName = "cardBack_blue2.png";
@@ -630,13 +668,14 @@
     <%
         game = (Game) application.getAttribute("game");
 
+
     %><div class="info">
-    <%="Current Turn: " + hands.turn%>
-    <%="Current Round: " + hands.round%>
+    <%="Current Turn: " + game.hands.turn%>
+    <%="Current Round: " + game.hands.round%>
     <%="| Number of Players: " + game.numPlayers%>
     <%="| Number of Folded: " + game.foldedHands.size()%>
     <%="| Maxbet: " + game.maxBet%>
-    <%="| Current Bet: " + players.get(myIndex).betAmount%>
+    <%="| Current Bet: " + game.hands.bets.get(myIndex)%>
     <%="| Current Pot: " + game.getCurrentPot()%>
     <br>
     <%=game.foldedNames%>
@@ -644,7 +683,13 @@
 
 </form>
 <%
-    if (loggedInUser.getUsername().equals(botNames.get(hands.turn))) {
+    if (game.hands.showdown) {
+        showCards = !showCards;
+        session.setAttribute("showCards", showCards);
+        response.sendRedirect("newGame.jsp");
+        game.hands.showdown = false;
+    }
+    if (loggedInUser.getUsername().equals(botNames.get(game.hands.turn))) {
 %>
 <div class="action-buttons" id="action-bar">
     <% if (hands.round != 0) {%>

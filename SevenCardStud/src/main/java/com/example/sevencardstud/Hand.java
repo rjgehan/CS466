@@ -16,11 +16,14 @@ public class Hand
     public static List<Card> hand5;
     public static List<Card> hand6;
     public List<Card> testHand;
+    public List<Integer> bets;
 
     public static List<Card> testHand2;
     public Deck newDeck;
     public int turn;
     public int round;
+
+    public boolean showdown;
 
     public Hand() {
         hand1 = new ArrayList<>();
@@ -34,6 +37,16 @@ public class Hand
         newDeck = new Deck();
         turn = 0;
         round = 0;
+        showdown = false;
+
+        bets = new ArrayList<Integer>();
+        bets.add(0);
+        bets.add(0);
+        bets.add(0);
+        bets.add(0);
+        bets.add(0);
+        bets.add(0);
+
 
         for (int i = 0; i <= 2; i++) {
             hand1.add(newDeck.drawCard());
@@ -76,55 +89,26 @@ public class Hand
     public void newTurn() {
         System.out.println("Turn value: " + turn);
         if (turn != 7) {
-            if (turn > 0) {
-                handAction();
-            }
             turn++;
-        } else {
+        }
+        else {
             System.out.println("Round value: " + round);
             turn = 0;
             if (round != 6) {
+                newRound();
                 round++;
+                for (int i = 0; i < bets.size(); i++) {
+                    bets.set(i,0);
+                }
             }
             else {
-                round = 0;
+                showdown = true;
             }
         }
     }
 
     //public void botAction(int turn) {
 
-    //}
-    public void handAction() {
-//        switch (turn) {
-//            case 1:
-//                //hand1.add(newDeck.drawCard());
-//                break;
-//            case 2:
-//                //BOT LOGIC INPUT
-//                //hand2.add(newDeck.drawCard());
-//                break;
-//            case 3:
-//                //BOT LOGIC INPUT
-//                //hand3.add(newDeck.drawCard());
-//                break;
-//            case 4:
-//                //BOT LOGIC INPUT
-//                //hand4.add(newDeck.drawCard());
-//                break;
-//            case 5:
-//                //BOT LOGIC INPUT
-//                hand5.add(newDeck.drawCard());
-//                break;
-//            case 6:
-//                //BOT LOGIC INPUT
-//                hand6.add(newDeck.drawCard());
-//                break;
-//            default:
-//                //DEFAULT
-//                break;
-//        }
-    }
 
 
     public void initializeHands() {
