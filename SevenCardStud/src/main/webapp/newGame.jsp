@@ -120,20 +120,6 @@
     botNames.add(name5);
     botNames.add(name6);
 
-    /*Player p1 = new Player(Hand.hand1);
-    Player p2 = new Player(Hand.hand2);
-    Player p3 = new Player(Hand.hand3);
-    Player p4 = new Player(Hand.hand4);
-    Player p5 = new Player(Hand.hand5);
-    Player p6 = new Player(Hand.hand6);
-
-    List<Player> players = new ArrayList<>();
-    players.add(p1);
-    players.add(p2);
-    players.add(p3);
-    players.add(p4);
-    players.add(p5);
-    players.add(p6);*/
 
     List<String> pictures = new ArrayList<>();
     pictures.add(img1);
@@ -166,7 +152,11 @@
 
     if ("fold".equals(request.getParameter("action"))) {
         game.hands.newTurn();
+        game = (Game) application.getAttribute("game");
+
+        game.fold(cardHands.get(myIndex), loggedInUser.getUsername());
         application.setAttribute("hands", hands);
+        application.setAttribute("game", game);
         response.sendRedirect("newGame.jsp");
     }
 
@@ -505,6 +495,7 @@
 
 </script>
 
+<title>In Game: 7 Card Stud</title>
 
 <body onload="refreshPage()">
 <%
@@ -517,10 +508,7 @@
                         Playing With: <%
                         for (String player : playerNames) {
                             %> <%=player%><%
-                        }
-
-%><%
-
+                        }%><%
             %><form method="post">
             <button type="submit" name="action" value="toggle" class="toggle-button">Start Game</button>
             </form></div><%
@@ -598,10 +586,11 @@
         int j = 1;
         String myImage = "test";
         myImage = pictures.get(i + myIndex);
-
-
+        boolean isFolded = game.foldedNames.contains(botNames.get(myIndex + i));
+        String handClass = "hand" + i + (isFolded ? " folded" : "");
 %>
-<div class="hand<%= i %>" id="hand<%= i %>">
+
+    <div class="<%= handClass %>" id="hand<%= i %>">
     <%
         for (Card card : curr) {
             String imageName;
@@ -612,22 +601,10 @@
             }
             j++;
     %>
-    <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>">
-    <%
-        }
-    %>
-    <!-- Will display bot info to go with the current hand, the bot number will be incremented just like the hand number -->
+    <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>"><%}%>
     <div class="bot">
         <img src="<%= myImage %>" alt="UserIcon">
-        <%
-            //            String name = "test";
-//            if(loggedInUser.getUsername().equals(botNames.get(i - 1))) {
-//                name = playerNames.get(i);
-//            } else {
-//                name = botNames.get(i - 1);
-//            }
-        %>
-        <p class="text"><%= botNames.get(i + myIndex) %> </p> <!-- Replace 'Name' with dynamic bot names if necessary -->
+        <p class="text"><%= botNames.get(i + myIndex) %> </p>
     </div>
 </div>
 <%
@@ -643,20 +620,27 @@
     <h2><%= loggedInUser.getUsername() %></h2>
 </div>
 
+<%
+    boolean isFolded = game.foldedNames.contains(loggedInUser.getUsername());
 
+    String pfpClass = "pfp" + (isFolded ? " folded" : "");
+
+%>
 
 <!-- Will display bot 6 to go with hand 6 to the right of it, this is hard coded right now but will be edited to the amount of users that join our game -->
-<div class="pfp">
+<div class="<%=pfpClass%>">
     <%
         String image = loggedInUser.getSelectedImage();
         if (image == null) {
             image = contextPath + "/images/PNG/Roster Images/image1.png";
         }
+        String handClass = "hand6" + (isFolded ? " folded" : "");
+
     %>
     <img src="<%= image %>" alt="<%= image %>">
 </div>
 
-<div class="hand6" id="hand6">
+    <div class="<%= handClass %>" id="hand6">
     <%
         int j = 1;
         String imageName;
@@ -684,7 +668,8 @@
     <%
         game = (Game) application.getAttribute("game");
 
-    %>
+
+    %><div class="info">
     <%="Current Turn: " + game.hands.turn%>
     <%="Current Round: " + game.hands.round%>
     <%="| Number of Players: " + game.numPlayers%>
@@ -692,6 +677,9 @@
     <%="| Maxbet: " + game.maxBet%>
     <%="| Current Bet: " + game.hands.bets.get(myIndex)%>
     <%="| Current Pot: " + game.getCurrentPot()%>
+    <br>
+    <%=game.foldedNames%>
+</div>
 
 </form>
 <%
@@ -781,6 +769,66 @@
             background-position: center center; /* Center the image on the page */
             background-repeat: no-repeat; /* Do not repeat the image */
             background-attachment: fixed; /* Optional: Fix the background image during scroll */
+        }
+
+        .hand1.folded img {
+            opacity: 0.5; /* Dimming the cards */
+            filter: grayscale(100%); /* Making them grayscale */
+        }
+
+        .hand1.folded {
+            /* Additional styles for folded hand1 */
+        }
+
+        .hand2.folded img {
+            opacity: 0.5; /* Dimming the cards */
+            filter: grayscale(100%); /* Making them grayscale */
+        }
+
+        .hand2.folded {
+            /* Additional styles for folded hand1 */
+        }
+
+        .hand3.folded img {
+            opacity: 0.5; /* Dimming the cards */
+            filter: grayscale(100%); /* Making them grayscale */
+        }
+
+        .hand3.folded {
+            /* Additional styles for folded hand1 */
+        }
+
+        .hand4.folded img {
+            opacity: 0.5; /* Dimming the cards */
+            filter: grayscale(100%); /* Making them grayscale */
+        }
+
+        .hand4.folded {
+            /* Additional styles for folded hand1 */
+        }
+
+        .hand5.folded img {
+            opacity: 0.5; /* Dimming the cards */
+            filter: grayscale(100%); /* Making them grayscale */
+        }
+
+        .hand5.folded {
+            /* Additional styles for folded hand1 */
+        }
+
+        .hand6.folded {
+            /* Additional styles for folded hand1 */
+        }
+
+
+        .info {
+            text-align: center; /* Ensure the text is centered */
+            color: #333; /* Set a color */
+            font-weight: bold; /* Make the font bold */
+            background-color: #efefef;
+            border-radius: 10px; /* Optional: Add rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for depth */
+
         }
         .waiting {
             position: fixed; /* Use fixed positioning */
@@ -953,6 +1001,11 @@
             margin-right: 5px;
         }
 
+        .hand6.folded img {
+            opacity: 0.5; /* Dimming the cards */
+            filter: grayscale(100%); /* Making them grayscale */
+        }
+
 
         /* Style for user name */
         .user{
@@ -972,6 +1025,18 @@
         .pfp img {
             width: 50px;
             height: auto;
+        }
+
+        .pfp.folded {
+            opacity: 0.5; /* Dimming the cards */
+            filter: grayscale(100%); /* Making them grayscale */
+        }
+
+
+        /* Size of bot image */
+        .pfp.folded img {
+            opacity: 0.5; /* Dimming the cards */
+            filter: grayscale(100%); /* Making them grayscale */
         }
 
     </style>

@@ -12,6 +12,9 @@ public class Game {
     public boolean show;
 
     public List<List<Card>> foldedHands;
+
+    public List<String> foldedNames;
+
     public List<String> finalResults;
     //public List<Integer> currentBets;
     public String result;
@@ -27,6 +30,7 @@ public class Game {
 
     public Game() {
         hands = new Hand();
+        foldedNames = new ArrayList<>();
 
         foldedHands = new ArrayList<>();
         finalResults = new ArrayList<>();
@@ -318,6 +322,12 @@ public class Game {
             playerIds.add(playerId);
             numPlayers++;
         }
+    }
+
+    public void fold(List<Card> hand, String name) {
+        foldedHands.add(hand);
+        foldedNames.add(name);
+        hands.newTurn();
     }
 }
 

@@ -47,6 +47,7 @@ public class Hand
         bets.add(0);
         bets.add(0);
 
+
         for (int i = 0; i <= 2; i++) {
             hand1.add(newDeck.drawCard());
             hand2.add(newDeck.drawCard());
