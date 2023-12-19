@@ -23,9 +23,9 @@
             request.getSession().setAttribute("loggedInUser", loggedInUser);
         }
     %>
-
-    <a href="home.jsp" class="btn-custom">Home</a> <br/>
     <jsp:include page="styles.jsp"></jsp:include>
+
+    <a href="home.jsp" class="btn-custom">Home <i class="bi bi-house-door-fill"></i></a> <br/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Picture Picker</title>

@@ -66,10 +66,12 @@ public class Hand
         hand.add(card);
     }
 
+    /*
     public void playerTurnEnd() {
         turn++;
         newTurn();
     }
+     */
 
     public void newRound() {
         hand1.add(newDeck.drawCard());
@@ -79,30 +81,33 @@ public class Hand
         hand5.add(newDeck.drawCard());
         hand6.add(newDeck.drawCard());
     }
+    /*
     public void newRoundOld() {
         playerTurnEnd();
         while (turn != 0) {
             newTurn();
         }
     }
+     */
 
-    public void newTurn() {
+    public void newTurn(Game game, int firstPlayerIndex) {
         System.out.println("Turn value: " + turn);
-        if (turn != 7) {
+        if (turn != firstPlayerIndex + 6) {
             turn++;
         }
         else {
             System.out.println("Round value: " + round);
-            turn = 0;
-            if (round != 6) {
+            turn = firstPlayerIndex;
+            if (round != 5) {
                 newRound();
                 round++;
+                game.maxBet = 0;
                 for (int i = 0; i < bets.size(); i++) {
                     bets.set(i,0);
                 }
             }
             else {
-                showdown = true;
+                round++;
             }
         }
     }

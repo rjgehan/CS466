@@ -28,7 +28,6 @@
 
     List<String> playerNames = (List<String>) application.getAttribute("playerNames");
     List<String> playerPics = (List<String>) application.getAttribute("playerPics");
-
     if (playerNames == null) {
         playerNames = new ArrayList<>();
         application.setAttribute("playerNames", playerNames);
@@ -102,6 +101,7 @@
         tmpArr.add(cardHands.get(i));
     }
     smallest = game.findPlayerWithSmallestCard(cardHands);
+    game.smallest = smallest;
 
 
 
@@ -151,10 +151,16 @@
     }
 
     if ("fold".equals(request.getParameter("action"))) {
-        game.hands.newTurn();
+        game.hands.newTurn(game, smallest);
         game = (Game) application.getAttribute("game");
 
-        game.fold(cardHands.get(myIndex), loggedInUser.getUsername());
+        int playerIndex = game.hands.turn;
+        if(playerIndex > 5)
+        {
+            playerIndex = playerIndex - 6;
+        }
+
+        game.fold(cardHands.get(playerIndex), loggedInUser.getUsername());
         application.setAttribute("hands", hands);
         application.setAttribute("game", game);
         response.sendRedirect("newGame.jsp");
@@ -186,21 +192,27 @@
     if ("raiseBet".equals(request.getParameter("action"))) {
         game = (Game) application.getAttribute("game");
 
+        int playerIndex = game.hands.turn;
+        if(playerIndex > 5)
+        {
+            playerIndex = playerIndex - 6;
+        }
+
         if (game.hands.round == 1) {
             if (game.bringInCalled) {
                 if (game.maxBet == 1) {
                     game.maxBet = 0;
                 }
                 int amount = game.maxBet + 2;
-                int currentAmount = game.hands.bets.get(myIndex);
-                game.hands.bets.set(myIndex,currentAmount + amount);
+                int currentAmount = game.hands.bets.get(playerIndex);
+                game.hands.bets.set(playerIndex,currentAmount + amount);
                 game.maxBet = amount;
                 game.updateCurrentPot(amount);
             }
             else if (game.completeCalled) {
                 int amount = game.maxBet + 2;
-                int currentAmount = game.hands.bets.get(myIndex);
-                game.hands.bets.set(myIndex,currentAmount + amount);
+                int currentAmount = game.hands.bets.get(playerIndex);
+                game.hands.bets.set(playerIndex,currentAmount + amount);
                 game.maxBet = amount;
                 game.updateCurrentPot(amount);
             }
@@ -210,8 +222,8 @@
                 game.maxBet = 2;
             }
             int amount = game.maxBet + 2;
-            int currentAmount = game.hands.bets.get(myIndex);
-            game.hands.bets.set(myIndex,currentAmount + amount);
+            int currentAmount = game.hands.bets.get(playerIndex);
+            game.hands.bets.set(playerIndex,currentAmount + amount);
             game.maxBet = amount;
             game.updateCurrentPot(amount);
         }
@@ -220,12 +232,12 @@
                 game.maxBet = 4;
             }
             int amount = game.maxBet + 4;
-            int currentAmount = game.hands.bets.get(myIndex);
-            game.hands.bets.set(myIndex,currentAmount + amount);
+            int currentAmount = game.hands.bets.get(playerIndex);
+            game.hands.bets.set(playerIndex,currentAmount + amount);
             game.maxBet = amount;
             game.updateCurrentPot(amount);
         }
-        game.hands.newTurn();
+        game.hands.newTurn(game, smallest);
         session.setAttribute("game", game);
         response.sendRedirect("newGame.jsp");
     }
@@ -233,23 +245,29 @@
     if ("call".equals(request.getParameter("action"))) {
         game = (Game) application.getAttribute("game");
 
+        int playerIndex = game.hands.turn;
+        if(playerIndex > 5)
+        {
+            playerIndex = playerIndex - 6;
+        }
+
         if (game.hands.round == 1) {
             if (game.bringInCalled) {
                 if (game.maxBet == 0) {
                     game.maxBet = 1;
                 }
-                int amount = game.maxBet - game.hands.bets.get(myIndex);
-                int currentAmount = game.hands.bets.get(myIndex);
-                game.hands.bets.set(myIndex,currentAmount + amount);
+                int amount = game.maxBet - game.hands.bets.get(playerIndex);
+                int currentAmount = game.hands.bets.get(playerIndex);
+                game.hands.bets.set(playerIndex,currentAmount + amount);
                 game.updateCurrentPot(amount);
             }
             else if (game.completeCalled) {
                 if (game.maxBet == 0) {
                     game.maxBet = 2;
                 }
-                int amount = game.maxBet - game.hands.bets.get(myIndex);
-                int currentAmount = game.hands.bets.get(myIndex);
-                game.hands.bets.set(myIndex,currentAmount + amount);
+                int amount = game.maxBet - game.hands.bets.get(playerIndex);
+                int currentAmount = game.hands.bets.get(playerIndex);
+                game.hands.bets.set(playerIndex,currentAmount + amount);
                 game.updateCurrentPot(amount);
             }
         }
@@ -257,21 +275,21 @@
             if (game.maxBet == 0) {
                 game.maxBet = 2;
             }
-            int amount = game.maxBet - game.hands.bets.get(myIndex);
-            int currentAmount = game.hands.bets.get(myIndex);
-            game.hands.bets.set(myIndex,currentAmount + amount);
+            int amount = game.maxBet - game.hands.bets.get(playerIndex);
+            int currentAmount = game.hands.bets.get(playerIndex);
+            game.hands.bets.set(playerIndex,currentAmount + amount);
             game.updateCurrentPot(amount);
         }
         else if (game.hands.round > 2) {
             if (game.maxBet == 0) {
                 game.maxBet = 4;
             }
-            int amount = game.maxBet - game.hands.bets.get(myIndex);
-            int currentAmount = game.hands.bets.get(myIndex);
-            game.hands.bets.set(myIndex,currentAmount + amount);
+            int amount = game.maxBet - game.hands.bets.get(playerIndex);
+            int currentAmount = game.hands.bets.get(playerIndex);
+            game.hands.bets.set(playerIndex,currentAmount + amount);
             game.updateCurrentPot(amount);
         }
-        game.hands.newTurn();
+        game.hands.newTurn(game, smallest);
         session.setAttribute("game", game);
         response.sendRedirect("newGame.jsp");
     }
@@ -280,11 +298,16 @@
         game = (Game) application.getAttribute("game");
         game.bringInCalled = true;
         game.maxBet = 1;
-        int currentAmount = game.hands.bets.get(myIndex);
-        game.hands.bets.set(myIndex,currentAmount + 1);
+        int playerIndex = game.hands.turn;
+        if(playerIndex > 5)
+        {
+            playerIndex = playerIndex - 6;
+        }
+        int currentAmount = game.hands.bets.get(playerIndex);
+        game.hands.bets.set(playerIndex,currentAmount + 1);
         game.updateCurrentPot(1);
         game.hands.round++;
-        game.hands.newTurn();
+        game.hands.newTurn(game, smallest);
         session.setAttribute("game", game);
         response.sendRedirect("newGame.jsp");
     }
@@ -293,11 +316,16 @@
         game = (Game) application.getAttribute("game");
         game.completeCalled = true;
         game.maxBet = 2;
-        int currentAmount = game.hands.bets.get(myIndex);
-        game.hands.bets.set(myIndex,currentAmount + 2);
+        int playerIndex = game.hands.turn;
+        if(playerIndex > 5)
+        {
+            playerIndex = playerIndex - 6;
+        }
+        int currentAmount = game.hands.bets.get(playerIndex);
+        game.hands.bets.set(playerIndex,currentAmount + 2);
         game.hands.round++;
         game.updateCurrentPot(2);
-        game.hands.newTurn();
+        game.hands.newTurn(game, smallest);
         session.setAttribute("game", game);
         response.sendRedirect("newGame.jsp");
     }
@@ -503,57 +531,65 @@
     {
         %><div><%
         if ( myIndex == 0) {
-
-            %>    <div class="host">
+            %><div class="host">
                         Playing With: <%
                         for (String player : playerNames) {
                             %> <%=player%><%
-                        }%><%
-            %><form method="post">
+                        }%>
+            <form method="post">
             <button type="submit" name="action" value="toggle" class="toggle-button">Start Game</button>
             </form></div><%
         } else {%>
-    <div class="waiting">
-    Waiting on Host <div class="spinner-border" role="status">
-        <span class="sr-only"></span>
-        </div>
-        <br>
-        Playing With: <%
-        for (String player : playerNames) {
-    %> <br><%=player%><%
-        }
+            <div class="waiting">
+            Waiting on Host <div class="spinner-border" role="status">
+            <span class="sr-only"></span>
+            </div>
+            <br>
+            Playing With: <%
+            for (String player : playerNames) {
+        %> <br><%=player%><%
+            }
 
     %>
     </div>
     <%}%>
     </div>
-        </div>
         <%
-    } else {
+        } else {
+
+
+        if (game.foldedNames.size() == 5 || game.hands.round == 6) {
+            game.winner = true;
+        } else {
 %>
 <div>
 <%
     if ("Bot:".equals(botNames.get(game.hands.turn).split(" ")[0])) {
+        int playerIndex = game.hands.turn;
+        if(playerIndex > 5)
+        {
+            playerIndex = playerIndex - 6;
+        }
         if (game.foldedNames.contains(botNames.get(game.hands.turn))) {
-            game.hands.newTurn();
+            game.hands.newTurn(game, smallest);
 
         } else {
             if (game.hands.round == 0) {
                 game.bringInCalled = true;
                 game.maxBet = 1;
-                int currentAmount = game.hands.bets.get(myIndex);
-                game.hands.bets.set(myIndex, currentAmount + 1);
+                int currentAmount = game.hands.bets.get(playerIndex);
+                game.hands.bets.set(playerIndex, currentAmount + 1);
                 game.updateCurrentPot(1);
                 game.hands.round++;
-                game.hands.newTurn();
+                game.hands.newTurn(game, smallest);
             } else {
                 int botAction = game.botBrain(cardHands, cardHands.get(game.hands.turn), botNames.get(game.hands.turn));
                 if (botAction == 0) {
                     //CALL
-                    game.botCall(game.hands.bets, myIndex);
+                    game.botCall(game.hands.bets, playerIndex);
                 } else if (botAction == 1) {
                     //RAISE
-                    game.botRaise(game.hands.bets, myIndex);
+                    game.botRaise(game.hands.bets, playerIndex);
 
                 }
             }
@@ -607,7 +643,7 @@
     <img src="<%= contextPath %>/images/PNG/Cards/<%= imageName %>" alt="<%= card.getNumber() %> of <%= card.getSuit() %>"><%}%>
     <div class="bot">
         <img src="<%= myImage %>" alt="UserIcon">
-        <p class="text"><%= botNames.get(i + myIndex) %> </p>
+        <p class="text"><%= botNames.get(i + myIndex) %> <%=game.botBrain(cardHands, cardHands.get(game.hands.turn), botNames.get(game.hands.turn))%></p>
     </div>
 </div>
 <%
@@ -621,7 +657,7 @@
     <div class="user">
         <h2>
             <span style="float: left;"><%= loggedInUser.getUsername() %></span>
-            <span style="float: right;">Turn: <%= botNames.get(game.hands.turn) %> | Round: <%=game.hands.round%> | Pot: <%=game.getCurrentPot()%> | Bet: <%=game.hands.bets.get(myIndex)%></span>
+            <span style="float: right;">Turn: <%= botNames.get(game.hands.turn) %> | Round: <%=game.hands.round%> | Pot: <%=game.getCurrentPot()%> | Bet: <%=game.maxBet%></span>
             <div style="clear: both;"></div>
         </h2>
     </div>
@@ -669,7 +705,7 @@
 
 <form method="post">
     <button type="submit" name="action" value="resetHands" class="btn-custom" onclick="onButtonClick()">New Game</button>
-    <a href="home.jsp" class="btn-custom">Home</a>
+    <a href="home.jsp" class="btn-custom">Home <i class="bi bi-house-door-fill"></i></a>
     <a href="displayCardImages.jsp" class="btn-custom">Winning Hands</a>
 </form>
 
@@ -687,6 +723,10 @@
         session.setAttribute("showCards", showCards);
         response.sendRedirect("newGame.jsp");
         game.hands.showdown = false;
+    }
+    if (game.foldedNames.contains(loggedInUser.getUsername())) {
+        game.hands.newTurn(game, smallest);
+        response.sendRedirect("newGame.jsp");
     }
     if (loggedInUser.getUsername().equals(botNames.get(game.hands.turn))) {
 %>
@@ -736,16 +776,28 @@
         </form>
     <% }%>
 </div>
-    <div class="info">
-        <%="Current Turn: " + game.hands.turn%>
-        <%="Current Round: " + game.hands.round%>
-        <%="| Number of Folded: " + game.foldedHands.size()%>
-        <%="| Maxbet: " + game.maxBet%>
-        <%=game.foldedNames%>
-    </div>
-<%
+    <%if (game.winner) {
+        %><div class="winner"> The Winner is <%
+        List<Integer> winners = game.determineWinner(cardHands);
+        String nameOne = botNames.get(winners.get(0));
+        String nameTwo = winners.get(1) != -1 ? botNames.get(winners.get(1)) : null;
+
+        String winnerName = " " + nameOne + " " + nameTwo; %>
+        <%=winnerName%>
+        </div>
+    <%}
+
     } else {
-        //if (currTurn)
+    if (game.winner) {
+    %><div class="winner"> The Winner is <%
+    List<Integer> winners = game.determineWinner(cardHands);
+    String nameOne = botNames.get(winners.get(0));
+    String nameTwo = winners.get(1) != -1 ? botNames.get(winners.get(1)) : null;
+
+    String winnerName = " " + nameOne + " " + nameTwo; %>
+    <%=winnerName%>
+</div>
+    <%}
     }
 %>
 
@@ -753,7 +805,7 @@
 <% if (loggedInUser != null) { %>
 
 
-<% } %>
+<% } }%>
 
     <%}%>
 
@@ -769,7 +821,7 @@
     <style>
         /* Ovrall layout */
         body {
-            background-image: url('images/PNG/background2.0.png'); /* Path to your image */
+            background-image: url('images/PNG/background3.0.png'); /* Path to your image */
             background-size: cover; /* Cover the entire page */
             background-position: center center; /* Center the image on the page */
             background-repeat: no-repeat; /* Do not repeat the image */
@@ -1259,6 +1311,14 @@
             .hand2 {
                 margin-left: 10px;
             }
+        }
+
+        .winner {
+            align-items: center;
+            color: white;
+            justify-content: center;
+            margin-left: 48%;
+            padding-right: 25px;
         }
     </style>
 </head>

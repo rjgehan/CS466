@@ -11,6 +11,8 @@ public class Game {
 
     public boolean show;
 
+    public boolean winner;
+
     public List<List<Card>> foldedHands;
 
     public List<String> foldedNames;
@@ -27,6 +29,7 @@ public class Game {
     public boolean bringInCalled;
 
     private Set<String> playerIds;
+    public int smallest;
 
     public Game() {
         hands = new Hand();
@@ -43,7 +46,9 @@ public class Game {
         completeCalled = false;
         bringInCalled = false;
         show = false;
+        winner = false;
         playerIds = new HashSet<>(); // Initialize the set
+        smallest = 0;
 
 
         //bringIn(hands);
@@ -100,7 +105,7 @@ public class Game {
             bets.set(myIndex,currentAmount + amount);
             updateCurrentPot(amount);
         }
-        hands.newTurn();
+        hands.newTurn(this, smallest);
     }
 
     public void botRaise(List<Integer> bets, int myIndex){
@@ -143,7 +148,7 @@ public class Game {
             maxBet = amount;
             updateCurrentPot(amount);
         }
-        hands.newTurn();
+        hands.newTurn(this, smallest);
     }
 
     public void play() {
@@ -174,7 +179,7 @@ public class Game {
     }
 
     public void playTurn() {
-        hands.newTurn();
+        hands.newTurn(this, smallest);
     }
 
     public int getCurrentPot() {
@@ -284,8 +289,10 @@ public class Game {
         return lowestCard;
     }
 
-    public int determineWinner(List<List<Card>> cardHands) {
-        int winningPlayer = -1; // Initialize to an invalid value
+    public List<Integer> determineWinner(List<List<Card>> cardHands) {
+        List<Integer> toReturn = new ArrayList<>();
+        int tied = -1;
+        List<Card> biggest = cardHands.get(0);
         for (int i = 0; i < cardHands.size(); i++) {
 
             List<Card> currentHand = cardHands.get(i);
@@ -293,20 +300,28 @@ public class Game {
                 for (int j = i + 1; j < cardHands.size(); j++) {
                     List<Card> otherHand = cardHands.get(j);
 
-                    int result = hands.compareHands(currentHand, otherHand);
+                    int result = hands.compareHands(biggest, otherHand);
 
-                    if (result == 1) {
-                        winningPlayer = i + 1; // Player index is 0-based, so add 1
-                    } else if (result == 2) {
-                        winningPlayer = j + 1; // Player index is 0-based, so add 1
-                    } else if (result == 0) {
+                    if (result == 1) { //biggest is bigger
+                    } else if (result == 2) { // other is bigger
+                        biggest = otherHand;
+                        tied = -1;
+                    } else if (result == 0) { //tie
+                        tied = cardHands.indexOf(otherHand);
+                        //other and biggest is tied
                         // Handle tie-breaking logic
                         //handleTie(currentHand, otherHand);
                     }
                 }
             }
         }
-        return winningPlayer;
+        toReturn.add(cardHands.indexOf(biggest));
+
+        if (tied != -1) {
+            toReturn.add(cardHands.indexOf(tied));
+        }
+
+        return toReturn;
     }
 
     private int handleTie(List<List<Card>> currentHand, List<List<Card>> otherHand) {
@@ -328,7 +343,7 @@ public class Game {
     public void fold(List<Card> hand, String name) {
         foldedHands.add(hand);
         foldedNames.add(name);
-        hands.newTurn();
+        hands.newTurn(this, smallest);
     }
 }
 

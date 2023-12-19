@@ -9,6 +9,14 @@
     <title>Bank</title>
     <jsp:include page="styles.jsp"></jsp:include>
     <style>
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start; /* Aligns items to the left */
+            padding: 10px; /* Adjust as needed */
+
+        }
+
         body {
             background-color: #f8f9fa;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -19,17 +27,19 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
+            background-image: url('images/PNG/bankback.png'); /* Path to your image */
+
         }
 
         a {
             text-decoration: none;
-            color: #007bff;
+            color: black;
             font-size: 18px;
             margin-bottom: 20px;
         }
 
         .btn-custom {
-            display: inline-block;
+            /*display: inline-block;*/
             padding: 10px 20px;
             font-size: 16px;
             background-color: white;
@@ -45,23 +55,23 @@
         }
 
         #counter {
-            text-align: center;
+            /*text-align: center;*/
             font-size: 36px;
             margin-bottom: 20px;
-            background-color: #007bff;
+            background-color: #6b5b95;
             color: white;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             animation: pulse 1.5s infinite;
         }
 
         .bank-button {
-            display: inline-block;
+            /*display: inline-block;*/
             margin: 10px;
             padding: 15px 30px;
             font-size: 18px;
-            background-color: #ffc107;
+            background-color: white;
             color: #212529;
             border: none;
             border-radius: 5px;
@@ -70,19 +80,19 @@
         }
 
         .bank-button:hover {
-            background-color: #e0a800;
+            background-color: white;
         }
 
         /* Add background color for buttons */
         .button-container {
-            background-color: #007bff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            /*background-color: #6b5b95;*/
+            /*padding: 40px;*/
+            /*border-radius: 15px;*/
+            /*box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);*/
+            /*display: flex;*/
+            /*flex-direction: column;*/
+            /*align-items: center;*/
+            /*justify-content: center;*/
         }
 
         @keyframes pulse {
@@ -96,10 +106,15 @@
                 transform: scale(1);
             }
         }
+        
+        .home {
+            padding-top: 320px;
+        }
     </style>
+
 </head>
+
 <body>
-<a href="home.jsp" class="btn-custom">Home</a> <br/>
 
 <%
     User loggedInUser = (User) request.getSession().getAttribute("loggedInUser");
@@ -132,6 +147,9 @@
         <% } %>
         <button type="submit" name="action" value="resetBalance" class="bank-button">Reset Balance</button>
     </form>
+</div>
+<div class="home">
+    <a href="home.jsp" class="btn-custom">Home <i class="bi bi-house-door-fill"></i></a> <br/>
 </div>
 </body>
 </html>

@@ -74,7 +74,7 @@
 </head>
 
 <body>
-<a href="home.jsp" class="btn-custom">Home</a> <br/>
+<a href="home.jsp" class="btn-custom">Home <i class="bi bi-house-door-fill"></i></a> <br/>
 
 <div class="text-box">
     <h1>How to Play Seven Card Stud</h1>

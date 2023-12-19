@@ -31,7 +31,7 @@
 %>
 
 <% if (loggedInUser != null) { %>
-<a href="home.jsp" class="btn-custom">Home</a> <br/>
+<a href="home.jsp" class="btn-custom">Home <i class="bi bi-house-door-fill"></i></a> <br/>
 <% } %>
 
 <div>

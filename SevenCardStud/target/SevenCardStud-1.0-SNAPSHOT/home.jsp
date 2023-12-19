@@ -1,9 +1,13 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.example.sevencardstud.model.entity.User" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>7 Card Stud</title>
+  <jsp:include page="styles.jsp"></jsp:include>
+
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -128,20 +132,18 @@
   }
 %>
 
-<a href="#" class="btn-custom" id="profileButton">Profile</a>
+<a href="#" class="btn-custom" id="profileButton">Profile <i class="bi bi-person-badge-fill"></i></a>
 
 <div id="content">
-  <div class="header">
-  </div>
 
   <div class="text-center">
     <!-- Add a class to the "Welcome" heading -->
-    <a href="newGame.jsp" class="btn-custom">Play Game</a> <br/>
-    <a href="bank.jsp" class="btn-custom">Bank</a> <br/>
-    <a href="index.jsp" class="btn-custom">Account</a> <br/>
-    <a href="leaderboard.jsp" class="btn-custom">Leaderboard</a> <br/>
-    <a href="profilePicture.jsp" class="btn-custom">Edit Profile</a> <br/>
-    <a href="directionsPage.jsp" class="btn-custom">Game Rules</a> <br/>
+    <a href="newGame.jsp" class="btn-custom">Play Game <i class="bi bi-suit-spade-fill"></i></a> <br/>
+    <a href="bank.jsp" class="btn-custom">Bank <i class="bi bi-piggy-bank-fill"></i></a> <br/>
+    <a href="index.jsp" class="btn-custom">Account <i class="bi bi-person-fill"></i></a> <br/>
+    <a href="leaderboard.jsp" class="btn-custom">Leaderboard <i class="bi bi-trophy-fill"></i></a> <br/>
+    <a href="profilePicture.jsp" class="btn-custom">Edit Profile <i class="bi bi-person-square"></i></a> <br/>
+    <a href="directionsPage.jsp" class="btn-custom">Game Rules <i class="bi bi-pencil-fill"></i></a> <br/>
 
   </div>
 </div>

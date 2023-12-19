@@ -575,7 +575,7 @@ public class GamePlay
                 value = 1;
         }
 
-        if(value < 4)
+        if(value < 1)
             bot.isFolded = true;
         else
             betting(value);
@@ -589,7 +589,7 @@ public class GamePlay
             afterFourthRound();
     }
 
-
+/*
     public static void main(String[] args)
     {
         Hand hand = new Hand();
@@ -636,7 +636,7 @@ public class GamePlay
 
         System.out.println(valueHolding);
 
-        /*
+
         hand.newRound();
         gp.afterFirstRound(gp.bot1);
         gp.afterFirstRound(gp.bot2);
@@ -681,9 +681,11 @@ public class GamePlay
 
         System.out.println("");
 
-         */
-    }
 
+
+
+    }
+*/
 
 }
 

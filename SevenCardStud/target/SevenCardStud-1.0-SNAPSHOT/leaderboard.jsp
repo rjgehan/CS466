@@ -122,7 +122,7 @@
 </head>
 <body>
 <div class="container">
-    <a href="home.jsp" class="btn-home">Home</a>
+    <a href="home.jsp" class="btn-home">Home <i class="bi bi-house-door-fill"></i></a>
 
     <div class="leaderboard">
         <h3>Leaderboard (Sorted Most Wins to Least Wins):</h3>
