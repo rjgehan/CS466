@@ -21,7 +21,7 @@ public class Game {
     //public List<Integer> currentBets;
     public String result;
     //public int winner;
-    private int currentPot;
+    public int currentPot;
     public int maxBet;
     public final int ante;
     public int numPlayers;

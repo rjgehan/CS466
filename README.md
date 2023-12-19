@@ -15,3 +15,5 @@ Ryan Gehan, Peter Pressley, Kelly Reynolds, Juliana Merlino.
 [diagram](https://drive.google.com/file/d/12yIoGuvFeD6KCgDrxNiawk8xET9EgwV4/view?usp=sharing)
 
 [Class Diagram](https://docs.google.com/presentation/d/1quI9FsrZOfMWv1xk9a2xRt7J3rinSe8t02Hb_EhazqU/edit?usp=sharing)
+
+[Iteration 3 Coverage Report](https://docs.google.com/document/d/1L9rT9RS4n28iZkhW12F49JbixM_ObRro4jAPCfs41jk/edit?usp=sharing)
